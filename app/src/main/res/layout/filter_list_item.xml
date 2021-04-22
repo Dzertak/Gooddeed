@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linerLayout_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@color/transparent">
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/textView_listItem_filterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="Category" />
+
+    <TextView
+        android:id="@+id/textView_listItem_selectedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:textSize="16sp"
+        tools:text="All" />
+</FrameLayout>

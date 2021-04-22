@@ -11,4 +11,5 @@
     <color name="green">#8ada0b</color>
     <color name="darkergreen">#79C500</color>
     <color name="darkgreen">#6fb400</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>

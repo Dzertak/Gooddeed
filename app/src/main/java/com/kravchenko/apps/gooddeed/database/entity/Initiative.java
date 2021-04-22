@@ -21,6 +21,10 @@ public class Initiative {
         this.imgUri = imgUri;
     }
 
+    public void setInitiativeId(long initiativeId) {
+        this.initiativeId = initiativeId;
+    }
+
     public long getInitiativeId() {
         return initiativeId;
     }

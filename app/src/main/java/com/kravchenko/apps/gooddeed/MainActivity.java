@@ -1,8 +1,10 @@
 package com.kravchenko.apps.gooddeed;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,5 +12,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        NavController navController = Navigation.findNavController(this, R.id.fragment);
+        navController.navigate(R.id.action_loginFragment_to_mainFragment);
     }
 }

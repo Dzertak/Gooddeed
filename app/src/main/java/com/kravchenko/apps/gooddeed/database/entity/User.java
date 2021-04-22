@@ -25,6 +25,10 @@ public class User {
         this.imgUri = imgUri;
     }
 
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
     public long getUserId() {
         return userId;
     }
