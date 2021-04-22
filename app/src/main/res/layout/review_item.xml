@@ -25,41 +25,20 @@
         app:layout_constraintTop_toTopOf="@+id/imageview_reviewer_photo"
         tools:text="Имя Фамилия" />
 
-    <LinearLayout
-        android:id="@+id/linearlayout_profile_rating"
+
+
+
+
+    <RatingBar
+        android:id="@+id/rating_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        style="?android:attr/ratingBarStyleSmall"
+        android:numStars="5"
         android:layout_marginStart="@dimen/margin_little"
         app:layout_constraintBottom_toBottomOf="@+id/tv_reviewers_name"
         app:layout_constraintStart_toEndOf="@id/tv_reviewers_name"
-        app:layout_constraintTop_toTopOf="@id/tv_reviewers_name">
-
-        <ImageView
-            android:layout_width="@dimen/reviewers_avatar_size"
-            android:layout_height="@dimen/reviewers_avatar_size"
-            android:background="@drawable/yellow_star" />
-
-        <ImageView
-            android:layout_width="@dimen/reviewers_avatar_size"
-            android:layout_height="@dimen/reviewers_avatar_size"
-            android:background="@drawable/yellow_star" />
-
-        <ImageView
-            android:layout_width="@dimen/reviewers_avatar_size"
-            android:layout_height="@dimen/reviewers_avatar_size"
-            android:background="@drawable/yellow_star" />
-
-        <ImageView
-            android:layout_width="@dimen/reviewers_avatar_size"
-            android:layout_height="@dimen/reviewers_avatar_size"
-            android:background="@drawable/yellow_star" />
-
-        <ImageView
-            android:layout_width="@dimen/reviewers_avatar_size"
-            android:layout_height="@dimen/reviewers_avatar_size"
-            android:background="@drawable/grey_star" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="@id/tv_reviewers_name"/>
 
     <TextView
         android:id="@+id/tv_review_text"
