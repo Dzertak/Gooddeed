@@ -26,5 +26,9 @@
     <string name="country">Страна</string>
     <string name="login">Логин</string>
     <string name="phone_number">Тел. номер</string>
+    <string name="my_subscriptions">Мои подписки:</string>
+    <string name="change_my_subscriptions">Изменить мои подписки</string>
+    <string name="delete_this_account">Удалить этот аккаунт</string>
+    <string name="save_settings">Сохранить настройки</string>
 </resources>
 
