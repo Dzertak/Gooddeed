@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gooddeed">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${GMP_KEY}"/>
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="${GMP_KEY}"/>-->
 
         <activity android:name=".MainActivity">
             <intent-filter>
