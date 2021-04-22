@@ -53,8 +53,11 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         NavController navController = Navigation.findNavController(view);
-        mBinding.buttonLoginFragmentLogIn.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_mainFragment));
 
+        //for test
+
+        //mBinding.buttonLoginFragmentLogIn.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_mainFragment));
+        //navController.navigate(R.id.action_loginFragment_to_mainFragment);
 
         mAuthViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {

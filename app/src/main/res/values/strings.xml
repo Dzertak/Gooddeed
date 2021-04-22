@@ -1,12 +1,15 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
     <string name="app_name">Gooddeed</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="email">Электронная почта</string>
-    <string name="password">Пароль</string>
-    <string name="log_in">Войти</string>
-    <string name="register">Регистрация</string>
-    <string name="forgot_password">Забыли пароль?</string>
-    <string name="log_in_with_google">Войти с помощью Google</string>
-    <string name="log_in_with_facebook">Войти с помощью Facebook</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="log_in">Sign In</string>
+    <string name="register">Sign Up</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="log_in_with_google">Sign In with Google</string>
+    <string name="log_in_with_facebook">Sign In with Facebook</string>
+    <string name="default_error_msg">Somethings went wrong :(</string>
 </resources>
