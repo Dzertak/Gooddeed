@@ -10,6 +10,7 @@ import androidx.lifecycle.Transformations;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseUser;
 import com.kravchenko.apps.gooddeed.repository.AuthRepository;
+import com.kravchenko.apps.gooddeed.util.Resource;
 
 public class AuthViewModel extends AndroidViewModel {
 
@@ -37,7 +38,7 @@ public class AuthViewModel extends AndroidViewModel {
         mAuthRepository.firebaseAuthWithGoogle(tokenId);
     }
 
-    public LiveData<FirebaseUser> getUser() {
+    public LiveData<Resource<FirebaseUser>> getUser() {
         return mAuthRepository.getUser();
     }
 

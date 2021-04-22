@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.databinding.FragmentLoginBinding;
+import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
 import static android.app.Activity.RESULT_OK;
@@ -53,15 +54,24 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         NavController navController = Navigation.findNavController(view);
-        mBinding.buttonLoginFragmentLogIn.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_mainFragment));
 
+        //for test
+
+        //mBinding.buttonLoginFragmentLogIn.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_mainFragment));
+        //navController.navigate(R.id.action_loginFragment_to_mainFragment);
 
         mAuthViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
-                // Login successful
-                Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Login Successful!");
+                if (firebaseUser.status.equals(Resource.Status.SUCCESS)){
+                    // Login successful
+                    Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Login Successful!");
+                } else if (firebaseUser.status.equals(Resource.Status.LOADING)){
+                    Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
+                } else if (firebaseUser.status.equals(Resource.Status.ERROR)){
+                    Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
+                }
             } else {
                 // Invalid password or email
                 Toast.makeText(getContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
