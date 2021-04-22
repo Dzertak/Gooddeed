@@ -1,105 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_light"
-    tools:context=".screen.LoginFragment">
+<layout>
 
-    <LinearLayout
-        android:id="@+id/linear_layout_login_fragment_header"
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.kravchenko.apps.gooddeed.screen.LoginFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background_light"
+        tools:context=".screen.LoginFragment">
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/gooddeed_logo" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_layout_login_fragment_header"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/edit_text_login_fragment_login"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:alpha="0.9"
-        android:background="@drawable/rounded_view"
-        android:hint="@string/login"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_layout_login_fragment_header" />
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/gooddeed_logo" />
+        </LinearLayout>
 
-    <EditText
-        android:id="@+id/edit_text_login_fragment_password"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
-        android:alpha="0.9"
-        android:background="@drawable/rounded_view"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_login_fragment_login" />
+        <EditText
+            android:id="@+id/edit_text_login_fragment_login"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:alpha="0.9"
+            android:background="@drawable/rounded_view"
+            android:hint="@string/email"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_login_fragment_header" />
 
-    <Button
-        android:id="@+id/button_login_fragment_log_in"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/rounded_view"
-        android:text="@string/log_in"
-        app:layout_constraintEnd_toStartOf="@id/button_login_fragment_password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_login_fragment_password" />
+        <EditText
+            android:id="@+id/edit_text_login_fragment_password"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:alpha="0.9"
+            android:background="@drawable/rounded_view"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_login_fragment_login" />
 
-    <Button
-        android:id="@+id/button_login_fragment_password"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/rounded_view"
-        android:text="@string/register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/button_login_fragment_log_in"
-        app:layout_constraintTop_toTopOf="@id/button_login_fragment_log_in" />
+        <Button
+            android:id="@+id/button_login_fragment_log_in"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_view"
+            android:onClick="@{() -> fragment.onLoginClick()}"
+            android:text="@string/log_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_login_fragment_password" />
 
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/rounded_view"
-        android:text="@string/log_in_with_google"
-        app:layout_constraintEnd_toEndOf="@id/button_login_fragment_password"
-        app:layout_constraintStart_toStartOf="@id/button_login_fragment_log_in"
-        app:layout_constraintTop_toBottomOf="@id/button_login_fragment_log_in" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_login_fragment_log_in_with_google"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/rounded_view"
+            android:backgroundTint="@color/white"
+            android:drawableStart="@drawable/ic_logo_google"
+            android:onClick="@{() -> fragment.onLoginWithGoogleClick()}"
+            android:paddingHorizontal="8dp"
+            android:text="@string/log_in_with_google"
+            android:textColor="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_login_fragment_log_in" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/forgot_password"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_login_fragment_log_in_with_facebook"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_view"
+            android:backgroundTint="@color/facebook_blue"
+            android:drawableStart="@drawable/ic_logo_facebook"
+            android:onClick="@{() -> fragment.onLoginWithFacebookClick()}"
+            android:paddingHorizontal="8dp"
+            android:text="@string/log_in_with_facebook"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_login_fragment_log_in_with_google" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/forgot_password"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
