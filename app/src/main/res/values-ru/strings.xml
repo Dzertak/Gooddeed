@@ -8,5 +8,23 @@
     <string name="log_in_with_google">Войти с помощью Google</string>
     <string name="log_in_with_facebook">Войти с помощью Facebook</string>
     <string name="default_error_msg">Что-то пошло не так :(</string>
+    <string name="app_name">Gooddeed</string>
+    <string name="share">Поделиться</string>
+    <string name="suggest_initiative">Предложить инициативу</string>
+    <string name="profile_name">Имя профиля</string>
+    <string name="statistics_by_initiatives">Статистика по инициативам:</string>
+    <string name="created">Создано:</string>
+    <string name="active">Активных:</string>
+    <string name="complete">Выполненных:</string>
+    <string name="categories">Категории:</string>
+    <string name="about">О себе:</string>
+    <string name="reviews">Отзывы:</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="city">Город</string>
+    <string name="edit_profile">Изменить профиль</string>
+    <string name="country">Страна</string>
+    <string name="login">Логин</string>
+    <string name="phone_number">Тел. номер</string>
 </resources>
 
