@@ -43,9 +43,9 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.AccountFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.ProfileFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" >
+        tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_accountFragment_to_editAccountFragment"
             app:destination="@id/editAccountFragment" />
@@ -55,9 +55,9 @@
     </fragment>
     <fragment
         android:id="@+id/editAccountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.EditAccountFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.EditProfileFragment"
         android:label="fragment_edit_account"
-        tools:layout="@layout/fragment_edit_account" />
+        tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.ChatsFragment"

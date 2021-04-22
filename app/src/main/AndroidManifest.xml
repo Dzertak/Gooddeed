@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kravchenko.apps.gooddeed">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".AppInstance"
@@ -17,9 +17,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${GMP_KEY}"/>
+            android:value="${GMP_KEY}" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.Gooddeed">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screen.EditProfileFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="@string/edit_profile"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_edit_profile">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView_edit_profile_avatar"
+                android:layout_width="@dimen/profile_avatar_size"
+                android:layout_height="@dimen/profile_avatar_size"
+                android:layout_marginTop="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@drawable/no_photo" />
+
+            <EditText
+                android:id="@+id/tv_profile_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginTop="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:hint="@string/login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_edit_profile_avatar" />
+
+            <EditText
+                android:id="@+id/tv_profile_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:hint="@string/first_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_login" />
+
+            <EditText
+                android:id="@+id/tv_profile_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:hint="@string/last_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_first_name" />
+
+            <EditText
+                android:id="@+id/tv_profile_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:hint="@string/phone_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_last_name" />
+
+            <EditText
+                android:id="@+id/tv_profile_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:hint="@string/city"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_phone" />
+
+            <EditText
+                android:id="@+id/tv_profile_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:hint="@string/country"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_city" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- еще не доделал -->
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
