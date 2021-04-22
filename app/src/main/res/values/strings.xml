@@ -27,4 +27,5 @@
     <string name="log_in_with_google">Sign In with Google</string>
     <string name="log_in_with_facebook">Sign In with Facebook</string>
     <string name="default_error_msg">Somethings went wrong :(</string>
+    <string name="your_search_request_here">Your search request here</string>
 </resources>
