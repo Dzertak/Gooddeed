@@ -7,6 +7,11 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.kravchenko.apps.gooddeed"
         minSdkVersion 21
@@ -43,4 +48,7 @@ dependencies {
     // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 }
