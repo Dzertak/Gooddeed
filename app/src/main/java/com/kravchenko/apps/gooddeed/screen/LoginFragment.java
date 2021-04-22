@@ -82,7 +82,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //mBinding = null;
+        mBinding = null;
     }
 
     public void onLoginClick() {
