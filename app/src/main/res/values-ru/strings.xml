@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email">Электронная почта</string>
+    <string name="password">Пароль</string>
+    <string name="log_in">Войти</string>
+    <string name="register">Регистрация</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="log_in_with_google">Войти с помощью Google</string>
+    <string name="log_in_with_facebook">Войти с помощью Facebook</string>
+    <string name="default_error_msg">Что-то пошло не так :(</string>
+</resources>
+

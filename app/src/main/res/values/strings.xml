@@ -1,12 +1,7 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
     <string name="app_name">Gooddeed</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="log_in">Log in</string>
-    <string name="register">Register</string>
-    <string name="forgot_password">Forgot password?</string>
-    <string name="log_in_with_google">Log in with Google</string>
-    <string name="log_in_with_facebook">Log in with Facebook</string>
     <string name="edit_account">Edit profile</string>
     <string name="share">Share</string>
     <string name="suggest_initiative">Suggest initiative</string>
@@ -25,4 +20,12 @@
     <string name="country">Country</string>
     <string name="login">Login</string>
     <string name="phone_number">Phone number</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="log_in">Sign In</string>
+    <string name="register">Sign Up</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="log_in_with_google">Sign In with Google</string>
+    <string name="log_in_with_facebook">Sign In with Facebook</string>
+    <string name="default_error_msg">Somethings went wrong :(</string>
 </resources>
