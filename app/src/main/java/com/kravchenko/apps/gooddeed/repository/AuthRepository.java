@@ -14,13 +14,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.util.Resource;
 
 public class AuthRepository {
 
     private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
     private final FirebaseAuth mAuth;
     private final GoogleSignInClient mGoogleSignIn;
-    private final MutableLiveData<FirebaseUser> mUser;
+    private final MutableLiveData<Resource<FirebaseUser>> mUser;
 
     public AuthRepository(Context context) {
         mAuth = FirebaseAuth.getInstance();
@@ -32,7 +33,7 @@ public class AuthRepository {
         mGoogleSignIn = GoogleSignIn.getClient(context, gso);
 
         if (mAuth.getCurrentUser() != null) {
-            mUser.setValue(mAuth.getCurrentUser());
+            mUser.setValue(Resource.success(mAuth.getCurrentUser()));
         } else if (GoogleSignIn.getLastSignedInAccount(context) != null) {
             firebaseAuthWithGoogle(GoogleSignIn.getLastSignedInAccount(context).getIdToken());
         }
@@ -40,15 +41,16 @@ public class AuthRepository {
 
     public void loginWithEmailAndPassword(String email, String password) {
         isEmailRegistered(email, isRegistered -> {
+            mUser.setValue(Resource.loading("Loading...", null));
             if (isRegistered) {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 // Login successful
-                                mUser.setValue(mAuth.getCurrentUser());
+                                mUser.setValue(Resource.success(mAuth.getCurrentUser()));
                                 Log.d(TAG, "User logged in successfully");
                             } else {
-                                mUser.setValue(null);
+                                mUser.setValue(Resource.error(task.getException().getMessage(), null));
                                 Log.w(TAG, "Sign in failure: " + task.getException());
                             }
                         });
@@ -57,7 +59,7 @@ public class AuthRepository {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "New user created successfully");
-                                mUser.setValue(mAuth.getCurrentUser());
+                                mUser.setValue(Resource.success(mAuth.getCurrentUser()));
                             } else {
                                 mUser.setValue(null);
                                 Log.w(TAG, "Registration failure: " + task.getException());
@@ -73,7 +75,7 @@ public class AuthRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "Sign in with credential: success");
-                        mUser.setValue(mAuth.getCurrentUser());
+                        mUser.setValue(Resource.success(mAuth.getCurrentUser()));
                     } else {
                         Log.w(TAG, "Sign in with credential: failure" + task.getException());
                     }
@@ -96,7 +98,7 @@ public class AuthRepository {
                 listener.onResult(!task.getResult().getSignInMethods().isEmpty()));
     }
 
-    public LiveData<FirebaseUser> getUser() {
+    public LiveData<Resource<FirebaseUser>> getUser() {
         return mUser;
     }
 
