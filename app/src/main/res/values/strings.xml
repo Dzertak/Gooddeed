@@ -45,4 +45,10 @@
     <string name="settings">Settings</string>
     <string name="initiative">Initiatives</string>
     <string name="logout">Log out</string>
+
+    <!--Validation-->
+    <string name="password_mismatch">Password mismatch </string>
+    <string name="empty_field_explanation">Field can\'t be empty</string>
+    <string name="invalid_email_explanation">Please enter a valid e-mail address</string>
+    <string name="weak_password_explanation">Mast be at least one digit, one lover case and upper case letter and no spaces</string>
 </resources>

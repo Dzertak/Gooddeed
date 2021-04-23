@@ -13,6 +13,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         NavController navController = Navigation.findNavController(this, R.id.fragment);
-        navController.navigate(R.id.action_loginFragment_to_mainFragment);
+       // navController.navigate(R.id.action_loginFragment_to_mainFragment);
     }
 }

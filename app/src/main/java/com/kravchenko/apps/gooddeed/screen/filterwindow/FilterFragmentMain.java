@@ -33,7 +33,6 @@ public class FilterFragmentMain extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         navController = NavHostFragment.findNavController(this);
     }
 

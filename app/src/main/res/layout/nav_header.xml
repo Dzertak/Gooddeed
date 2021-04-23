@@ -11,7 +11,7 @@
         android:id="@+id/imv_ava"
         android:layout_width="132dp"
         android:layout_height="132dp"
-        android:src="@drawable/ic_no_ava"
+        android:src="@drawable/no_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -2,28 +2,26 @@ package com.kravchenko.apps.gooddeed.screen;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.kravchenko.apps.gooddeed.R;
-
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentLoginBinding;
+import com.kravchenko.apps.gooddeed.util.InputValidator;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
@@ -34,9 +32,11 @@ public class LoginFragment extends Fragment {
 
     private static final int RC_SIGN_IN = 100;
     private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
-    private FragmentLoginBinding mBinding;
+    private FragmentLoginBinding binding;
     private AuthViewModel mAuthViewModel;
     private NavController navController;
+    private String emailInput;
+    private String passwordInput;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,9 +46,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = FragmentLoginBinding.inflate(inflater, container, false);
-        mBinding.setFragment(this);
-        return mBinding.getRoot();
+        binding = FragmentLoginBinding.inflate(inflater, container, false);
+        binding.setFragment(this);
+        return binding.getRoot();
     }
 
     @Override
@@ -64,13 +64,13 @@ public class LoginFragment extends Fragment {
         mAuthViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
-                if (firebaseUser.status.equals(Resource.Status.SUCCESS)){
+                if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
                     // Login successful
                     Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Login Successful!");
-                } else if (firebaseUser.status.equals(Resource.Status.LOADING)){
+                } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
                     Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
-                } else if (firebaseUser.status.equals(Resource.Status.ERROR)){
+                } else if (firebaseUser.status.equals(Resource.Status.ERROR)) {
                     Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -83,13 +83,28 @@ public class LoginFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mBinding = null;
+        binding = null;
     }
 
     public void onLoginClick() {
-        //navController.navigate(R.id.action_loginFragment_to_mainFragment);
-        mAuthViewModel.loginWithEmailAndPassword(mBinding.editTextLoginFragmentLogin.getText().toString().trim(),
-                mBinding.editTextLoginFragmentPassword.getText().toString().trim());
+        if (validateInput()) {
+            return;
+        }
+        mAuthViewModel.loginWithEmailAndPassword(binding.tilEmailHolder.getEditText().getText().toString().trim(),
+               binding.tilPasswordHolder.getEditText().getText().toString().trim());
+        navController.navigate(R.id.action_loginFragment_to_mainFragment);
+    }
+
+    private boolean validateInput() {
+        emailInput = binding.tilEmailHolder.getEditText().getText().toString().trim();
+        passwordInput = binding.tilPasswordHolder.getEditText().getText().toString().trim();
+
+        String emailError = InputValidator.validateEmail(emailInput);
+        String passwordError = InputValidator.validatePassword(passwordInput);
+
+        binding.tilEmailHolder.setError(emailError);
+        binding.tilPasswordHolder.setError(passwordError);
+        return emailError != null || passwordError != null;
     }
 
     public void onLoginWithGoogleClick() {

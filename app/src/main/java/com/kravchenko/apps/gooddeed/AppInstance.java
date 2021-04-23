@@ -2,11 +2,8 @@ package com.kravchenko.apps.gooddeed;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 
 import java.lang.ref.WeakReference;
-import java.util.Locale;
 
 public class AppInstance extends Application {
 
