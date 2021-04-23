@@ -74,8 +74,9 @@ public class LoginFragment extends Fragment {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
                     // Login successful
-                    Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Login Successful!");
+                    //Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
+                    //Log.d(TAG, "Login Successful!");
+                    navController.navigate(R.id.action_loginFragment_to_mainFragment);
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
                     Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
                 } else if (firebaseUser.status.equals(Resource.Status.ERROR)) {

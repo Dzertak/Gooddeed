@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.dao;
+package com.kravchenko.apps.gooddeed.database.dao;
 
 import androidx.room.Dao;
 

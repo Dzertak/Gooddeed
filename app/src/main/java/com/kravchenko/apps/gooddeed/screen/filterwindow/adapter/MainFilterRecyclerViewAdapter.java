@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.adapter;
+package com.kravchenko.apps.gooddeed.screen.filterwindow.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
