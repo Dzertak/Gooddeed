@@ -74,7 +74,7 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
@@ -246,6 +246,12 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        binding.drawerLayout.closeDrawer(binding.navView);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
@@ -278,7 +284,7 @@ public class MainFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.filter_button) {
-            binding.drawerLayoutMainFragment.openDrawer(GravityCompat.END);
+            binding.drawerLayout.openDrawer(GravityCompat.END);
         }
         return super.onOptionsItemSelected(item);
     }

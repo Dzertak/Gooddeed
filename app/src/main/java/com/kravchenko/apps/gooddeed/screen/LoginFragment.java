@@ -94,7 +94,6 @@ public class LoginFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
     public void onLoginClick() {
         if (validateInput()) {
             return;
