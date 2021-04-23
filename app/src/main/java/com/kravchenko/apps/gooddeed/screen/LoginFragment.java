@@ -36,6 +36,7 @@ public class LoginFragment extends Fragment {
     private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
     private FragmentLoginBinding mBinding;
     private AuthViewModel mAuthViewModel;
+    private NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NavController navController = Navigation.findNavController(view);
+        navController = Navigation.findNavController(view);
 
         //for test
 
@@ -86,6 +87,7 @@ public class LoginFragment extends Fragment {
     }
 
     public void onLoginClick() {
+        //navController.navigate(R.id.action_loginFragment_to_mainFragment);
         mAuthViewModel.loginWithEmailAndPassword(mBinding.editTextLoginFragmentLogin.getText().toString().trim(),
                 mBinding.editTextLoginFragmentPassword.getText().toString().trim());
     }

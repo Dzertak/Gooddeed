@@ -25,6 +25,7 @@
     <string name="log_in_with_google">Sign In with Google</string>
     <string name="log_in_with_facebook">Sign In with Facebook</string>
     <string name="default_error_msg">Somethings went wrong :(</string>
+    <string name="your_search_request_here">Your search request here</string>
     <string name="my_subscriptions">My subscriptions:</string>
     <string name="change_my_subscriptions">Change my subscriptions</string>
     <string name="delete_this_account">Delete this account</string>
