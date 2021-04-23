@@ -1,7 +1,10 @@
 package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,6 +33,7 @@ public class FilterFragmentMain extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         navController = NavHostFragment.findNavController(this);
     }
 
@@ -76,5 +80,12 @@ public class FilterFragmentMain extends Fragment {
         filters.add(new Filter(FilterName.PERIOD_REALIZATION, "default"));
         filters.add(new Filter(FilterName.RADIUS, "default"));
         filterAdapter.setFilters(filters);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        Log.i("dev","onCreateOptionsMen");
+        inflater.inflate(R.menu.filter_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

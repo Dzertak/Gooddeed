@@ -5,8 +5,7 @@
     android:id="@+id/drawerLayout_mainFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screen.MainFragment"
-    tools:openDrawer="start">
+    tools:context=".screen.MainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,54 +20,63 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_mainFragment"
-                app:titleTextColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary">
-
-
-            </androidx.appcompat.widget.Toolbar>
+                android:background="?attr/colorPrimary"
+                app:titleTextColor="@color/white" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
         <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/google_map"
-            android:name="com.google.android.gms.maps.SupportMapFragment">
-        </fragment>
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment" />
+
 
         <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             android:id="@+id/input_search"
-            android:hint="@string/your_search_request_here"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_10dp"
+            android:background="@drawable/search_view"
             android:elevation="5dp"
+            android:hint="@string/your_search_request_here"
             android:iconifiedByDefault="false"
             android:theme="@style/SearchViewStyle"
-            android:background="@drawable/search_view">
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment">
 
         </SearchView>
 
-
         <ImageView
+            android:id="@+id/ic_gps"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_below="@id/input_search"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/margin_10dp"
             android:scaleType="centerCrop"
-            android:id="@+id/ic_gps"
-            android:src="@drawable/ic_gps"/>
+            android:src="@drawable/ic_gps"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment" />
 
         <ImageView
+            android:id="@+id/place_info"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_below="@id/input_search"
             android:layout_margin="@dimen/margin_10dp"
             android:scaleType="centerCrop"
-            android:id="@+id/place_info"
-            android:src="@drawable/ic_info"/>
+            android:src="@drawable/ic_info"
+            app:layout_constraintEnd_toEndOf="@+id/ic_gps"
+            app:layout_constraintStart_toStartOf="@+id/ic_gps"
+            app:layout_constraintTop_toBottomOf="@+id/ic_gps" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -78,7 +86,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/user_menu"/>
+        app:menu="@menu/user_menu" />
+
     <fragment
         android:id="@+id/filter_nav_host"
         android:name="androidx.navigation.fragment.NavHostFragment"

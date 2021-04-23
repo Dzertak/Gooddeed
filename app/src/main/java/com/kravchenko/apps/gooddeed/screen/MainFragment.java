@@ -78,6 +78,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         navController = NavHostFragment.findNavController(this);
     }
 
@@ -271,6 +272,7 @@ public class MainFragment extends Fragment {
         });
 
     }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.filter_menu, menu);
