@@ -30,5 +30,8 @@
     <string name="change_my_subscriptions">Изменить мои подписки</string>
     <string name="delete_this_account">Удалить этот аккаунт</string>
     <string name="save_settings">Сохранить настройки</string>
+
+    <string name="enter">Войти</string>
+    <string name="or">Или</string>
 </resources>
 

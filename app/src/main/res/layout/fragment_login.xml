@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <data>
-
         <variable
             name="fragment"
             type="com.kravchenko.apps.gooddeed.screen.LoginFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -22,6 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -41,21 +41,18 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:alpha="0.9"
-            android:background="@drawable/rounded_view"
             android:inputType="textEmailAddress"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:textColorHint="@color/grey"
+            android:hint="@string/email"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linear_layout_login_fragment_header">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="@string/email"
+                android:background="@drawable/rounded_view"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,47 +61,79 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
             android:alpha="0.9"
-            android:background="@drawable/rounded_view"
             android:inputType="textPassword"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:textColorHint="@color/grey"
             app:errorEnabled="true"
+            android:hint="@string/password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_email_holder"
             app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:hint="@string/password"
+                android:background="@drawable/rounded_view"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <Button
             android:id="@+id/button_login_fragment_log_in"
             android:layout_width="0dp"
-            android:layout_height="36dp"
+            android:layout_height="45dp"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_view"
             android:onClick="@{() -> fragment.onLoginClick()}"
-            android:text="@string/log_in"
+            android:text="@string/enter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_passwordHolder" />
+
+
+        <LinearLayout
+            android:id="@+id/divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_login_fragment_log_in">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/grey"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"
+                android:textStyle="italic"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/grey"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_login_fragment_log_in_with_google"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/rounded_view"
             android:backgroundTint="@color/white"
             android:drawableStart="@drawable/ic_logo_google"
@@ -114,7 +143,7 @@
             android:textColor="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_login_fragment_log_in" />
+            app:layout_constraintTop_toBottomOf="@id/divider_line" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_login_fragment_log_in_with_facebook"
