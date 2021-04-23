@@ -1,7 +1,10 @@
 package com.kravchenko.apps.gooddeed.screen;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -22,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentLoginBinding;
 import com.kravchenko.apps.gooddeed.util.InputValidator;
+import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
@@ -41,6 +46,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -51,13 +57,15 @@ public class LoginFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
+        binding.tilEmailHolder.getEditText().addTextChangedListener(new TextErrorRemover(binding.tilEmailHolder));
+        binding.tilPasswordHolder.getEditText().addTextChangedListener(new TextErrorRemover(binding.tilPasswordHolder));
 
         //for test
-
         //mBinding.buttonLoginFragmentLogIn.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_mainFragment));
         //navController.navigate(R.id.action_loginFragment_to_mainFragment);
 
@@ -91,15 +99,17 @@ public class LoginFragment extends Fragment {
             return;
         }
         mAuthViewModel.loginWithEmailAndPassword(binding.tilEmailHolder.getEditText().getText().toString().trim(),
-               binding.tilPasswordHolder.getEditText().getText().toString().trim());
+                binding.tilPasswordHolder.getEditText().getText().toString().trim());
         mAuthViewModel.setIsAuth(true);
         navController.navigate(R.id.action_loginFragment_to_mainFragment);
     }
 
+    //TODO
+    //To enable password validation, you need to uncomment the check in the validatePassword()
+    // method in InputValidator
     private boolean validateInput() {
         emailInput = binding.tilEmailHolder.getEditText().getText().toString().trim();
         passwordInput = binding.tilPasswordHolder.getEditText().getText().toString().trim();
-
         String emailError = InputValidator.validateEmail(emailInput);
         String passwordError = InputValidator.validatePassword(passwordInput);
 
@@ -131,4 +141,5 @@ public class LoginFragment extends Fragment {
             }
         }
     }
+
 }

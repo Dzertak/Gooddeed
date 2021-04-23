@@ -3,7 +3,6 @@ package com.kravchenko.apps.gooddeed.util;
 import android.content.Context;
 import android.util.Patterns;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.kravchenko.apps.gooddeed.AppInstance;
 import com.kravchenko.apps.gooddeed.R;
 
@@ -44,13 +43,14 @@ public class InputValidator {
     }
 
     public static String validatePassword(String password) {
-        if (password.isEmpty()) {
-            return context.getString(R.string.empty_field_explanation);
-        } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
-            return context.getString(R.string.weak_password_explanation);
-        } else {
-            return null;
-        }
+//        if (password.isEmpty()) {
+//            return context.getString(R.string.empty_field_explanation);
+//        } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
+//            return context.getString(R.string.weak_password_explanation);
+//        } else {
+//            return null;
+//        }
+        return null;
     }
 
     public static String validateName(String name) {
