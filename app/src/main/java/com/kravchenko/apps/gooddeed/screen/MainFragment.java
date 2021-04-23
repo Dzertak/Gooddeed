@@ -1,21 +1,12 @@
 package com.kravchenko.apps.gooddeed.screen;
 
 import android.Manifest;
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,20 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -46,7 +37,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -55,11 +45,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
+import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 
 public class MainFragment extends Fragment {
 
@@ -74,6 +64,7 @@ public class MainFragment extends Fragment {
     private NavController navController;
     private Marker mMarker;
     private GoogleMap googleMap;
+    private AuthViewModel authViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +77,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
-
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         readInitiatives();
         searchFunction();
         initMapWithInitiatives();
@@ -126,7 +117,7 @@ public class MainFragment extends Fragment {
                 }
             });
         } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         }
     }
 
@@ -159,6 +150,7 @@ public class MainFragment extends Fragment {
             }
         });
     }
+
     @SuppressLint("NonConstantResourceId")
     private void buildDrawerToggle() {
         DrawerLayout drawerLayout = binding.getRoot();
@@ -173,21 +165,24 @@ public class MainFragment extends Fragment {
         binding.navView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.profile_item:
-                    //TODO
+                    navController.navigate(R.id.action_mainFragment_to_accountFragment);
                     break;
                 case R.id.settings_item:
-                    //TODO
+                    navController.navigate(R.id.action_mainFragment_to_settingsFragment);
                     break;
                 case R.id.initiative_item:
-                    //TODO
+                    navController.navigate(R.id.action_mainFragment_to_myInitiativesFragment);
                     break;
                 case R.id.sign_out_item:
-                    //TODO
+                    authViewModel.signOutUser();
+                    authViewModel.setIsAuth(false);
+                    navController.navigate(R.id.action_mainFragment_to_loginFragment);
                     break;
             }
             return true;
         });
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -204,14 +199,14 @@ public class MainFragment extends Fragment {
         binding.icGps.setOnClickListener(v -> getCurrentLocation());
 
         binding.placeInfo.setOnClickListener(v -> {
-            try{
-                if(mMarker.isInfoWindowShown()){
+            try {
+                if (mMarker.isInfoWindowShown()) {
                     mMarker.hideInfoWindow();
-                }else{
+                } else {
                     mMarker.showInfoWindow();
                 }
-            }catch (NullPointerException e){
-                Log.e(TAG, "onClick: NullPointerException: " + e.getMessage() );
+            } catch (NullPointerException e) {
+                Log.e(TAG, "onClick: NullPointerException: " + e.getMessage());
             }
         });
 

@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_mainFragment_to_currentInitiativeFragment"
             app:destination="@id/currentInitiativeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"

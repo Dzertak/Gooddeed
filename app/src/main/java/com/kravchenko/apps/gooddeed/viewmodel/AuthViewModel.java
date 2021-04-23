@@ -62,7 +62,9 @@ public class AuthViewModel extends AndroidViewModel implements SharedPreferences
                 break;
         }
     }
-
+    public LiveData<Boolean> getIsAuth() {
+        return isAuth;
+    }
     public void setIsAuth(boolean isAuth) {
         sharedPreferencesManager.putIsAuth(isAuth);
     }
