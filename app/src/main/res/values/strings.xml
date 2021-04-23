@@ -32,7 +32,12 @@
     <string name="radius">Set Radius</string>
     <string name="period_realization">Period Realization</string>
     <string name="performer_initiative">Performer/Initiative</string>
-
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="check_mark_symbol">✓</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="initiative">Initiatives</string>
+    <string name="logout">Log out</string>
 
 </resources>

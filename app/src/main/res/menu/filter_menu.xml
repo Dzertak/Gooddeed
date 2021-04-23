@@ -6,4 +6,5 @@
         android:menuCategory="system"
         android:title="@string/filter_button"
         app:showAsAction="ifRoom" />
+
 </menu>
