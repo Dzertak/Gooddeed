@@ -14,7 +14,7 @@
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/nav_graph"
+            app:popUpTo="@+id/loginFragment"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment

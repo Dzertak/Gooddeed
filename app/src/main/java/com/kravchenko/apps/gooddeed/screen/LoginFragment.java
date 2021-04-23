@@ -92,6 +92,7 @@ public class LoginFragment extends Fragment {
         }
         mAuthViewModel.loginWithEmailAndPassword(binding.tilEmailHolder.getEditText().getText().toString().trim(),
                binding.tilPasswordHolder.getEditText().getText().toString().trim());
+        mAuthViewModel.setIsAuth(true);
         navController.navigate(R.id.action_loginFragment_to_mainFragment);
     }
 
