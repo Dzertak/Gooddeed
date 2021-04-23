@@ -7,9 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#C60000</color>
+    <color name="facebook_blue">#1778F2</color>
+    <color name="grey">#808080</color>
+    <color name="green">#58C400</color>
+    <color name="darkgreen">#4CA900</color>
     <color name="lightgreen">#d5f199</color>
-    <color name="green">#8ada0b</color>
     <color name="darkergreen">#79C500</color>
-    <color name="darkgreen">#6fb400</color>
     <color name="transparent">#00FFFFFF</color>
 </resources>

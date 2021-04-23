@@ -30,6 +30,45 @@
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/google_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment">
+        </fragment>
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/input_search"
+            android:hint="@string/your_search_request_here"
+            android:layout_margin="@dimen/margin_10dp"
+            android:elevation="5dp"
+            android:iconifiedByDefault="false"
+            android:theme="@style/SearchViewStyle"
+            android:background="@drawable/search_view">
+
+        </SearchView>
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/input_search"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/margin_10dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/ic_gps"
+            android:src="@drawable/ic_gps"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/input_search"
+            android:layout_margin="@dimen/margin_10dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/place_info"
+            android:src="@drawable/ic_info"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

@@ -32,9 +32,6 @@
             android:id="@+id/action_mainFragment_to_myInitiativesFragment"
             app:destination="@id/myInitiativesFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_editInitiativeFragment"
-            app:destination="@id/editInitiativeFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
@@ -43,21 +40,21 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.AccountFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.ProfileFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" >
+        tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_accountFragment_to_editAccountFragment"
             app:destination="@id/editAccountFragment" />
         <action
-            android:id="@+id/action_accountFragment_to_listOfInitiativesFragment"
-            app:destination="@id/listOfInitiativesFragment" />
+            android:id="@+id/action_accountFragment_to_myInitiativesFragment"
+            app:destination="@id/myInitiativesFragment" />
     </fragment>
     <fragment
         android:id="@+id/editAccountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.EditAccountFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.EditProfileFragment"
         android:label="fragment_edit_account"
-        tools:layout="@layout/fragment_edit_account" />
+        tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.ChatsFragment"
@@ -100,13 +97,4 @@
         android:name="com.kravchenko.apps.gooddeed.screen.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
-    <fragment
-        android:id="@+id/listOfInitiativesFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.ListOfInitiativesFragment"
-        android:label="fragment_list_of_initiatives"
-        tools:layout="@layout/fragment_list_of_initiatives" >
-        <action
-            android:id="@+id/action_listOfInitiativesFragment_to_currentInitiativeFragment"
-            app:destination="@id/currentInitiativeFragment" />
-    </fragment>
 </navigation>
