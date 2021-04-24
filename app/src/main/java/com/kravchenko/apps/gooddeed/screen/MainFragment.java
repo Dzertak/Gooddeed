@@ -27,10 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -51,7 +48,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends BaseFragment {
 
     private static final String TAG = "TAG";
     private FragmentMainBinding binding;
@@ -61,7 +58,6 @@ public class MainFragment extends Fragment {
     private ArrayList<LatLng> markersLatLng;
     private ArrayList<String> markersTitle;
     private final static String titleName = "MARKER";
-    private NavController navController;
     private Marker mMarker;
     private GoogleMap googleMap;
     private AuthViewModel authViewModel;
@@ -70,7 +66,6 @@ public class MainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        navController = NavHostFragment.findNavController(this);
     }
 
     @Override
@@ -156,7 +151,7 @@ public class MainFragment extends Fragment {
         DrawerLayout drawerLayout = binding.getRoot();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(),
                 drawerLayout,
-                binding.toolbarMainFragment,
+                binding.toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -165,18 +160,17 @@ public class MainFragment extends Fragment {
         binding.navView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.profile_item:
-                    navController.navigate(R.id.action_mainFragment_to_accountFragment);
+                    getNavController().navigate(R.id.action_mainFragment_to_accountFragment);
                     break;
                 case R.id.settings_item:
-                    navController.navigate(R.id.action_mainFragment_to_settingsFragment);
+                    getNavController().navigate(R.id.action_mainFragment_to_settingsFragment);
                     break;
                 case R.id.initiative_item:
-                    navController.navigate(R.id.action_mainFragment_to_myInitiativesFragment);
+                    getNavController().navigate(R.id.action_mainFragment_to_myInitiativesFragment);
                     break;
                 case R.id.sign_out_item:
                     authViewModel.signOutUser();
-                    authViewModel.setIsAuth(false);
-                    navController.navigate(R.id.action_mainFragment_to_loginFragment);
+                    getNavController().navigate(R.id.action_mainFragment_to_loginFragment);
                     break;
             }
             return true;
@@ -186,8 +180,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbarMainFragment);
-        NavigationUI.setupWithNavController(binding.toolbarMainFragment, navController);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
+        NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         buildDrawerToggle();
 
 

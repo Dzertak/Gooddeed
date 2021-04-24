@@ -17,9 +17,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.screen.filterwindow.adapter.MainFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.database.entity.Filter;
 import com.kravchenko.apps.gooddeed.databinding.FragmentFilterMainBinding;
+import com.kravchenko.apps.gooddeed.screen.filterwindow.adapter.MainFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.util.annotation.FilterName;
 
 import java.util.ArrayList;
@@ -57,14 +57,16 @@ public class FilterFragmentMain extends Fragment {
         filterAdapter.setOnItemClickListener(filter -> {
                     switch (filter.getFilterName()) {
                         case FilterName.CATEGORY:
-                            // Toast.makeText(getContext(), filter.getName(), Toast.LENGTH_SHORT).show();
                             navController.navigate(R.id.action_filterFragment_to_categoryFilterFragment);
                             break;
                         case FilterName.PERFORMER_INITIATIVE:
+                            navController.navigate(R.id.action_filterFragment_to_performerInitiativeFragment);
                             break;
                         case FilterName.PERIOD_REALIZATION:
+                            navController.navigate(R.id.action_filterFragment_to_periodRealizationFilterFragment);
                             break;
                         case FilterName.RADIUS:
+                            navController.navigate(R.id.action_filterFragment_to_radiusFilterFragment);
                             break;
                     }
 
@@ -83,7 +85,7 @@ public class FilterFragmentMain extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        Log.i("dev","onCreateOptionsMen");
+        Log.i("dev", "onCreateOptionsMen");
         inflater.inflate(R.menu.filter_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }

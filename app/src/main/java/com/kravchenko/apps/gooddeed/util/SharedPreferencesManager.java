@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 public class SharedPreferencesManager {
     private static final String PACKAGE_NAME = "com.kravchenko.apps.gooddeed.util";
     private static final String PREF_KEY = PACKAGE_NAME + ".appSetting";
-    public static final String IS_AUTH_KEY = PACKAGE_NAME + ".isAuth";
 
     private final SharedPreferences sharedPreferences;
     private static SharedPreferencesManager instance;
@@ -31,11 +30,4 @@ public class SharedPreferencesManager {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    public void putIsAuth(boolean isAuth) {
-        editor.putBoolean(IS_AUTH_KEY, isAuth).apply();
-    }
-
-    public boolean getIsAuth() {
-        return sharedPreferences.getBoolean(IS_AUTH_KEY, false);
-    }
 }

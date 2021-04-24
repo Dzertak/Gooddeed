@@ -31,16 +31,16 @@
     <fragment
         android:id="@+id/radiusFilterFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.RadiusFilterFragment"
-        android:label="fragment_radius_filter"
+        android:label="@string/change_radius_filter"
         tools:layout="@layout/fragment_radius_filter" />
     <fragment
         android:id="@+id/periodRealizationFilterFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.PeriodRealizationFilterFragment"
-        android:label="fragment_period_realization_filter"
+        android:label="@string/period_realization"
         tools:layout="@layout/fragment_period_realization_filter" />
     <fragment
         android:id="@+id/performerInitiativeFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.PerformerInitiativeFragment"
-        android:label="fragment_performer_initiative"
+        android:label="@string/performer_initiative"
         tools:layout="@layout/fragment_performer_initiative_filter" />
 </navigation>

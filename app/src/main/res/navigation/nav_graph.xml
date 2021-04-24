@@ -61,7 +61,7 @@
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.ChatsFragment"
-        android:label="fragment_chats"
+        android:label="@string/chats"
         tools:layout="@layout/fragment_chats" >
         <action
             android:id="@+id/action_chatsFragment_to_currentChatFragment"
@@ -70,12 +70,12 @@
     <fragment
         android:id="@+id/currentChatFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.CurrentChatFragment"
-        android:label="fragment_current_chat"
+        android:label="@string/current_chat"
         tools:layout="@layout/fragment_current_chat" />
     <fragment
         android:id="@+id/myInitiativesFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.MyInitiativesFragment"
-        android:label="fragment_my_initiatives"
+        android:label="@string/my_initiatives"
         tools:layout="@layout/fragment_my_initiatives" >
         <action
             android:id="@+id/action_myInitiativesFragment_to_currentInitiativeFragment"
@@ -84,7 +84,7 @@
     <fragment
         android:id="@+id/currentInitiativeFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.CurrentInitiativeFragment"
-        android:label="fragment_current_initiative"
+        android:label="@string/current_initiative"
         tools:layout="@layout/fragment_current_initiative" >
         <action
             android:id="@+id/action_currentInitiativeFragment_to_editInitiativeFragment"
@@ -93,11 +93,11 @@
     <fragment
         android:id="@+id/editInitiativeFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.EditInitiativeFragment"
-        android:label="fragment_edit_initiative"
+        android:label="@string/edit_initiative"
         tools:layout="@layout/fragment_edit_initiative" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

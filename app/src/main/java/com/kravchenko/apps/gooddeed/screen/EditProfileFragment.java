@@ -41,8 +41,8 @@ public class EditProfileFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbarEditProfile);
-        NavigationUI.setupWithNavController(binding.toolbarEditProfile, getNavController());
+        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
+        NavigationUI.setupWithNavController(binding.toolbar, getNavController());
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {

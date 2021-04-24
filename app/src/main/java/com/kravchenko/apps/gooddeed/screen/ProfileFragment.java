@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.kravchenko.apps.gooddeed.R;
@@ -22,17 +19,15 @@ import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends BaseFragment {
     private FragmentProfileBinding binding;
-    private NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        navController = NavHostFragment.findNavController(this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -41,8 +36,8 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbarProfile);
-        NavigationUI.setupWithNavController(binding.toolbarProfile, getNavController());
+        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
+        NavigationUI.setupWithNavController(binding.toolbar, getNavController());
 
 //        RatingBar ratingBar = view.findViewById(R.id.rating_bar);
 //        ratingBar.setRating(4.3f);

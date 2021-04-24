@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Gooddeed</string>
+    <string name="app_name" translatable="false">Gooddeed</string>
     <string name="share">Share</string>
     <string name="suggest_initiative">Suggest initiative</string>
     <string name="profile_name">Profile name</string>
@@ -40,7 +40,7 @@
     <string name="performer_initiative">Performer/Initiative</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="check_mark_symbol">✓</string>
+    <string name="check_mark_symbol" translatable="false">✓</string>
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
     <string name="initiative">Initiatives</string>
@@ -53,4 +53,10 @@
     <string name="invalid_email_explanation">Please enter a valid e-mail address</string>
     <string name="weak_password_explanation">Mast be at least one digit, one lover case and upper case letter and no spaces</string>
     <string name="or">OR</string>
+    <string name="current_initiative">Сurrent initiative</string>
+    <string name="edit_initiative">Edite initiative</string>
+    <string name="my_initiatives">my_initiatives</string>
+    <string name="current_chat">Current chat</string>
+    <string name="chats">chats</string>
+    <string name="change_radius_filter">Change radius</string>
 </resources>

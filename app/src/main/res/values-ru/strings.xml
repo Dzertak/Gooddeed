@@ -8,7 +8,6 @@
     <string name="log_in_with_google">Войти с помощью Google</string>
     <string name="log_in_with_facebook">Войти с помощью Facebook</string>
     <string name="default_error_msg">Что-то пошло не так :(</string>
-    <string name="app_name">Gooddeed</string>
     <string name="share">Поделиться</string>
     <string name="suggest_initiative">Предложить инициативу</string>
     <string name="profile_name">Имя профиля</string>
@@ -30,8 +29,32 @@
     <string name="change_my_subscriptions">Изменить мои подписки</string>
     <string name="delete_this_account">Удалить этот аккаунт</string>
     <string name="save_settings">Сохранить настройки</string>
-
     <string name="enter">Войти</string>
     <string name="or">Или</string>
+    <string name="settings">Настройки</string>
+    <string name="search">Поиск</string>
+    <string name="profile">Профиль</string>
+    <string name="invalid_email_explanation">Введите коректный имэйл</string>
+    <string name="password_mismatch">Пароли не совпадают</string>
+    <string name="navigation_drawer_open">Открыть шторку навигации</string>
+    <string name="logout">Выйти</string>
+    <string name="avatar">аватар</string>
+    <string name="empty_field_explanation">Поле не может быть пустым</string>
+    <string name="filter_button">Фильтр</string>
+    <string name="filter_fragment_label">Фильтр</string>
+    <string name="initiative">Инициативы</string>
+    <string name="period_realization">Срок проведения</string>
+    <string name="performer_initiative">Исполнитель\\Инициатива</string>
+    <string name="weak_password_explanation">Должена быть как минимум одна цифра, одна буква верхнего и нижнего регистра, без пробелов.</string>
+    <string name="radius">Радиус</string>
+    <string name="category">Категория</string>
+    <string name="navigation_drawer_close">Закрыть шторку навигации</string>
+    <string name="your_search_request_here">Ваш поисковый запрос здесь</string>
+    <string name="current_initiative">Текущая инициатива</string>
+    <string name="edit_initiative">Правитьинициативу</string>
+    <string name="my_initiatives">Мои инициативы</string>
+    <string name="current_chat">Текущий чат</string>
+    <string name="chats">Чаты</string>
+    <string name="change_radius_filter">Изменить радиус</string>
 </resources>
 

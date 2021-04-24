@@ -3,8 +3,6 @@ package com.kravchenko.apps.gooddeed.screen;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavOptions;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -26,20 +23,19 @@ import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentLoginBinding;
 import com.kravchenko.apps.gooddeed.util.InputValidator;
-import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
 import com.kravchenko.apps.gooddeed.util.Resource;
+import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
 import static android.app.Activity.RESULT_OK;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment {
 
 
     private static final int RC_SIGN_IN = 100;
     private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
     private FragmentLoginBinding binding;
     private AuthViewModel mAuthViewModel;
-    private NavController navController;
     private String emailInput;
     private String passwordInput;
 
@@ -61,7 +57,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navController = Navigation.findNavController(view);
         binding.tilEmailHolder.getEditText().addTextChangedListener(new TextErrorRemover(binding.tilEmailHolder));
         binding.tilPasswordHolder.getEditText().addTextChangedListener(new TextErrorRemover(binding.tilPasswordHolder));
 
@@ -76,7 +71,8 @@ public class LoginFragment extends Fragment {
                     // Login successful
                     //Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
                     //Log.d(TAG, "Login Successful!");
-                    navController.navigate(R.id.action_loginFragment_to_mainFragment);
+                    // adjustBackStack();
+                    getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
                     Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
                 } else if (firebaseUser.status.equals(Resource.Status.ERROR)) {
@@ -94,14 +90,14 @@ public class LoginFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
     public void onLoginClick() {
         if (validateInput()) {
             return;
         }
         mAuthViewModel.loginWithEmailAndPassword(binding.tilEmailHolder.getEditText().getText().toString().trim(),
                 binding.tilPasswordHolder.getEditText().getText().toString().trim());
-        mAuthViewModel.setIsAuth(true);
-        navController.navigate(R.id.action_loginFragment_to_mainFragment);
+        getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
     }
 
     //TODO
@@ -142,4 +138,14 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    private void adjustBackStack() {
+        NavGraph navGraph = getNavController().getGraph();
+        navGraph.setStartDestination(R.id.mainFragment);
+        NavOptions navOptions = new NavOptions.Builder()
+                .setPopUpTo(R.id.loginFragment, true)
+                .build();
+        if (!(getNavController().getCurrentDestination().getId() == R.id.mainFragment)) {
+            getNavController().navigate(R.id.action_loginFragment_to_mainFragment, null, navOptions);
+        }
+    }
 }

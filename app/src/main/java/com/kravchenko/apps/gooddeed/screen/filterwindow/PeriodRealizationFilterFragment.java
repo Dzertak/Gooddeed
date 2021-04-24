@@ -1,23 +1,32 @@
 package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kravchenko.apps.gooddeed.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.navigation.ui.NavigationUI;
+
+import com.kravchenko.apps.gooddeed.databinding.FragmentPeriodRealizationFilterBinding;
+import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
 
-public class PeriodRealizationFilterFragment extends Fragment {
-
+public class PeriodRealizationFilterFragment extends BaseFragment {
+    private FragmentPeriodRealizationFilterBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_period_realization_filter, container, false);
+        binding = FragmentPeriodRealizationFilterBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        NavigationUI.setupWithNavController(binding.toolbar, getNavController());
+
     }
 }

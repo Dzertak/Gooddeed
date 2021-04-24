@@ -7,28 +7,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryFilterBinding;
+import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
 
-public class CategoryFilterFragment extends Fragment {
+public class CategoryFilterFragment extends BaseFragment {
     private FragmentCategoryFilterBinding binding;
-    private NavController navController;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        navController = NavHostFragment.findNavController(this);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentCategoryFilterBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -36,7 +26,7 @@ public class CategoryFilterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NavigationUI.setupWithNavController(binding.toolbarCategoryFragment, navController);
+        NavigationUI.setupWithNavController(binding.toolbar, getNavController());
 
     }
 }
