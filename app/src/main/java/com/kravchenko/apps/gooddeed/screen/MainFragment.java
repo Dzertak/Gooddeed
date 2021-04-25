@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 
@@ -43,10 +44,9 @@ import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
+import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainFragment extends BaseFragment {
 
@@ -59,8 +59,9 @@ public class MainFragment extends BaseFragment {
     private ArrayList<String> markersTitle;
     private final static String titleName = "MARKER";
     private Marker mMarker;
-    private GoogleMap googleMap;
+
     private AuthViewModel authViewModel;
+    private MapViewModel mapViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,25 +74,8 @@ public class MainFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
-        readInitiatives();
-        initMapWithInitiatives();
         getCurrentLocation();
-        addInitiativeButton();
-        yourLocation();
-        onMapClick();
-
         return binding.getRoot();
-    }
-
-    private void readInitiatives() {
-        markersLatLng = new ArrayList<>();
-        markersTitle = new ArrayList<>();
-        LatLng odessa = new LatLng(46.482952, 30.712481);
-        LatLng nikolaev = new LatLng(46.96591, 31.9974);
-        markersLatLng.add(odessa);
-        markersLatLng.add(nikolaev);
-        markersTitle.add("Odessa");
-        markersTitle.add("Nikolaev");
     }
 
     private void getCurrentLocation() {
@@ -156,6 +140,16 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
+        mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
+        mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());
+
+        addInitiativeButton();
+        yourLocation();
+        onMapClick();
+        onMarkerClick();
+
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         buildDrawerToggle();
@@ -195,14 +189,13 @@ public class MainFragment extends BaseFragment {
         supportMapFragment.getMapAsync(googleMap -> googleMap.setOnMapClickListener(latLng -> {
 
             String snippet = "Some info here";
-
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(titleName);
             markerOptions.snippet(snippet);
             mMarker = googleMap.addMarker(markerOptions);
-            markersLatLng.add(latLng);
-            markersTitle.add(titleName);
+            mapViewModel.newCoordinates(latLng);
+            mapViewModel.newTitle(titleName);
             //googleMap.clear();
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
             googleMap.addMarker(markerOptions);
@@ -231,22 +224,26 @@ public class MainFragment extends BaseFragment {
         binding = null;
     }
 
-    private void initMapWithInitiatives() {
-        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+    private void onMarkerClick() {
         supportMapFragment.getMapAsync(googleMap -> {
-            for (int i = 0; i < markersLatLng.size(); i++) {
-                for (int j = 0; j < markersTitle.size(); j++) {
-                    googleMap.addMarker(new MarkerOptions().position(markersLatLng.get(i)).title(String.valueOf(markersTitle.get(j))));
-                }
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(markersLatLng.get(i)));
-            }
             googleMap.setOnMarkerClickListener(marker -> {
-                Toast.makeText(getActivity(), "You click on marker!", Toast.LENGTH_SHORT).show();
                 getNavController().navigate(R.id.action_mainFragment_to_currentInitiativeFragment);
                 return false;
             });
         });
+    }
 
+    private void initMapWithInitiatives() {
+        if (markersLatLng != null && markersTitle !=null) {
+            supportMapFragment.getMapAsync(googleMap -> {
+                for (int i = 0; i < markersLatLng.size(); i++) {
+                    for (int j = 0; j < markersTitle.size(); j++) {
+                        googleMap.addMarker(new MarkerOptions().position(markersLatLng.get(i)).title(String.valueOf(markersTitle.get(j))));
+                    }
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(markersLatLng.get(i)));
+                }
+            });
+        }
     }
 
     @Override
@@ -272,22 +269,9 @@ public class MainFragment extends BaseFragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String location = searchView.getQuery().toString();
-                List<Address> addressList = null;
+                mapViewModel.searchFunction(searchView.getQuery().toString());
+                hideKeyboard();
 
-                if (location != null || !location.equals("")) {
-                    Geocoder geocoder = new Geocoder(getActivity());
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Address address = addressList.get(0);
-                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                }
                 return true;
             }
 
