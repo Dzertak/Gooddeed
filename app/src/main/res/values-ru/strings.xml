@@ -56,5 +56,20 @@
     <string name="current_chat">Текущий чат</string>
     <string name="chats">Чаты</string>
     <string name="change_radius_filter">Изменить радиус</string>
+    <string name="edit_current_initiative">Редактировать инициативу</string>
+    <string name="status">Статус</string>
+    <string name="description">Описание</string>
+    <string name="photo_for_the_initiative">Фото инициативы</string>
+    <string name="open_chat_to_discuss">Открыть чат для обсуждения</string>
+    <string name="open_on_map">Открыть на карте</string>
+    <string name="chose_category">Выбрать категорию</string>
+    <string name="chose_status">Выбрать статус</string>
+    <string name="enter_the_description_of_initiative_here">Введите описание инициативы</string>
+    <string name="chose_place_on_map">Выбрать место на карте</string>
+    <string name="confirm_and_proceed">Подтвердить и продолжить</string>
+    <string name="type_to_search">Введите запрос здесь</string>
+    <string name="your_location">Мое местоположение</string>
+    <string name="show_more_info">Показать больше информации</string>
+    <string name="new_initiative">Новая инициатива</string>
 </resources>
 

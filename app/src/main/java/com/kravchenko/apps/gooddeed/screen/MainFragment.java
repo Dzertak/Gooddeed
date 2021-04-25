@@ -74,9 +74,10 @@ public class MainFragment extends BaseFragment {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         readInitiatives();
-        searchFunction();
         initMapWithInitiatives();
         getCurrentLocation();
+        addInitiativeButton();
+        yourLocation();
         onMapClick();
 
         return binding.getRoot();
@@ -116,39 +117,14 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    private void searchFunction() {
-        binding.inputSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                String location = binding.inputSearch.getQuery().toString();
-                List<Address> addressList = new ArrayList<>();
+    private void addInitiativeButton() {
+        binding.addInitiativeFloatingButton.setOnClickListener(v -> getNavController().navigate(R.id.action_mainFragment_to_editInitiativeFragment));
 
-                if (location != null || !location.equals("")) {
-                    Geocoder geocoder = new Geocoder(getActivity());
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Address address = addressList.get(0);
-                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
     }
 
     @SuppressLint("NonConstantResourceId")
     private void buildDrawerToggle() {
-        DrawerLayout drawerLayout = binding.getRoot();
+        DrawerLayout drawerLayout = (DrawerLayout) binding.getRoot();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(),
                 drawerLayout,
                 binding.toolbar,
@@ -184,14 +160,6 @@ public class MainFragment extends BaseFragment {
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         buildDrawerToggle();
 
-
-        //TODO
-        // set values
-        View headerLayout = binding.navView.getHeaderView(0);
-        TextView username = headerLayout.findViewById(R.id.tv_username);
-        ImageView userAvatar = headerLayout.findViewById(R.id.imv_ava);
-        binding.icGps.setOnClickListener(v -> getCurrentLocation());
-
         binding.placeInfo.setOnClickListener(v -> {
             try {
                 if (mMarker.isInfoWindowShown()) {
@@ -204,7 +172,19 @@ public class MainFragment extends BaseFragment {
             }
         });
 
+
+        //TODO
+        // set values
+        View headerLayout = binding.navView.getHeaderView(0);
+        TextView username = headerLayout.findViewById(R.id.tv_username);
+        ImageView userAvatar = headerLayout.findViewById(R.id.imv_ava);
+
     }
+
+    private void yourLocation () {
+        binding.icGps.setOnClickListener(v -> getCurrentLocation());
+    }
+
 
     private void hideKeyboard() {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -262,6 +242,7 @@ public class MainFragment extends BaseFragment {
             }
             googleMap.setOnMarkerClickListener(marker -> {
                 Toast.makeText(getActivity(), "You click on marker!", Toast.LENGTH_SHORT).show();
+                getNavController().navigate(R.id.action_mainFragment_to_currentInitiativeFragment);
                 return false;
             });
         });
@@ -271,6 +252,51 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.filter_menu, menu);
+        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        };
+        menu.findItem(R.id.search_menu).setOnActionExpandListener(onActionExpandListener);
+
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.search_menu).getActionView();
+        searchView.setQueryHint(getString(R.string.type_to_search));
+        searchView.setBackgroundColor(getResources().getColor(R.color.white));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String location = searchView.getQuery().toString();
+                List<Address> addressList = null;
+
+                if (location != null || !location.equals("")) {
+                    Geocoder geocoder = new Geocoder(getActivity());
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Address address = addressList.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
