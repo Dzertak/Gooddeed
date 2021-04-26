@@ -54,9 +54,24 @@
     <string name="weak_password_explanation">Mast be at least one digit, one lover case and upper case letter and no spaces</string>
     <string name="or">OR</string>
     <string name="current_initiative">Сurrent initiative</string>
-    <string name="edit_initiative">Edite initiative</string>
+    <string name="edit_initiative">Edit initiative</string>
     <string name="my_initiatives">my_initiatives</string>
     <string name="current_chat">Current chat</string>
     <string name="chats">chats</string>
     <string name="change_radius_filter">Change radius</string>
+    <string name="edit_current_initiative">Edit current Initiative</string>
+    <string name="status">Status</string>
+    <string name="description">Description</string>
+    <string name="photo_for_the_initiative">Photo for the initiative</string>
+    <string name="open_chat_to_discuss">Open chat to discuss</string>
+    <string name="open_on_map">Open on Map</string>
+    <string name="chose_category">Chose category</string>
+    <string name="chose_status">Chose status</string>
+    <string name="enter_the_description_of_initiative_here">Enter the description of Initiative here</string>
+    <string name="chose_place_on_map">Chose place on Map</string>
+    <string name="confirm_and_proceed">Confirm and proceed</string>
+    <string name="type_to_search">Type here to search</string>
+    <string name="your_location">Your location</string>
+    <string name="show_more_info">Show more info</string>
+    <string name="new_initiative">New Initiative</string>
 </resources>
