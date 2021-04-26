@@ -1,23 +1,20 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseUser;
 import com.kravchenko.apps.gooddeed.repository.AuthRepository;
 import com.kravchenko.apps.gooddeed.util.Resource;
 
-public class AuthViewModel extends AndroidViewModel {
+public class AuthViewModel extends ViewModel {
 
     private final AuthRepository mAuthRepository;
 
-    public AuthViewModel(@NonNull Application application) {
-        super(application);
-        mAuthRepository = new AuthRepository(application);
+    public AuthViewModel() {
+        super();
+        mAuthRepository = new AuthRepository();
     }
 
     public void loginWithEmailAndPassword(String email, String password) {

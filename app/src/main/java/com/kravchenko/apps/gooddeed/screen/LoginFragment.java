@@ -31,9 +31,10 @@ import static android.app.Activity.RESULT_OK;
 
 public class LoginFragment extends BaseFragment {
 
-
+    public static final String SIGNED_OUT_FLAG = "com.kravchenko.apps.gooddeed.IS_SIGNED_OUT";
     private static final int RC_SIGN_IN = 100;
     private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
+    private boolean isSignedOut = false;
     private FragmentLoginBinding binding;
     private AuthViewModel mAuthViewModel;
     private String emailInput;
@@ -64,15 +65,20 @@ public class LoginFragment extends BaseFragment {
         //mBinding.buttonLoginFragmentLogIn.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_mainFragment));
         //navController.navigate(R.id.action_loginFragment_to_mainFragment);
 
+        if (getArguments() != null) {
+            isSignedOut = getArguments().getBoolean(SIGNED_OUT_FLAG);
+        }
+
         mAuthViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
                     // Login successful
-                    //Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
-                    //Log.d(TAG, "Login Successful!");
-                    // adjustBackStack();
-                    getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
+                    if (!isSignedOut) {
+                        Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Login Successful!");
+                        getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
+                    }
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
                     Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
                 } else if (firebaseUser.status.equals(Resource.Status.ERROR)) {
@@ -97,7 +103,7 @@ public class LoginFragment extends BaseFragment {
         }
         mAuthViewModel.loginWithEmailAndPassword(binding.tilEmailHolder.getEditText().getText().toString().trim(),
                 binding.tilPasswordHolder.getEditText().getText().toString().trim());
-        getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
+        isSignedOut = false;
     }
 
     //TODO
@@ -116,6 +122,7 @@ public class LoginFragment extends BaseFragment {
 
     public void onLoginWithGoogleClick() {
         startActivityForResult(mAuthViewModel.loginWithGoogle().getSignInIntent(), RC_SIGN_IN);
+        isSignedOut = false;
     }
 
     public void onLoginWithFacebookClick() {

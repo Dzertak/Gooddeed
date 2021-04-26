@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageView_edit_profile_avatar"
                 android:layout_width="@dimen/profile_avatar_size"
                 android:layout_height="@dimen/profile_avatar_size"
@@ -64,12 +64,12 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_profile_first_name" />
 
             <EditText
-                android:id="@+id/tv_profile_phone"
+                android:id="@+id/tv_profile_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
                 android:layout_marginEnd="@dimen/margin_standard"
-                android:hint="@string/phone_number"
+                android:hint="@string/email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_profile_last_name" />
@@ -83,7 +83,7 @@
                 android:hint="@string/city"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_profile_phone" />
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_email" />
 
             <EditText
                 android:id="@+id/tv_profile_country"

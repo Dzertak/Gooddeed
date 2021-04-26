@@ -144,22 +144,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_line" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_login_fragment_log_in_with_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rounded_view"
-            android:backgroundTint="@color/facebook_blue"
-            android:drawableStart="@drawable/ic_logo_facebook"
-            android:onClick="@{() -> fragment.onLoginWithFacebookClick()}"
-            android:paddingHorizontal="8dp"
-            android:text="@string/log_in_with_facebook"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintTop_toBottomOf="@id/button_login_fragment_log_in_with_google" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/button_login_fragment_log_in_with_facebook"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:layout_marginHorizontal="24dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:background="@drawable/rounded_view"-->
+<!--            android:backgroundTint="@color/facebook_blue"-->
+<!--            android:drawableStart="@drawable/ic_logo_facebook"-->
+<!--            android:onClick="@{() -> fragment.onLoginWithFacebookClick()}"-->
+<!--            android:paddingHorizontal="8dp"-->
+<!--            android:text="@string/log_in_with_facebook"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/button_login_fragment_log_in_with_google" />-->
 
         <TextView
             android:id="@+id/textView"

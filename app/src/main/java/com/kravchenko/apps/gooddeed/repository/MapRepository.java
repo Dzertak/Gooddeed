@@ -3,8 +3,14 @@ package com.kravchenko.apps.gooddeed.repository;
 import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.kravchenko.apps.gooddeed.AppInstance;
+import com.kravchenko.apps.gooddeed.R;
 
 import java.util.ArrayList;
 
@@ -68,4 +74,18 @@ public class MapRepository {
         mTitle.setValue(markersTitle);
     }
 
+    public void signOutUser() {
+        Context context = AppInstance.getAppContext();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(context.getString(R.string.default_web_client_id))  // OAuth 2.0 web client ID
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignIn = GoogleSignIn.getClient(context, gso);
+
+        if (auth.getCurrentUser() != null) {
+            auth.signOut();
+            googleSignIn.signOut();
+        }
+    }
 }

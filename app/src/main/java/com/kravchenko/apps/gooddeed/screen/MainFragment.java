@@ -34,7 +34,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -43,24 +42,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
-import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
 
+import static com.kravchenko.apps.gooddeed.screen.LoginFragment.SIGNED_OUT_FLAG;
+
 public class MainFragment extends BaseFragment {
 
     private static final String TAG = "TAG";
+    private final static int REQUEST_CODE = 101;
+    private final static String titleName = "MARKER";
     private FragmentMainBinding binding;
     private SupportMapFragment supportMapFragment;
     private FusedLocationProviderClient fusedLocation;
-    private final static int REQUEST_CODE = 101;
     private ArrayList<LatLng> markersLatLng;
     private ArrayList<String> markersTitle;
-    private final static String titleName = "MARKER";
     private Marker mMarker;
 
-    private AuthViewModel authViewModel;
     private MapViewModel mapViewModel;
 
     @Override
@@ -73,7 +72,6 @@ public class MainFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
-        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         getCurrentLocation();
         return binding.getRoot();
     }
@@ -129,8 +127,10 @@ public class MainFragment extends BaseFragment {
                     getNavController().navigate(R.id.action_mainFragment_to_myInitiativesFragment);
                     break;
                 case R.id.sign_out_item:
-                    authViewModel.signOutUser();
-                    getNavController().navigate(R.id.action_mainFragment_to_loginFragment);
+                    mapViewModel.signOutUser();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(SIGNED_OUT_FLAG, true);
+                    getNavController().navigate(R.id.action_mainFragment_to_loginFragment, bundle);
                     break;
             }
             return true;
@@ -175,7 +175,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void yourLocation () {
+    private void yourLocation() {
         binding.icGps.setOnClickListener(v -> getCurrentLocation());
     }
 
@@ -234,7 +234,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initMapWithInitiatives() {
-        if (markersLatLng != null && markersTitle !=null) {
+        if (markersLatLng != null && markersTitle != null) {
             supportMapFragment.getMapAsync(googleMap -> {
                 for (int i = 0; i < markersLatLng.size(); i++) {
                     for (int j = 0; j < markersTitle.size(); j++) {
