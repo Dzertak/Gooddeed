@@ -85,11 +85,6 @@ public class LoginFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        hideKeyboard();
-    }
 
     @Override
     public void onDestroyView() {
