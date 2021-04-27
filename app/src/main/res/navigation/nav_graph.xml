@@ -116,6 +116,10 @@
             android:id="@+id/action_editInitiativeFragment_to_currentInitiativeFragment"
             app:destination="@id/currentInitiativeFragment"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_pickInitiativeLocationFragment"
+            app:destination="@id/pickInitiativeLocationFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -154,4 +158,14 @@
         android:name="com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment"
         android:label="@string/change_subscriptions"
         tools:layout="@layout/fragment_subscriptions_settings" />
+    <fragment
+        android:id="@+id/pickInitiativeLocationFragment"
+        android:name="com.kravchenko.apps.gooddeed.PickInitiativeLocationFragment"
+        android:label="fragment_pick_initiative_location"
+        tools:layout="@layout/fragment_pick_initiative_location" >
+        <action
+            android:id="@+id/action_pickInitiativeLocationFragment_to_editInitiativeFragment"
+            app:destination="@id/editInitiativeFragment"
+            app:launchSingleTop="true" />
+    </fragment>
 </navigation>

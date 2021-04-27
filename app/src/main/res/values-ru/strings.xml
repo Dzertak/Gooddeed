@@ -93,5 +93,6 @@
     <string name="tasks_completed">Заданий\nвыполнено</string>
     <string name="zero">0</string>
     <string name="add_category">Добавить категорию</string>
+    <string name="chose_date_and_time">Chose date and time</string>
 </resources>
 

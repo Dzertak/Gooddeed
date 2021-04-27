@@ -3,6 +3,8 @@ package com.kravchenko.apps.gooddeed.screen;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +27,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,32 +44,31 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
+import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.kravchenko.apps.gooddeed.screen.LoginFragment.SIGNED_OUT_FLAG;
-
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     private static final String TAG = "TAG";
-    private final static int REQUEST_CODE = 101;
-    private final static String titleName = "MARKER";
     private FragmentMainBinding binding;
     private SupportMapFragment supportMapFragment;
     private FusedLocationProviderClient fusedLocation;
+    private final static int REQUEST_CODE = 101;
     private ArrayList<LatLng> markersLatLng;
     private ArrayList<String> markersTitle;
+    private final static String titleName = "MARKER";
     private Marker mMarker;
-
+    private GoogleMap googleMap;
+    private AuthViewModel authViewModel;
     private MapViewModel mapViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         setHasOptionsMenu(true);
     }
 
@@ -71,11 +76,12 @@ public class MainFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         getCurrentLocation();
         return binding.getRoot();
     }
 
-    private void getCurrentLocation() {
+    private boolean getCurrentLocation() {
         fusedLocation = LocationServices.getFusedLocationProviderClient(getActivity());
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -92,13 +98,47 @@ public class MainFragment extends BaseFragment {
                     });
                 }
             });
+            return true;
         } else {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         }
+        return false;
     }
 
     private void addInitiativeButton() {
         binding.addInitiativeFloatingButton.setOnClickListener(v -> getNavController().navigate(R.id.action_mainFragment_to_editInitiativeFragment));
+
+    }
+
+    private void searchFunction() {
+        binding.inputSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String location = binding.inputSearch.getQuery().toString();
+                List<Address> addressList = null;
+
+                if (location != null || !location.equals("")) {
+                    Geocoder geocoder = new Geocoder(getActivity());
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Address address = addressList.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        supportMapFragment.getMapAsync(this);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -124,10 +164,8 @@ public class MainFragment extends BaseFragment {
                     getNavController().navigate(R.id.action_mainFragment_to_myInitiativesFragment);
                     break;
                 case R.id.sign_out_item:
-                    mapViewModel.signOutUser();
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean(SIGNED_OUT_FLAG, true);
-                    getNavController().navigate(R.id.action_mainFragment_to_loginFragment, bundle);
+                    authViewModel.signOutUser();
+                    getNavController().navigate(R.id.action_mainFragment_to_loginFragment);
                     break;
             }
             return true;
@@ -146,6 +184,7 @@ public class MainFragment extends BaseFragment {
         yourLocation();
         onMapClick();
         onMarkerClick();
+        searchFunction();
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
@@ -172,7 +211,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void yourLocation() {
+    private void yourLocation () {
         binding.icGps.setOnClickListener(v -> getCurrentLocation());
     }
 
@@ -231,7 +270,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initMapWithInitiatives() {
-        if (markersLatLng != null && markersTitle != null) {
+        if (markersLatLng != null && markersTitle !=null) {
             supportMapFragment.getMapAsync(googleMap -> {
                 for (int i = 0; i < markersLatLng.size(); i++) {
                     for (int j = 0; j < markersTitle.size(); j++) {
@@ -288,5 +327,13 @@ public class MainFragment extends BaseFragment {
             binding.drawerLayout.openDrawer(GravityCompat.END);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        if (!getCurrentLocation()) {
+            LatLng latLng = new LatLng(46.482952, 30.712481);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+        }
     }
 }

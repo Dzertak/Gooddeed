@@ -63,28 +63,17 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/margin_10dp"
-                    app:boxBackgroundMode="outline"
-                    app:boxStrokeWidth="1dp"
-                    android:textColor="@color/black"
-                    app:hintAnimationEnabled="true">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/edit_status"
-                        android:layout_width="match_parent"
-                        android:inputType="textAutoComplete"
-                        android:background="@drawable/search_view"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:hint="@string/chose_status" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+               <TextView
+                   android:id="@+id/date_time_picker_button"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:padding="@dimen/padding_5dp"
+                   android:background="@drawable/search_view"
+                   android:textColor="@color/black"
+                   android:text="@string/chose_date_and_time"
+                   android:layout_margin="@dimen/margin_10dp">
+               </TextView>
 
             </LinearLayout>
 

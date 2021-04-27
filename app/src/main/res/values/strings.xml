@@ -99,5 +99,6 @@
     <string name="tasks_completed">Tasks\ncompleted</string>
     <string name="zero">0</string>
     <string name="add_category">Add category</string>
+    <string name="chose_date_and_time">Chose date and time</string>
 
 </resources>
