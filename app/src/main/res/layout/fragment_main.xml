@@ -46,25 +46,26 @@
 
 
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/ic_gps"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            app:tint="@android:color/white"
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/margin_10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_gps"
+            android:layout_margin="@dimen/margin_standard"
+            app:srcCompat="@drawable/ic_gps"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment"
             android:contentDescription="@string/your_location" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/place_info"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="@dimen/margin_10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            app:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_info"
             app:layout_constraintEnd_toEndOf="@+id/ic_gps"
             app:layout_constraintStart_toStartOf="@+id/ic_gps"
             app:layout_constraintTop_toBottomOf="@+id/ic_gps"
@@ -74,9 +75,10 @@
             android:id="@+id/add_initiative_floatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_20dp"
+            android:layout_margin="@dimen/margin_standard"
+            app:tint="@android:color/white"
             android:clickable="true"
-            android:src="@android:drawable/ic_menu_add"
+            app:srcCompat="@drawable/ic_plus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/google_map"
             android:focusable="true"
