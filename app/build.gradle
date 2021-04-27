@@ -86,4 +86,7 @@ dependencies {
     //flex recycler for subscription
     implementation 'com.google.android:flexbox:2.0.1'
 
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+
 }

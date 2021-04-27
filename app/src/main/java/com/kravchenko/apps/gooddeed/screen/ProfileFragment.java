@@ -88,4 +88,10 @@ public class ProfileFragment extends BaseFragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

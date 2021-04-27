@@ -41,6 +41,7 @@ import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
 import static com.kravchenko.apps.gooddeed.screen.LoginFragment.SIGNED_OUT_FLAG;
 
@@ -61,9 +62,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        hideKeyboard();
         setHasOptionsMenu(true);
     }
 
@@ -76,9 +75,9 @@ public class MainFragment extends BaseFragment {
     }
 
     private void getCurrentLocation() {
-        fusedLocation = LocationServices.getFusedLocationProviderClient(getActivity());
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             Task<Location> task = fusedLocation.getLastLocation();
             task.addOnSuccessListener(location -> {
@@ -93,7 +92,7 @@ public class MainFragment extends BaseFragment {
                 }
             });
         } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         }
     }
 
@@ -138,7 +137,7 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
-        mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
+        mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
         mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
         mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());
 
@@ -178,7 +177,11 @@ public class MainFragment extends BaseFragment {
 
 
     private void hideKeyboard() {
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        try {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -217,8 +220,19 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        if (supportMapFragment != null) supportMapFragment.onDestroyView();
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (supportMapFragment != null) supportMapFragment.onDestroy();
+        if (mMarker != null){
+            mMarker.remove();
+            mMarker = null;
+        }
+        super.onDestroy();
     }
 
     private void onMarkerClick() {

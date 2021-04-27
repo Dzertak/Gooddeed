@@ -15,7 +15,6 @@ public class AppInstance extends Application {
     public void onCreate() {
         super.onCreate();
         contextWeakReference = new WeakReference<>(getApplicationContext());
-        SharedPreferencesManager.init(getApplicationContext());
     }
 
     public static Context getAppContext(){
