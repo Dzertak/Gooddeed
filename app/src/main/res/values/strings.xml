@@ -57,7 +57,6 @@
     <string name="edit_initiative">Edit initiative</string>
     <string name="my_initiatives">my_initiatives</string>
     <string name="current_chat">Current chat</string>
-    <string name="chats">chats</string>
     <string name="change_radius_filter">Change radius</string>
     <string name="edit_current_initiative">Edit current Initiative</string>
     <string name="status">Status</string>
@@ -98,5 +97,7 @@
     <string name="tasks_created">Tasks\ncreated</string>
     <string name="tasks_completed">Tasks\ncompleted</string>
     <string name="zero">0</string>
-
+    <string name="type_a_message">Type a message…</string>
+    <string name="people_in_chat">People in chat:</string>
+    <string name="chats">Chats</string>
 </resources>

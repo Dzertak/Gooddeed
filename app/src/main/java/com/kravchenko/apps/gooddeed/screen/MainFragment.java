@@ -117,6 +117,9 @@ public class MainFragment extends BaseFragment {
                 case R.id.profile_item:
                     getNavController().navigate(R.id.action_mainFragment_to_accountFragment);
                     break;
+                case R.id.chats_item:
+                    getNavController().navigate(R.id.action_mainFragment_to_chatsFragment);
+                    break;
                 case R.id.settings_item:
                     getNavController().navigate(R.id.action_mainFragment_to_settingsFragment);
                     break;

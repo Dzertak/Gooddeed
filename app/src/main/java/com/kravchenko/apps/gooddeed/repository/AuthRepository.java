@@ -63,7 +63,7 @@ public class AuthRepository {
                                         mAuth.getCurrentUser().getEmail(),
                                         "5.0",
                                         null,
-                                        null));
+                                        null,null));
                                 Log.d(TAG, "User logged in successfully");
                             } else {
                                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
@@ -83,7 +83,7 @@ public class AuthRepository {
                                         mAuth.getCurrentUser().getEmail(),
                                         "5.0",
                                         null,
-                                        null));
+                                        null,null));
                             } else {
                                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
                                 Log.w(TAG, "Registration failure: " + task.getException());
@@ -108,7 +108,8 @@ public class AuthRepository {
                                 mAuth.getCurrentUser().getEmail(),
                                 "5.0",
                                 null,
-                                mAuth.getCurrentUser().getPhotoUrl().toString()));
+                                mAuth.getCurrentUser().getPhotoUrl().toString(),
+                                null));
                     } else {
                         mUser.setValue(Resource.error(authResultTask.getException().getMessage(), null));
                         Log.w(TAG, "Sign in with credential: failure" + authResultTask.getException());

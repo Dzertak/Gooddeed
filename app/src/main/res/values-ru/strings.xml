@@ -34,7 +34,7 @@
     <string name="settings">Настройки</string>
     <string name="search">Поиск</string>
     <string name="profile">Профиль</string>
-    <string name="invalid_email_explanation">Введите коректный имэйл</string>
+    <string name="invalid_email_explanation">Введите корректный имэйл</string>
     <string name="password_mismatch">Пароли не совпадают</string>
     <string name="navigation_drawer_open">Открыть шторку навигации</string>
     <string name="logout">Выйти</string>
@@ -45,13 +45,13 @@
     <string name="initiative">Инициативы</string>
     <string name="period_realization">Срок проведения</string>
     <string name="performer_initiative">Исполнитель\\Инициатива</string>
-    <string name="weak_password_explanation">Должена быть как минимум одна цифра, одна буква верхнего и нижнего регистра, без пробелов.</string>
+    <string name="weak_password_explanation">Должна быть как минимум одна цифра, одна буква верхнего и нижнего регистра, без пробелов.</string>
     <string name="radius">Радиус</string>
     <string name="category">Категория</string>
     <string name="navigation_drawer_close">Закрыть шторку навигации</string>
     <string name="your_search_request_here">Ваш поисковый запрос здесь</string>
     <string name="current_initiative">Текущая инициатива</string>
-    <string name="edit_initiative">Правитьинициативу</string>
+    <string name="edit_initiative">Править инициативу</string>
     <string name="my_initiatives">Мои инициативы</string>
     <string name="current_chat">Текущий чат</string>
     <string name="chats">Чаты</string>
@@ -92,5 +92,7 @@
     <string name="tasks_created">Заданий\nсоздано</string>
     <string name="tasks_completed">Заданий\nвыполнено</string>
     <string name="zero">0</string>
+    <string name="type_a_message">Введите сообщение...</string>
+    <string name="people_in_chat">Людей в чате:</string>
 </resources>
 

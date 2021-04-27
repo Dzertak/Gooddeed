@@ -52,8 +52,12 @@ public class CurrentInitiativeFragment extends Fragment {
         NavigationUI.setupWithNavController(binding.toolbar, Navigation.findNavController(view));
 
         binding.openMapButton.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_mainFragment));
-        binding.openChatButton.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_currentChatFragment));
 
+        //TODO (from Dima Sukhov) here we need to get id of current initiative from database and put it into Bundle
+        Bundle args = new Bundle();
+        String initiativeId = "TODO"; //TODO
+        args.putString("initiative_id",initiativeId);
+        binding.openChatButton.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_currentChatFragment,args));
     }
 
     @Override

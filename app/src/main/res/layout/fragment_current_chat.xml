@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".screen.CurrentChatFragment">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout_mainFragment"
         android:layout_width="match_parent"
@@ -13,11 +14,95 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_current_chat"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/current_chatroom_logo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/photogeo" />
+
+                <TextView
+                    android:id="@+id/tv_chatroom_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_standard"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize_standard"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tv_members"
+                    app:layout_constraintStart_toEndOf="@id/current_chatroom_logo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Initiative name" />
+
+                <TextView
+                    android:id="@+id/tv_members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_standard"
+                    android:textSize="@dimen/textsize_little"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/current_chatroom_logo"
+                    app:layout_constraintTop_toBottomOf="@id/tv_chatroom_name"
+                    tools:text="4 people in chat" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="@dimen/margin_little"
+        android:id="@+id/recycler_messages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/et_type_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_middle"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/type_a_message"
+            android:inputType="textPersonName" />
+
+        <ImageButton
+            android:id="@+id/btn_add_file"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_middle"
+            android:background="@drawable/ic_add_file" />
+
+        <ImageButton
+            android:id="@+id/btn_send_message"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_middle"
+            android:background="@drawable/ic_send" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
