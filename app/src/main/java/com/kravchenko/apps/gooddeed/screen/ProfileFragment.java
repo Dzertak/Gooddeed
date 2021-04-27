@@ -22,6 +22,9 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfileFragment extends BaseFragment {
     private FragmentProfileBinding binding;
 
@@ -43,8 +46,16 @@ public class ProfileFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
-        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext());
-        //binding.recyclerViewSubscriptions.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        //for test
+        List<String> subscriptions = new ArrayList<>();
+        subscriptions.add("Уборка територий");
+        subscriptions.add("Массаж");
+        subscriptions.add("Ремонт техники");
+        subscriptions.add("Иностранные языки");
+        subscriptions.add("Услуги психолога или психотерапевта");
+        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), subscriptions);
+        //
+
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -76,5 +87,11 @@ public class ProfileFragment extends BaseFragment {
                 //TODO
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

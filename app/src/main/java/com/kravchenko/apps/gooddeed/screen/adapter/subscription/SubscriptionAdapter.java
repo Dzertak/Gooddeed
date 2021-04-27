@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,30 +19,50 @@ import java.util.List;
 
 public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private Context context;
+    private final Context context;
     private List<String> subscriptions = new ArrayList<>();
+    private static final int SUBSCRIPTION_TYPE = 0;
+    private static final int SUBSCRIPTION_ADD_TYPE = 1;
 
 
-    public SubscriptionAdapter(Context context) {
+    public SubscriptionAdapter(Context context, List<String> subscriptions) {
         this.context = context;
-        subscriptions.add("Уборка територий");
-        subscriptions.add("Массаж");
-        subscriptions.add("Ремонт техники");
-        subscriptions.add("Иностранные языки");
-        subscriptions.add("Услуги психолога или психотерапевта");
+        this.subscriptions = subscriptions;
+        //it's for make last item for adding new category
+        subscriptions.add("");
     }
+
+    public void setSubscriptions(List<String> subscriptions) {
+        this.subscriptions = subscriptions;
+        //it's for make last item for adding new category
+        subscriptions.add("");
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_subscription, parent, false);
-        return new SubscriptionAdapter.ViewHolder(view);
+        if (viewType == SUBSCRIPTION_TYPE){
+            return new SubscriptionAdapter.SubViewHolder(inflater.inflate(R.layout.item_subscription, parent, false));
+        } else return new SubscriptionAdapter.SubAddViewHolder(inflater.inflate(R.layout.item_subscription_add, parent, false));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position != subscriptions.size()-1 ? SUBSCRIPTION_TYPE : SUBSCRIPTION_ADD_TYPE;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ViewHolder viewHolderSub = (ViewHolder) holder;
-        viewHolderSub.textViewTitle.setText(subscriptions.get(position));
+        int viewType = getItemViewType(position);
+        if (viewType == SUBSCRIPTION_TYPE){
+            SubViewHolder viewHolderSub = (SubViewHolder) holder;
+            viewHolderSub.textViewTitle.setText(subscriptions.get(position));
+        } else {
+            SubAddViewHolder viewHolderSub = (SubAddViewHolder) holder;
+            viewHolderSub.textViewAdd.setOnClickListener(t -> Toast.makeText(context, "Add Category", Toast.LENGTH_SHORT).show());
+        }
     }
 
     @Override
@@ -49,13 +70,22 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return subscriptions.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    private static class SubViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
 
-        public ViewHolder(@NonNull View itemView) {
+        public SubViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.text_view_subscription_title);
 
+        }
+    }
+
+    private static class SubAddViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewAdd;
+
+        public SubAddViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewAdd = itemView.findViewById(R.id.text_view_subscription_add);
         }
     }
 }

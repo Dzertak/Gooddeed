@@ -63,7 +63,7 @@ public class LoginFragment extends BaseFragment {
             isSignedOut = getArguments().getBoolean(SIGNED_OUT_FLAG);
         }
 
-        mAuthViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        mAuthViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {

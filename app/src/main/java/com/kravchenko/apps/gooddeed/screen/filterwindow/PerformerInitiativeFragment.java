@@ -28,4 +28,10 @@ public class PerformerInitiativeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

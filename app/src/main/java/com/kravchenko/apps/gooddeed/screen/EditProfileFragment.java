@@ -45,7 +45,7 @@ public class EditProfileFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
-        mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         mViewModel.getUser().observe(getViewLifecycleOwner(), firestoreUser -> {
             if (firestoreUser.data != null && firestoreUser.status.equals(Resource.Status.SUCCESS)) {
@@ -77,5 +77,11 @@ public class EditProfileFragment extends BaseFragment {
             //TODO
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
