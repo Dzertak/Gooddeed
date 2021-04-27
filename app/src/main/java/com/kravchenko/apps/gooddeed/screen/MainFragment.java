@@ -3,8 +3,6 @@ package com.kravchenko.apps.gooddeed.screen;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 
@@ -90,7 +86,6 @@ public class MainFragment extends BaseFragment {
                         markerCurrentLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                         googleMap.addMarker(markerCurrentLocation);
-
                     });
                 }
             });
@@ -101,7 +96,6 @@ public class MainFragment extends BaseFragment {
 
     private void addInitiativeButton() {
         binding.addInitiativeFloatingButton.setOnClickListener(v -> getNavController().navigate(R.id.action_mainFragment_to_editInitiativeFragment));
-
     }
 
     @SuppressLint("NonConstantResourceId")

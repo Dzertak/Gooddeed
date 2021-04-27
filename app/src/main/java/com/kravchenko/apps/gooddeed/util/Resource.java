@@ -35,7 +35,7 @@ public class Resource<T> {
     private Resource(@NonNull Status status, @Nullable T data, @Nullable Object message) {
         this.status = status;
         this.data = data;
-        if(message!=null) {
+        if (message != null) {
             if (message instanceof String) this.message = (String) message;
             else if (message instanceof Integer) this.messageRes = (Integer) message;
         }
@@ -67,6 +67,6 @@ public class Resource<T> {
 
     @Nullable
     public String getMessage(Context context) {
-        return message!=null && !message.isEmpty() ? message : (messageRes!=null ? context.getString(messageRes) : context.getString(R.string.default_error_msg));
+        return message != null && !message.isEmpty() ? message : (messageRes != null ? context.getString(messageRes) : context.getString(R.string.default_error_msg));
     }
 }

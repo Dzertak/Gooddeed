@@ -71,5 +71,23 @@
     <string name="your_location">Мое местоположение</string>
     <string name="show_more_info">Показать больше информации</string>
     <string name="new_initiative">Новая инициатива</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="confirm_password">Подтвердить пароль</string>
+    <string name="change_password">Сменить пароль</string>
+    <string name="new_email">Новый имейл</string>
+    <string name="app_slogan">Сделал дело - гуляй смело!</string>
+    <string name="radius_setting_explanation">Радиус в диапазоне которого вы сможете рассматривать уведомления</string>
+    <string name="apply_changes">подтвердить изменения</string>
+    <string name="account">Аккаунт</string>
+    <string name="update">Обновить</string>
+    <string name="change_your_subscriptions">Измените свои подписки</string>
+    <string name="synchronization">"Синхронизация "</string>
+    <string name="set_app_update_rate">Установить частоту обновления приложения</string>
+    <string name="subscriptions">"Подписки  "</string>
+    <string name="change_your_password">Изменить пароль</string>
+    <string name="change_your_email">Измените свой адрес электронной почты</string>
+    <string name="change_email">Изменить e-mail</string>
+    <string name="do_not_disturb">Hе беспокоить</string>
+    <string name="mute_notifications">Отключить уведомления</string>
 </resources>
 

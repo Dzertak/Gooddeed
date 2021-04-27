@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,14 +38,7 @@ public class LoginFragment extends BaseFragment {
     private boolean isSignedOut = false;
     private FragmentLoginBinding binding;
     private AuthViewModel mAuthViewModel;
-    private String emailInput;
-    private String passwordInput;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -92,9 +86,19 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        hideKeyboard();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void hideKeyboard() {
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     public void onLoginClick() {
@@ -110,8 +114,9 @@ public class LoginFragment extends BaseFragment {
     //To enable password validation, you need to uncomment the check in the validatePassword()
     // method in InputValidator
     private boolean validateInput() {
-        emailInput = binding.tilEmailHolder.getEditText().getText().toString().trim();
-        passwordInput = binding.tilPasswordHolder.getEditText().getText().toString().trim();
+        String emailInput = binding.tilEmailHolder.getEditText().getText().toString().trim();
+        String passwordInput = binding.tilPasswordHolder.getEditText().getText().toString().trim();
+
         String emailError = InputValidator.validateEmail(emailInput);
         String passwordError = InputValidator.validatePassword(passwordInput);
 

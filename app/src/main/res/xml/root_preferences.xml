@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:icon="@drawable/ic_profile"
+        app:title="@string/account">
+        <Preference
+            android:summary="@string/change_your_email"
+            app:key="email_pref"
+            app:title="@string/email" />
+        <Preference
+            android:summary="@string/change_your_password"
+            app:key="password_pref"
+            app:title="@string/password" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:icon="@drawable/ic_update"
+        app:title="@string/update">
+        <Preference
+            android:summary="@string/change_your_subscriptions"
+            android:title="@string/subscriptions"
+            app:key="subscriptions_pref" />
+        <Preference
+            android:summary="@string/set_app_update_rate"
+            android:title="@string/synchronization"
+            app:key="synchronization_pref" />
+        <CheckBoxPreference
+            android:summary="@string/mute_notifications"
+            app:defaultValue="false"
+            app:key="notifications_pref"
+            app:title="@string/do_not_disturb" />
+    </PreferenceCategory>
+</PreferenceScreen>

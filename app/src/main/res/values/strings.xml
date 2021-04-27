@@ -53,7 +53,7 @@
     <string name="invalid_email_explanation">Please enter a valid e-mail address</string>
     <string name="weak_password_explanation">Mast be at least one digit, one lover case and upper case letter and no spaces</string>
     <string name="or">OR</string>
-    <string name="current_initiative">Сurrent initiative</string>
+    <string name="current_initiative">Current initiative</string>
     <string name="edit_initiative">Edit initiative</string>
     <string name="my_initiatives">my_initiatives</string>
     <string name="current_chat">Current chat</string>
@@ -74,4 +74,25 @@
     <string name="your_location">Your location</string>
     <string name="show_more_info">Show more info</string>
     <string name="new_initiative">New Initiative</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="new_password">New password</string>
+    <string name="apply_changes">apply changes</string>
+    <string name="change_password">"Change Password "</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_email">New e-mail</string>
+    <string name="change_email">Change e-mail</string>
+    <string name="change_your_email">Change your Email</string>
+    <string name="change_your_password">Change your Password</string>
+    <string name="account">Account</string>
+    <string name="update">Update</string>
+    <string name="subscriptions">Subscriptions</string>
+    <string name="change_your_subscriptions">Change your subscriptions</string>
+    <string name="synchronization">Synchronization</string>
+    <string name="set_app_update_rate">Set app update rate</string>
+    <string name="app_slogan">When the work is done, there \'s time for fun.</string>
+    <string name="radius_setting_explanation">Set the radius within which you want to view notifications </string>
+    <string name="do_not_disturb">Do not disturb</string>
+    <string name="mute_notifications">Mute Notifications</string>
+    <string name="change_subscriptions">Change subscriptions</string>
+    <string name="change_synchronization">Change synchronization</string>
 </resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sample="http://schemas.android.com/tools">
+    <PreferenceCategory android:title="@string/subscriptions">
+        <SeekBarPreference
+            android:key="radius_pref"
+            android:summary="@string/radius_setting_explanation"
+            app:title="@string/radius"
+
+            sample:msbp_interval="5"
+            sample:msbp_maxValue="500"
+            sample:msbp_measurementUnit="meters"
+            sample:msbp_minValue="0"/>
+        <Preference
+            android:title="@string/category"
+            android:summary=""
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

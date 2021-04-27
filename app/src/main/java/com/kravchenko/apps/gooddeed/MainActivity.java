@@ -10,8 +10,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // for check
-        // NavController navController = Navigation.findNavController(this, R.id.fragment);
-        // navController.navigate(R.id.action_loginFragment_to_mainFragment);
     }
 }

@@ -37,7 +37,7 @@ public class FilterFragmentMain extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFilterMainBinding.inflate(inflater, container, false);
         return binding.getRoot();
