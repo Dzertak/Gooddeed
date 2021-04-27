@@ -79,7 +79,7 @@
     <string name="radius_setting_explanation">Радиус в диапазоне которого вы сможете рассматривать уведомления</string>
     <string name="apply_changes">подтвердить изменения</string>
     <string name="account">Аккаунт</string>
-    <string name="update">Обновить</string>
+    <string name="update">Уведомления</string>
     <string name="change_your_subscriptions">Измените свои подписки</string>
     <string name="synchronization">"Синхронизация "</string>
     <string name="set_app_update_rate">Установить частоту обновления приложения</string>
@@ -89,5 +89,8 @@
     <string name="change_email">Изменить e-mail</string>
     <string name="do_not_disturb">Hе беспокоить</string>
     <string name="mute_notifications">Отключить уведомления</string>
+    <string name="tasks_created">Заданий\nсоздано</string>
+    <string name="tasks_completed">Заданий\nвыполнено</string>
+    <string name="zero">0</string>
 </resources>
 

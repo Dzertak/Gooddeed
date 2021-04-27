@@ -84,7 +84,7 @@
     <string name="change_your_email">Change your Email</string>
     <string name="change_your_password">Change your Password</string>
     <string name="account">Account</string>
-    <string name="update">Update</string>
+    <string name="update">Notifications</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="change_your_subscriptions">Change your subscriptions</string>
     <string name="synchronization">Synchronization</string>
@@ -95,4 +95,8 @@
     <string name="mute_notifications">Mute Notifications</string>
     <string name="change_subscriptions">Change subscriptions</string>
     <string name="change_synchronization">Change synchronization</string>
+    <string name="tasks_created">Tasks\ncreated</string>
+    <string name="tasks_completed">Tasks\ncompleted</string>
+    <string name="zero">0</string>
+
 </resources>
