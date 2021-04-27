@@ -83,4 +83,7 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
+    //flex recycler for subscription
+    implementation 'com.google.android:flexbox:2.0.1'
+
 }

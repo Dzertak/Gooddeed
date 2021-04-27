@@ -13,9 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
+import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
 
 public class ProfileFragment extends BaseFragment {
     private FragmentProfileBinding binding;
@@ -38,6 +43,14 @@ public class ProfileFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
+        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext());
+        //binding.recyclerViewSubscriptions.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        binding.recyclerViewSubscriptions.setLayoutManager(layoutManager);
+
 
 //        RatingBar ratingBar = view.findViewById(R.id.rating_bar);
 //        ratingBar.setRating(4.3f);

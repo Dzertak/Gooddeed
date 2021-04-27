@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen.filterwindow.adapter;
+package com.kravchenko.apps.gooddeed.screen.adapter.filter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,7 +29,7 @@ public class MainFilterRecyclerViewAdapter extends RecyclerView.Adapter<MainFilt
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.filter_list_item, parent, false);
+        View view = inflater.inflate(R.layout.item_filter_list, parent, false);
         return new MainFilterRecyclerViewAdapter.ViewHolder(view);
     }
 

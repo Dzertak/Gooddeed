@@ -133,23 +133,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
                 android:layout_marginTop="@dimen/margin_standard"
-                android:text="@string/categories"
+                android:layout_marginBottom="16dp"
+                android:text="@string/subscriptions"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsize_standard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearlayout_profile_rating" />
 
-            <TextView
-                android:id="@+id/tv_categories"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_subscriptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_standard"
-                android:paddingEnd="@dimen/padding_standard"
-                android:textSize="@dimen/textsize_little"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_categories_title"
-                tools:text="Мобильная разработка, волонтер, учитель..." />
+                tools:listitem="@layout/item_subscription"
+                />
+
+<!--            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_categories"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingStart="@dimen/padding_standard"-->
+<!--                android:paddingEnd="@dimen/padding_standard"-->
+<!--                android:textSize="@dimen/textsize_little"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_categories_title"-->
+<!--                tools:text="Мобильная разработка, волонтер, учитель..." />-->
 
 <!--            <LinearLayout-->
 <!--                android:id="@+id/linear_layout_statistics"-->
@@ -211,7 +224,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsize_standard"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_categories" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_subscriptions" />
 
             <TextView
                 android:id="@+id/tv_about"
@@ -244,7 +257,7 @@
                 android:layout_marginStart="@dimen/margin_standard"
                 android:layout_marginEnd="@dimen/margin_standard"
                 app:layout_constraintTop_toBottomOf="@id/tv_reviews_title"
-                tools:listitem="@layout/review_item" />
+                tools:listitem="@layout/item_review" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

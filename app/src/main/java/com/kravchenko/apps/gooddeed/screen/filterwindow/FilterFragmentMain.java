@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Filter;
 import com.kravchenko.apps.gooddeed.databinding.FragmentFilterMainBinding;
-import com.kravchenko.apps.gooddeed.screen.filterwindow.adapter.MainFilterRecyclerViewAdapter;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.MainFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.util.annotation.FilterName;
 
 import java.util.ArrayList;
