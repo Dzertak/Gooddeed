@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
@@ -168,7 +169,6 @@ public class MainFragment extends BaseFragment {
         View headerLayout = binding.navView.getHeaderView(0);
         TextView username = headerLayout.findViewById(R.id.tv_username);
         ImageView userAvatar = headerLayout.findViewById(R.id.imv_ava);
-
     }
 
     private void yourLocation() {
@@ -180,7 +180,8 @@ public class MainFragment extends BaseFragment {
         try {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         } catch (Exception e){
-            e.printStackTrace();
+            //it's for test. Need make listener class for errors
+            FirebaseCrashlytics.getInstance().recordException(e);
         }
     }
 
