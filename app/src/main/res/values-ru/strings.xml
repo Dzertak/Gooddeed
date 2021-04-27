@@ -92,5 +92,6 @@
     <string name="tasks_created">Заданий\nсоздано</string>
     <string name="tasks_completed">Заданий\nвыполнено</string>
     <string name="zero">0</string>
+    <string name="add_category">Добавить категорию</string>
 </resources>
 

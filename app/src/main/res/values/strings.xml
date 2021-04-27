@@ -98,5 +98,6 @@
     <string name="tasks_created">Tasks\ncreated</string>
     <string name="tasks_completed">Tasks\ncompleted</string>
     <string name="zero">0</string>
+    <string name="add_category">Add category</string>
 
 </resources>
