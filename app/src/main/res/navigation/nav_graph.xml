@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.ProfileFragment"
-        android:label="@string/profile_name"
+        android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_accountFragment_to_editAccountFragment"

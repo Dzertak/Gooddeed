@@ -2,31 +2,38 @@ package com.kravchenko.apps.gooddeed.screen;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
+import com.kravchenko.apps.gooddeed.util.Resource;
+import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFragment extends BaseFragment {
+
     private FragmentProfileBinding binding;
+    private ProfileViewModel mViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,7 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         //for test
@@ -61,9 +69,36 @@ public class ProfileFragment extends BaseFragment {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         binding.recyclerViewSubscriptions.setLayoutManager(layoutManager);
 
+        mViewModel.getUser().observe(getViewLifecycleOwner(), firestoreUser -> {
+            if (firestoreUser.status.equals(Resource.Status.SUCCESS)) {
+                if (firestoreUser.data.getFirstName() != null
+                        && firestoreUser.data.getLastName() != null
+                        && !TextUtils.isEmpty(firestoreUser.data.getFirstName())
+                        && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
+                    String nameAndSurname = firestoreUser.data.getFirstName() + " " + firestoreUser.data.getLastName();
+                    binding.toolbar.setTitle(nameAndSurname);
+                } else if (firestoreUser.data.getFirstName() != null && !TextUtils.isEmpty(firestoreUser.data.getFirstName())) {
+                    binding.toolbar.setTitle(firestoreUser.data.getFirstName());
+                } else if (firestoreUser.data.getLastName() != null && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
+                    binding.toolbar.setTitle(firestoreUser.data.getLastName());
+                }
 
-//        RatingBar ratingBar = view.findViewById(R.id.rating_bar);
-//        ratingBar.setRating(4.3f);
+                if (firestoreUser.data.getDescription() != null) {
+                    binding.tvAbout.setText(firestoreUser.data.getDescription());
+                }
+
+                Glide.with(this)
+                        .load(firestoreUser.data.getImageUrl())
+                        .fallback(R.drawable.no_photo)
+                        .into(binding.imageViewProfileAvatar);
+                binding.ratingBar.setRating(Float.parseFloat(firestoreUser.data.getRate()));
+                binding.tvProfileRating.setText(getString(R.string.title_rating, Float.parseFloat(firestoreUser.data.getRate())));
+            } else if (firestoreUser.status.equals(Resource.Status.LOADING)) {
+                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
+            } else if (firestoreUser.status.equals(Resource.Status.ERROR)) {
+                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

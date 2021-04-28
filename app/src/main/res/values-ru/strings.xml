@@ -10,7 +10,7 @@
     <string name="default_error_msg">Что-то пошло не так :(</string>
     <string name="share">Поделиться</string>
     <string name="suggest_initiative">Предложить инициативу</string>
-    <string name="profile_name">Имя профиля</string>
+    <string name="title_profile">Профиль</string>
     <string name="statistics_by_initiatives">Статистика по инициативам:</string>
     <string name="created">Создано:</string>
     <string name="active">Активных:</string>
@@ -92,6 +92,7 @@
     <string name="tasks_created">Заданий\nсоздано</string>
     <string name="tasks_completed">Заданий\nвыполнено</string>
     <string name="zero">0</string>
+    <string name="title_rating">Рейтинг: %.1f</string>
     <string name="type_a_message">Введите сообщение…</string>
     <string name="people_in_chat">Людей в чате:</string>
     <string name="add_category">Добавить категорию</string>
@@ -106,5 +107,6 @@
     <string name="loading">"Загружается..."</string>
     <string name="updating_data">"Данные обновляются  "</string>
     <string name="email_changed_successfully">"Электронная почта успешно изменена  "</string>
+    <string name="hint_about_me">О себе</string>
 </resources>
 

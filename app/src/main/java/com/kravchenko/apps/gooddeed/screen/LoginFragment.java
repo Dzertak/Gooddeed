@@ -3,7 +3,6 @@ package com.kravchenko.apps.gooddeed.screen;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ public class LoginFragment extends BaseFragment {
 
     public static final String SIGNED_OUT_FLAG = "com.kravchenko.apps.gooddeed.IS_SIGNED_OUT";
     private static final int RC_SIGN_IN = 100;
-    private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
     private boolean isSignedOut = false;
     private FragmentLoginBinding binding;
     private AuthViewModel mAuthViewModel;
@@ -68,8 +66,6 @@ public class LoginFragment extends BaseFragment {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
                     if (!isSignedOut) {
-                        Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "Login Successful!");
                         getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
                     }
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
@@ -135,11 +131,9 @@ public class LoginFragment extends BaseFragment {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d(TAG, "Firebase Auth with Google: " + account.getEmail());
                 mAuthViewModel.setIdToken(account.getIdToken());
             } catch (ApiException e) {
                 // Google sign-in failed
-                Log.w(TAG, "Google sign-in failed: " + e);
             }
         }
     }

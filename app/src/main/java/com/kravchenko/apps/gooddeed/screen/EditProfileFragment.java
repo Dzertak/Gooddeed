@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentEditProfileBinding;
 import com.kravchenko.apps.gooddeed.util.Resource;
-import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
 
 public class EditProfileFragment extends BaseFragment {
@@ -45,23 +45,30 @@ public class EditProfileFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
-        mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
         mViewModel.getUser().observe(getViewLifecycleOwner(), firestoreUser -> {
-            if (firestoreUser.data != null && firestoreUser.status.equals(Resource.Status.SUCCESS)) {
+            if (firestoreUser.status.equals(Resource.Status.SUCCESS)) {
                 if (firestoreUser.data.getFirstName() != null && firestoreUser.data.getLastName() != null) {
-                    binding.tvProfileFirstName.setText(firestoreUser.data.getFirstName());
-                    binding.tvProfileLastName.setText(firestoreUser.data.getLastName());
+                    binding.etProfileFirstName.setText(firestoreUser.data.getFirstName());
+                    binding.etProfileLastName.setText(firestoreUser.data.getLastName());
                 }
-                if (firestoreUser.data.getImageUrl() != null) {
-                    Glide.with(this)
-                            .load(firestoreUser.data.getImageUrl())
-                            .into(binding.imageViewEditProfileAvatar);
+
+                Glide.with(this)
+                        .load(firestoreUser.data.getImageUrl())
+                        .fallback(R.drawable.no_photo)
+                        .into(binding.ivProfileAvatar);
+
+                if (firestoreUser.data.getDescription() != null) {
+                    binding.etDescription.setText(firestoreUser.data.getDescription());
                 }
-                binding.tvProfileEmail.setText(firestoreUser.data.getEmail());
+                binding.etProfileEmail.setText(firestoreUser.data.getEmail());
+            } else if (firestoreUser.status.equals(Resource.Status.LOADING)) {
+                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
+            } else if (firestoreUser.status.equals(Resource.Status.ERROR)) {
+                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -74,7 +81,12 @@ public class EditProfileFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save_settings) {
-            //TODO
+            mViewModel.updateUser(
+                    binding.etProfileFirstName.getText().toString().trim(),
+                    binding.etProfileLastName.getText().toString().trim(),
+                    null,
+                    binding.etProfileEmail.getText().toString().trim(),
+                    binding.etDescription.getText().toString().trim());
         }
         return super.onOptionsItemSelected(item);
     }
