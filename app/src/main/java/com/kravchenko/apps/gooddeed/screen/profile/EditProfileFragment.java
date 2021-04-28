@@ -53,7 +53,7 @@ public class EditProfileFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
-        mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         //for test
         List<String> subscriptions = new ArrayList<>();

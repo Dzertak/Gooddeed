@@ -66,7 +66,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private final static String titleName = "MARKER";
     private Marker mMarker;
     private GoogleMap googleMap;
-    private AuthViewModel authViewModel;
     private MapViewModel mapViewModel;
 
     @Override
@@ -80,7 +79,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         getCurrentLocation();
         return binding.getRoot();
     }
@@ -171,7 +169,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                     getNavController().navigate(R.id.action_mainFragment_to_myInitiativesFragment);
                     break;
                 case R.id.sign_out_item:
-                    authViewModel.signOutUser();
+                    mapViewModel.signOutUser();
                     getNavController().navigate(R.id.action_mainFragment_to_loginFragment);
                     break;
             }
