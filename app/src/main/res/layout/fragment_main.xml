@@ -48,17 +48,15 @@
         <SearchView
             android:id="@+id/input_search"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_10dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="36dp"
+            android:layout_margin="@dimen/margin_standard"
             android:background="@drawable/search_view"
-            android:elevation="5dp"
             android:hint="@string/your_search_request_here"
             android:iconifiedByDefault="false"
             android:theme="@style/SearchViewStyle"
+            app:layout_constraintBottom_toTopOf="@+id/place_info"
             app:layout_constraintEnd_toStartOf="@+id/ic_gps"
-            app:layout_constraintStart_toStartOf="@+id/appBarLayout_mainFragment"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment">
 
         </SearchView>

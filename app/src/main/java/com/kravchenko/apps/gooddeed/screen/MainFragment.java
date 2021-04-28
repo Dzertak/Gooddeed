@@ -65,7 +65,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private ArrayList<String> markersTitle;
     private final static String titleName = "MARKER";
     private Marker mMarker;
-    private GoogleMap googleMap;
     private MapViewModel mapViewModel;
 
     @Override
@@ -129,8 +128,13 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                     }
                     Address address = addressList.get(0);
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(@NonNull GoogleMap googleMap) {
+                            googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                        }
+                    });
                 }
                 return false;
             }
@@ -312,37 +316,37 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.filter_menu, menu);
-        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                return true;
-            }
-        };
-        menu.findItem(R.id.search_menu).setOnActionExpandListener(onActionExpandListener);
-
-
-        SearchView searchView = (SearchView) menu.findItem(R.id.search_menu).getActionView();
-        searchView.setQueryHint(getString(R.string.type_to_search));
-        searchView.setBackgroundColor(getResources().getColor(R.color.white));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mapViewModel.searchFunction(searchView.getQuery().toString());
-                hideKeyboard();
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+//        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                return true;
+//            }
+//        };
+//        menu.findItem(R.id.search_menu).setOnActionExpandListener(onActionExpandListener);
+//
+//
+//        SearchView searchView = (SearchView) menu.findItem(R.id.search_menu).getActionView();
+//        searchView.setQueryHint(getString(R.string.type_to_search));
+//        searchView.setBackgroundColor(getResources().getColor(R.color.white));
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                mapViewModel.searchFunction(searchView.getQuery().toString());
+//                hideKeyboard();
+//
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
 
         super.onCreateOptionsMenu(menu, inflater);
     }
