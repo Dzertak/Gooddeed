@@ -31,87 +31,129 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageView_edit_profile_avatar"
+                android:id="@+id/iv_profile_avatar"
                 android:layout_width="@dimen/profile_avatar_size"
                 android:layout_height="@dimen/profile_avatar_size"
-                android:layout_marginTop="@dimen/margin_standard"
+                android:layout_marginVertical="@dimen/margin_standard"
+                app:layout_constraintBottom_toTopOf="@id/et_profile_first_name_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/no_photo" />
 
-            <EditText
-                android:id="@+id/tv_profile_first_name"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_profile_first_name_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:hint="@string/first_name"
-                android:inputType="textPersonName"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                android:layout_marginBottom="@dimen/margin_middle"
+                app:layout_constraintBottom_toTopOf="@id/et_profile_last_name_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView_edit_profile_avatar" />
+                app:layout_constraintTop_toBottomOf="@id/iv_profile_avatar">
 
-            <EditText
-                android:id="@+id/tv_profile_last_name"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_profile_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/first_name"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_profile_last_name_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:hint="@string/last_name"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                android:layout_marginBottom="@dimen/margin_middle"
+                app:layout_constraintBottom_toTopOf="@id/et_profile_email_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_profile_first_name" />
+                app:layout_constraintTop_toBottomOf="@id/et_profile_first_name_layout">
 
-            <EditText
-                android:id="@+id/tv_profile_email"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_profile_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/last_name" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_profile_email_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:hint="@string/email"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                android:layout_marginBottom="@dimen/margin_middle"
+                app:layout_constraintBottom_toTopOf="@id/et_description_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_profile_last_name" />
+                app:layout_constraintTop_toBottomOf="@id/et_profile_last_name_layout">
 
-            <EditText
-                android:id="@+id/tv_profile_city"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/grey"
+                    android:hint="@string/email"
+                    android:inputType="none"
+                    android:focusable="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/tv_profile_city"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/margin_standard"-->
+            <!--                android:layout_marginEnd="@dimen/margin_standard"-->
+            <!--                android:hint="@string/city"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tv_profile_email" />-->
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/tv_profile_country"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/margin_standard"-->
+            <!--                android:layout_marginEnd="@dimen/margin_standard"-->
+            <!--                android:hint="@string/country"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tv_profile_city" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_description_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:hint="@string/city"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                app:counterEnabled="true"
+                app:counterMaxLength="500"
+                app:layout_constraintBottom_toTopOf="@id/my_subscriptions_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_profile_email" />
+                app:layout_constraintTop_toBottomOf="@+id/et_profile_email_layout">
 
-            <EditText
-                android:id="@+id/tv_profile_country"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:hint="@string/country"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_profile_city" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:hint="@string/hint_about_me"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:maxLength="500"
+                    android:maxLines="6"
+                    android:minLines="4"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="horizontal" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/edittext_about"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:gravity="top|left"
-                android:hint="@string/about"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:maxLength="500"
-                android:maxLines="6"
-                android:minLines="4"
-                app:layout_constraintTop_toBottomOf="@+id/tv_profile_country" />
-
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/my_subscriptions_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,9 +162,9 @@
                 android:text="@string/my_subscriptions"
                 android:textSize="@dimen/textsize_standard"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_about" />
+                app:layout_constraintTop_toBottomOf="@+id/et_description_layout" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/my_subscriptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,7 +175,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/my_subscriptions_title"
-                tools:text="@tools:sample/lorem" />
+                tools:text="@tools:sample/lorem[20]" />
 
             <Button
                 android:id="@+id/button_change_subscriptions"
