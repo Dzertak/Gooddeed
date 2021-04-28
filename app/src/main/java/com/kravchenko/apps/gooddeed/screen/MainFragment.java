@@ -85,7 +85,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         return binding.getRoot();
     }
 
-    private void getCurrentLocation() {
+    private boolean getCurrentLocation() {
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)

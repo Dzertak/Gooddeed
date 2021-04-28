@@ -40,9 +40,9 @@ public class ConfirmAuthorizationFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
 
-        if (getArguments() != null) {
-            args = ConfirmAuthorizationFragmentArgs.fromBundle(getArguments()).getChooseDestinations();
-        }
+//        if (getArguments() != null) {
+//            args = ConfirmAuthorizationFragmentArgs.fromBundle(getArguments()).getChooseDestinations();
+//        }
         switch (args) {
             case SettingsFragment.NAV_ARG_EMAIL:
                 binding.tvExplanation.setText(R.string.change_email_explanation);

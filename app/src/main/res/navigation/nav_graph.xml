@@ -175,7 +175,7 @@
         android:id="@+id/confirmAuthorizationFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.settings.ConfirmAuthorizationFragment"
         android:label="fragment_confirm_authorization"
-        tools:layout="@layout/fragment_confirm_authorization">
+        tools:layout="@layout/fragment_confirm_authorization"/>
         <action
             android:id="@+id/action_confirmAuthorizationFragment_to_passwordSettingsFragment"
             app:destination="@id/passwordSettingsFragment"
