@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.screen;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -50,6 +52,7 @@ import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
@@ -69,6 +72,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideKeyboard();
         setHasOptionsMenu(true);
     }
 
@@ -76,15 +80,15 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
-        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         getCurrentLocation();
         return binding.getRoot();
     }
 
-    private boolean getCurrentLocation() {
-        fusedLocation = LocationServices.getFusedLocationProviderClient(getActivity());
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+    private void getCurrentLocation() {
+        fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             Task<Location> task = fusedLocation.getLastLocation();
             task.addOnSuccessListener(location -> {
@@ -100,7 +104,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
             });
             return true;
         } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         }
         return false;
     }
@@ -157,6 +161,9 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                 case R.id.profile_item:
                     getNavController().navigate(R.id.action_mainFragment_to_accountFragment);
                     break;
+                case R.id.chats_item:
+                    getNavController().navigate(R.id.action_mainFragment_to_chatsFragment);
+                    break;
                 case R.id.settings_item:
                     getNavController().navigate(R.id.action_mainFragment_to_settingsFragment);
                     break;
@@ -171,12 +178,18 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
             return true;
         });
     }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
-        mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
+        mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
         mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
         mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());
 
@@ -211,13 +224,18 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     }
 
-    private void yourLocation () {
+    private void yourLocation() {
         binding.icGps.setOnClickListener(v -> getCurrentLocation());
     }
 
 
     private void hideKeyboard() {
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        try {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        } catch (Exception e){
+            //it's for test. Need make listener class for errors
+//            FirebaseCrashlytics.getInstance().recordException(e);
+        }
     }
 
 
@@ -256,8 +274,19 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroyView() {
+        if (supportMapFragment != null) supportMapFragment.onDestroyView();
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (supportMapFragment != null) supportMapFragment.onDestroy();
+        if (mMarker != null){
+            mMarker.remove();
+            mMarker = null;
+        }
+        super.onDestroy();
     }
 
     private void onMarkerClick() {
@@ -328,6 +357,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

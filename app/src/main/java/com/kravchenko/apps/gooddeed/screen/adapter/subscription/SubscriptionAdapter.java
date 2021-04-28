@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private Context context;
+    private final Context context;
     private List<String> subscriptions = new ArrayList<>();
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
@@ -70,7 +70,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return subscriptions.size();
     }
 
-    class SubViewHolder extends RecyclerView.ViewHolder {
+    private static class SubViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
 
         public SubViewHolder(@NonNull View itemView) {
@@ -80,7 +80,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    class SubAddViewHolder extends RecyclerView.ViewHolder {
+    private static class SubAddViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewAdd;
 
         public SubAddViewHolder(@NonNull View itemView) {

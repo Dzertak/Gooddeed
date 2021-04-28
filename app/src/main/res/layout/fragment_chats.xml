@@ -19,6 +19,5 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:titleTextColor="@color/white" />
-
     </com.google.android.material.appbar.AppBarLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,8 @@ package com.kravchenko.apps.gooddeed.database.entity;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
 public class FirestoreUser {
 
     private String userId;
@@ -11,11 +13,12 @@ public class FirestoreUser {
     private String rate;
     private String description;
     private String imageUrl;
+    private ArrayList<ChatforUserWrapper> chats;
 
     public FirestoreUser() {
     }
 
-    public FirestoreUser(String userId, String firstName, String lastName, String email, String rate, String description, String imageUrl) {
+    public FirestoreUser(String userId, String firstName, String lastName, String email, String rate, String description, String imageUrl, ArrayList<ChatforUserWrapper> chats) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,6 +26,7 @@ public class FirestoreUser {
         this.rate = rate;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.chats = chats;
     }
 
     public String getUserId() {
@@ -81,6 +85,14 @@ public class FirestoreUser {
         this.imageUrl = imageUrl;
     }
 
+    public ArrayList<ChatforUserWrapper> getChats() {
+        return chats;
+    }
+
+    public void setChats(ArrayList<ChatforUserWrapper> chats) {
+        this.chats = chats;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -124,5 +136,26 @@ public class FirestoreUser {
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
+    }
+
+    public class ChatforUserWrapper {
+        private String chatId;
+        private String lastMessageId;
+
+        public String getChatId() {
+            return chatId;
+        }
+
+        public void setChatId(String chatId) {
+            this.chatId = chatId;
+        }
+
+        public String getLastMessageId() {
+            return lastMessageId;
+        }
+
+        public void setLastMessageId(String lastMessageId) {
+            this.lastMessageId = lastMessageId;
+        }
     }
 }

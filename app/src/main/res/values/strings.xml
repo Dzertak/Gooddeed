@@ -95,10 +95,20 @@
     <string name="mute_notifications">Mute Notifications</string>
     <string name="change_subscriptions">Change subscriptions</string>
     <string name="change_synchronization">Change synchronization</string>
+    <string name="category_explanation">Set the categories for which you would like to receive notifications.</string>
+    <string name="password_changed_successfully">The password changed successfully!</string>
+    <string name="updating_data">The data is updating</string>
+    <string name="email_changed_successfully">E-mail changes successfully</string>
     <string name="tasks_created">Tasks\ncreated</string>
     <string name="tasks_completed">Tasks\ncompleted</string>
     <string name="zero">0</string>
+    <string name="confirm">confirm</string>
+    <string name="change_password_explanation">To change the password, you need to enter your acting password.</string>
+    <string name="change_email_explanation">To change the e-mail, you need to enter your acting password.</string>
+    <string name="type_a_message">Type a message…</string>
+    <string name="people_in_chat">People in chat:</string>
     <string name="add_category">Add category</string>
     <string name="chose_date_and_time">Chose date and time</string>
+    <string name="loading">Loading...</string>
 
 </resources>

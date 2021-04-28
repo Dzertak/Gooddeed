@@ -4,21 +4,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 
+import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentEmailSettingBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.util.InputValidator;
 import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
+import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
 
 public class EmailSettingFragment extends BaseFragment {
 
     private FragmentEmailSettingBinding binding;
+    private AuthViewModel authViewModel;
+    private String emailInput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +37,8 @@ public class EmailSettingFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
 
@@ -38,22 +46,45 @@ public class EmailSettingFragment extends BaseFragment {
         binding.btnApplyChanges.setOnClickListener(v ->
                 applyChanges()
         );
+
+        authViewModel.getActionMarker().observe(getViewLifecycleOwner(), resource -> {
+            switch (resource.status) {
+                case SUCCESS:
+                    hideNetworkProgressDialog();
+                    Toast.makeText(getContext(), R.string.email_changed_successfully, Toast.LENGTH_SHORT).show();
+                    getNavController().navigate(R.id.action_emailSettingFragment_to_settingsFragment2);
+                    break;
+                case ERROR:
+                    hideNetworkProgressDialog();
+                    Toast.makeText(getContext(), resource.getMessage(getContext()), Toast.LENGTH_LONG).show();
+                    break;
+                case LOADING:
+                    showNetworkProgressDialog();
+                    break;
+            }
+        });
     }
 
     private void applyChanges() {
         if (validateInput()) {
             return;
         }
-        // TODO implements e-mail changes
+        authViewModel.changeEmail(emailInput);
     }
 
     //TODO
     //To enable password validation, you need to uncomment the check in the validatePassword()
     // method in InputValidator
     private boolean validateInput() {
-        String passwordInput = binding.tilEmailHolder.getEditText().getText().toString().trim();
-        String emailError = InputValidator.validateEmail(passwordInput);
+        emailInput = binding.tilEmailHolder.getEditText().getText().toString().trim();
+        String emailError = InputValidator.validateEmail(emailInput);
         binding.tilEmailHolder.setError(emailError);
         return emailError != null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

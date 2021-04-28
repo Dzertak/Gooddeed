@@ -15,6 +15,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.kravchenko.apps.gooddeed.R;
 
 public class SubscriptionsSettingsFragment extends PreferenceFragmentCompat {
+    private static final String PREFERENCE_RADIUS_KEY = "radius_pref";
+    private static final String PREFERENCE_CATEGORY_KEY = "category_pref";
     private NavController navController;
 
     @Override
@@ -34,5 +36,15 @@ public class SubscriptionsSettingsFragment extends PreferenceFragmentCompat {
         Toolbar toolbar = view.findViewById(R.id.toolbar_settings);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
         NavigationUI.setupWithNavController(toolbar, navController);
+
+        findPreference(PREFERENCE_RADIUS_KEY).setOnPreferenceClickListener(preference -> {
+            //TODO
+            return true;
+        });
+
+        findPreference(PREFERENCE_CATEGORY_KEY).setOnPreferenceClickListener(preference -> {
+            navController.navigate(R.id.action_subscriptionsSettingsFragment_to_categoryFilterFragment2);
+            return true;
+        });
     }
 }

@@ -29,4 +29,10 @@ public class MyInitiativesFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
