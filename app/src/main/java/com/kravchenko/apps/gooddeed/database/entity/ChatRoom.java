@@ -1,6 +1,6 @@
 package com.kravchenko.apps.gooddeed.database.entity;
 
-import com.kravchenko.apps.gooddeed.screen.adapter.MessageEntity;
+import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
 import java.util.ArrayList;
 

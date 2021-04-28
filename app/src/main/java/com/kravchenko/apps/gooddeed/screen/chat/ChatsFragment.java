@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

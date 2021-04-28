@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.profile;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -23,6 +23,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
+import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
@@ -61,7 +62,7 @@ public class ProfileFragment extends BaseFragment {
         subscriptions.add("Ремонт техники");
         subscriptions.add("Иностранные языки");
         subscriptions.add("Услуги психолога или психотерапевта");
-        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), subscriptions);
+        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), subscriptions, false);
         //
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());

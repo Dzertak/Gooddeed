@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.ProfileFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile">
         <action
@@ -60,12 +60,12 @@
     </fragment>
     <fragment
         android:id="@+id/editAccountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.EditProfileFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment"
         android:label="@string/edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.ChatsFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.chat.ChatsFragment"
         android:label="@string/chats"
         tools:layout="@layout/fragment_chats">
         <action
@@ -74,12 +74,12 @@
     </fragment>
     <fragment
         android:id="@+id/currentChatFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.CurrentChatFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.chat.CurrentChatFragment"
         android:label="@string/current_chat"
         tools:layout="@layout/fragment_current_chat" />
     <fragment
         android:id="@+id/myInitiativesFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.MyInitiativesFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.MyInitiativesFragment"
         android:label="@string/my_initiatives"
         tools:layout="@layout/fragment_my_initiatives">
         <action
@@ -88,7 +88,7 @@
     </fragment>
     <fragment
         android:id="@+id/currentInitiativeFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.CurrentInitiativeFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.CurrentInitiativeFragment"
         android:label="@string/current_initiative"
         tools:layout="@layout/fragment_current_initiative">
         <action
@@ -105,7 +105,7 @@
     </fragment>
     <fragment
         android:id="@+id/editInitiativeFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.EditInitiativeFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment"
         android:label="@string/edit_initiative"
         tools:layout="@layout/fragment_edit_initiative">
         <action

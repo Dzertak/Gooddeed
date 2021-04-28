@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.initiative;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

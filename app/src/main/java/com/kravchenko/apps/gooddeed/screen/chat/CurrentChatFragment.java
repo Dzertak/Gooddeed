@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.chat;
 
 import android.os.Bundle;
 
@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCurrentChatBinding;
-import com.kravchenko.apps.gooddeed.screen.adapter.MessageAdapter;
-import com.kravchenko.apps.gooddeed.screen.adapter.MessageEntity;
+import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageAdapter;
+import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
 import java.util.ArrayList;
 import java.util.List;

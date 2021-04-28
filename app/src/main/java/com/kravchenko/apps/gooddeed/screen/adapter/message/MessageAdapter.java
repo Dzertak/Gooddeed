@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen.adapter;
+package com.kravchenko.apps.gooddeed.screen.adapter.message;
 
 import android.view.LayoutInflater;
 import android.view.View;

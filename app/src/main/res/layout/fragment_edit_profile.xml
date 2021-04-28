@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screen.EditProfileFragment">
+    tools:context=".screen.profile.EditProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -23,12 +23,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_profile_avatar"
@@ -132,7 +135,7 @@
                 android:layout_marginHorizontal="@dimen/margin_standard"
                 app:counterEnabled="true"
                 app:counterMaxLength="500"
-                app:layout_constraintBottom_toTopOf="@id/my_subscriptions_title"
+                app:layout_constraintBottom_toTopOf="@id/tv_categories_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_profile_email_layout">
@@ -153,52 +156,68 @@
                     android:scrollbars="horizontal" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/my_subscriptions_title"
+            <TextView
+                android:id="@+id/tv_categories_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginTop="@dimen/margin_standard"
-                android:text="@string/my_subscriptions"
+                android:layout_marginTop="@dimen/margin_middle"
+                android:layout_marginBottom="@dimen/margin_standard"
+                android:text="@string/subscriptions"
+                android:textColor="@color/grey"
                 android:textSize="@dimen/textsize_standard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_description_layout" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/my_subscriptions"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_subscriptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginTop="@dimen/margin_little"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:textSize="@dimen/textsize_little"
+                android:layout_marginTop="@dimen/margin_middle"
+                android:layout_marginStart="@dimen/margin_middle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_subscriptions_title"
-                tools:text="@tools:sample/lorem[20]" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_categories_title"
+                tools:listitem="@layout/item_subscription" />
+
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/my_subscriptions_title"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/margin_standard"-->
+<!--                android:layout_marginTop="@dimen/margin_standard"-->
+<!--                android:text="@string/my_subscriptions"-->
+<!--                android:textSize="@dimen/textsize_standard"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/et_description_layout" />-->
+
+
+
+
+<!--            <Button-->
+<!--                android:id="@+id/button_change_subscriptions"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/margin_standard"-->
+<!--                android:layout_marginTop="@dimen/margin_little"-->
+<!--                android:layout_marginEnd="@dimen/margin_standard"-->
+<!--                android:text="@string/change_my_subscriptions"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/til_subscription" />-->
 
             <Button
-                android:id="@+id/button_change_subscriptions"
+                android:id="@+id/btn_remove_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginTop="@dimen/margin_little"
-                android:layout_marginEnd="@dimen/margin_standard"
-                android:text="@string/change_my_subscriptions"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_subscriptions" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                android:layout_marginEnd="@dimen/margin_standard"
+                android:layout_margin="@dimen/margin_standard"
                 android:backgroundTint="@color/red"
                 android:text="@string/delete_this_account"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_change_subscriptions" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_subscriptions" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

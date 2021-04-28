@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.initiative;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -25,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentEditInitiativeBinding;
+import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
 import java.util.Calendar;
 import java.util.TimeZone;
