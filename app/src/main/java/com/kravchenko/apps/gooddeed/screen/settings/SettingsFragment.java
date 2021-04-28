@@ -65,11 +65,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
         findPreference(PREFERENCE_SUBSCRIPTIONS_KEY).setOnPreferenceClickListener(p -> {
-            navController.navigate(R.id.action_settingsFragment_to_subscriptionsSettingsFragment);
+            //navController.navigate(R.id.action_settingsFragment_to_subscriptionsSettingsFragment);
             return true;
         });
         findPreference(PREFERENCE_SYNCHRONIZATIONS_KEY).setOnPreferenceClickListener(p -> {
-            navController.navigate(R.id.action_settingsFragment_to_synchronizationSettingsFragment);
+            //navController.navigate(R.id.action_settingsFragment_to_synchronizationSettingsFragment);
             return true;
         });
         findPreference(PREFERENCE_NOTIFICATIONS_KEY).setOnPreferenceClickListener(p -> {
