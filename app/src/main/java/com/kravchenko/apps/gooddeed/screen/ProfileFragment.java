@@ -55,7 +55,6 @@ public class ProfileFragment extends BaseFragment {
         subscriptions.add("Услуги психолога или психотерапевта");
         SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), subscriptions);
         //
-
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);
