@@ -26,6 +26,7 @@ import com.kravchenko.apps.gooddeed.screen.adapter.MessageAdapter;
 import com.kravchenko.apps.gooddeed.screen.adapter.MessageEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CurrentChatFragment extends Fragment {
@@ -34,7 +35,9 @@ public class CurrentChatFragment extends Fragment {
     private DatabaseReference myRefChatroom;
     private FragmentCurrentChatBinding currentChatBinding;
     private MessageAdapter messageAdapter;
-    List<MessageEntity> listOfMessages;
+    private List<MessageEntity> listOfMessages;
+    private String userId;
+    private long messageNumber;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,13 +47,14 @@ public class CurrentChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        currentChatBinding = FragmentCurrentChatBinding.inflate(inflater,container,false);
+        currentChatBinding = FragmentCurrentChatBinding.inflate(inflater, container, false);
         return currentChatBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (getArguments() != null) {
             currentChatRoomId = getArguments().getString("initiative_id");
         }
@@ -68,31 +72,35 @@ public class CurrentChatFragment extends Fragment {
                 if (snapshot.getValue() == null) {
                     //There's no such chatRoom in DB and we must create it.
                     String chatRoomName = "Name of initiative"; //TODO get name of Initiative
-                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     ArrayList<String> usersOfChatRoom = new ArrayList<>();
-                    usersOfChatRoom.add(userId);
-                    ChatRoom chatroom = new ChatRoom(currentChatRoomId, chatRoomName,usersOfChatRoom,null);
+                    for (DataSnapshot ds : snapshot.child("chatRoomMembers").getChildren()) {
+                        String memberID = String.valueOf(ds.getValue());
+                        usersOfChatRoom.add(memberID);
+                    }
+                    if (!usersOfChatRoom.contains(userId)) usersOfChatRoom.add(userId);
+                    //TODO add this chat id to this user doc in Firestore
+                    ChatRoom chatroom = new ChatRoom(currentChatRoomId, chatRoomName, usersOfChatRoom, null);
                     myRefChatroom.setValue(chatroom);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
-        myRefChatroom.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRefChatroom.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //get an Image of Initiative from Firebase Storage?? for now it's
                 Glide.with(view).load(R.drawable.photogeo).circleCrop().into(currentChatBinding.currentChatroomLogo);
                 currentChatBinding.tvChatroomName.setText(snapshot.child("chatRoomName").getValue().toString());
-                String members = snapshot.child("chatRoomMembers").getChildrenCount()+" "+getString(R.string.people_in_chat);
+                String members = getString(R.string.people_in_chat) + " " + snapshot.child("chatRoomMembers").getChildrenCount();
+                messageNumber = snapshot.child("messages").getChildrenCount();
                 currentChatBinding.tvMembers.setText(members);
-                //work with recycler
+                //recyclerview
                 listOfMessages = new ArrayList<>();
-                for(DataSnapshot ds : snapshot.child("messages").getChildren()) {
+                for (DataSnapshot ds : snapshot.child("messages").getChildren()) {
                     MessageEntity messageEntity = ds.getValue(MessageEntity.class);
                     listOfMessages.add(messageEntity);
                 }
@@ -110,16 +118,25 @@ public class CurrentChatFragment extends Fragment {
             }
         });
 
-        myRefChatroom.child("messages").addValueEventListener(new ValueEventListener() {
+        currentChatBinding.btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //recyclerview.notifydatasetchanged;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onClick(View v) {
+                if (!currentChatBinding.etTypeMessage.getText().toString().trim().equals("")) {
+                    sendMessage(userId, String.valueOf(currentChatBinding.etTypeMessage.getText()));
+                }
+                currentChatBinding.etTypeMessage.setText("");
             }
         });
+        currentChatBinding.recyclerMessages.scrollToPosition(currentChatBinding.recyclerMessages.getChildCount());
+        //TODO scroll to last item which was read by user
+    }
+
+    private void sendMessage(String userId, String textMessage) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("number", messageNumber + 1);
+        hashMap.put("sender", userId);
+        hashMap.put("textOfMessage", textMessage);
+        FirebaseDatabase.getInstance().getReference().child("Chats").child(currentChatRoomId)
+                .child("messages").push().setValue(hashMap);
     }
 }
