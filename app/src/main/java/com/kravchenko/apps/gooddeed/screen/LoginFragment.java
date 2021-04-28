@@ -67,7 +67,6 @@ public class LoginFragment extends BaseFragment {
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
-                    // Login successful
                     if (!isSignedOut) {
                         Toast.makeText(getContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "Login Successful!");

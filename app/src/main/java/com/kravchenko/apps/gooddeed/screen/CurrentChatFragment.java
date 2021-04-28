@@ -122,4 +122,5 @@ public class CurrentChatFragment extends Fragment {
             }
         });
     }
+
 }

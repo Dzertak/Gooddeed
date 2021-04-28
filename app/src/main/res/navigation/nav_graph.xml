@@ -122,28 +122,33 @@
         android:name="com.kravchenko.apps.gooddeed.screen.settings.SettingsFragment"
         android:label="@string/settings">
         <action
-            android:id="@+id/action_settingsFragment_to_passwordSettingsFragment"
-            app:destination="@id/passwordSettingsFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_emailSettingFragment"
-            app:destination="@id/emailSettingFragment" />
-        <action
             android:id="@+id/action_settingsFragment_to_synchronizationSettingsFragment"
             app:destination="@id/synchronizationSettingsFragment" />
         <action
             android:id="@+id/action_settingsFragment_to_subscriptionsSettingsFragment"
             app:destination="@id/subscriptionsSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_confirmAuthorizationFragment"
+            app:destination="@id/confirmAuthorizationFragment" />
     </fragment>
     <fragment
         android:id="@+id/passwordSettingsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.settings.PasswordSettingsFragment"
         android:label="@string/change_password"
-        tools:layout="@layout/fragment_password_settings" />
+        tools:layout="@layout/fragment_password_settings">
+        <action
+            android:id="@+id/action_passwordSettingsFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/emailSettingFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.settings.EmailSettingFragment"
         android:label="@string/change_email"
-        tools:layout="@layout/fragment_email_setting" />
+        tools:layout="@layout/fragment_email_setting">
+        <action
+            android:id="@+id/action_emailSettingFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/synchronizationSettingsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.settings.SynchronizationSettingsFragment"
@@ -152,6 +157,33 @@
     <fragment
         android:id="@+id/subscriptionsSettingsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment"
-        android:label="@string/change_subscriptions"
-        tools:layout="@layout/fragment_subscriptions_settings" />
+        android:label="@string/change_subscriptions">
+        <action
+            android:id="@+id/action_subscriptionsSettingsFragment_to_categoryFilterFragment2"
+            app:destination="@id/categoryFilterFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFilterFragment2"
+        android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryFilterFragment"
+        android:label="@string/category"
+        tools:layout="@layout/fragment_category_filter" />
+    <fragment
+        android:id="@+id/confirmAuthorizationFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.settings.ConfirmAuthorizationFragment"
+        android:label="fragment_confirm_authorization"
+        tools:layout="@layout/fragment_confirm_authorization">
+        <action
+            android:id="@+id/action_confirmAuthorizationFragment_to_passwordSettingsFragment"
+            app:destination="@id/passwordSettingsFragment"
+            app:popUpTo="@id/confirmAuthorizationFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_confirmAuthorizationFragment_to_emailSettingFragment"
+            app:destination="@id/emailSettingFragment"
+            app:popUpTo="@id/confirmAuthorizationFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="choose_destinations"
+            app:argType="string" />
+    </fragment>
 </navigation>

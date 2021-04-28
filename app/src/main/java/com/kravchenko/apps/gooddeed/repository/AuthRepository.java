@@ -3,15 +3,12 @@ package com.kravchenko.apps.gooddeed.repository;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +19,7 @@ import com.kravchenko.apps.gooddeed.AppInstance;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.util.Resource;
+import com.kravchenko.apps.gooddeed.util.Utils;
 
 public class AuthRepository {
 
@@ -31,12 +29,14 @@ public class AuthRepository {
     private final FirebaseFirestore mFirestore;
     private final GoogleSignInClient mGoogleSignIn;
     private final MutableLiveData<Resource<FirebaseUser>> mUser;
+    private final MutableLiveData<Resource<Object>> actionMarker;
 
     public AuthRepository() {
         Context context = AppInstance.getAppContext();
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
         mUser = new MutableLiveData<>();
+        actionMarker = new MutableLiveData<>();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(context.getString(R.string.default_web_client_id))  // OAuth 2.0 web client ID
                 .requestEmail()
@@ -52,7 +52,7 @@ public class AuthRepository {
 
     public void loginWithEmailAndPassword(String email, String password) {
         isEmailRegistered(email, isRegistered -> {
-            mUser.setValue(Resource.loading("Loading...", null));
+            mUser.setValue(Resource.loading(Utils.getString(R.string.loading), null));
             if (isRegistered) {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
@@ -97,7 +97,7 @@ public class AuthRepository {
     }
 
     public void firebaseAuthWithGoogle(String idToken) {
-        mUser.setValue(Resource.loading("Loading...", null));
+        mUser.setValue(Resource.loading(Utils.getString(R.string.loading), null));
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(authResultTask -> {
@@ -166,6 +166,72 @@ public class AuthRepository {
 
     public LiveData<Resource<FirebaseUser>> getUser() {
         return mUser;
+    }
+
+    public void changePassword(String newPassword) {
+        actionMarker.setValue(Resource.loading("Loading...", null));
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            firebaseUser.updatePassword(newPassword)
+                    .addOnSuccessListener(aVoid -> {
+                        actionMarker.setValue(Resource.success(null));
+                        actionMarker.setValue(Resource.inactive());
+                    })
+                    .addOnFailureListener(e -> {
+                                actionMarker.setValue(Resource.error(e.getLocalizedMessage(), null));
+                                actionMarker.setValue(Resource.inactive());
+                            }
+                    );
+        } else {
+            actionMarker.setValue(Resource.error(AppInstance.getAppContext().getString(R.string.default_error_msg), null));
+            actionMarker.setValue(Resource.inactive());
+        }
+    }
+
+    public void changeEmail(String newEmail) {
+        actionMarker.setValue(Resource.loading("Loading...", null));
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            firebaseUser.updateEmail(newEmail)
+                    .addOnSuccessListener(aVoid -> {
+                                actionMarker.setValue(Resource.success(null));
+                                actionMarker.setValue(Resource.inactive());
+                            }
+                    )
+                    .addOnFailureListener(e -> {
+                                e.printStackTrace();
+                                actionMarker.setValue(Resource.error(e.getLocalizedMessage(), null));
+                                actionMarker.setValue(Resource.inactive());
+                            }
+                    );
+        } else {
+            actionMarker.setValue(Resource.error(AppInstance.getAppContext().getString(R.string.default_error_msg), null));
+        }
+    }
+
+    public MutableLiveData<Resource<Object>> getActionMarker() {
+        return actionMarker;
+    }
+
+    public void loginWithPassword(String password) {
+        actionMarker.setValue(Resource.loading(Utils.getString(R.string.loading), null));
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String email = currentUser.getEmail();
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            actionMarker.setValue(Resource.success(null));
+                        } else {
+                            mUser.setValue(Resource.error(task.getException().getMessage(), null));
+                        }
+                        actionMarker.setValue(Resource.inactive());
+                    });
+        } else {
+            actionMarker.setValue(Resource.error(Utils.getString(R.string.loading), null));
+            actionMarker.setValue(Resource.inactive());
+        }
+
     }
 
     private interface OnEmailCheckListener {

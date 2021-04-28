@@ -4,7 +4,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'com.google.secrets_gradle_plugin' version'0.4'
 }
-
+apply plugin: "androidx.navigation.safeargs"
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"

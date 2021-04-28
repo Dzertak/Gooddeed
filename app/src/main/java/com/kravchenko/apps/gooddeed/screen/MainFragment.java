@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.screen;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -36,7 +38,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
@@ -136,6 +137,12 @@ public class MainFragment extends BaseFragment {
             return true;
         });
     }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -172,6 +179,7 @@ public class MainFragment extends BaseFragment {
         View headerLayout = binding.navView.getHeaderView(0);
         TextView username = headerLayout.findViewById(R.id.tv_username);
         ImageView userAvatar = headerLayout.findViewById(R.id.imv_ava);
+
     }
 
     private void yourLocation() {
@@ -184,7 +192,7 @@ public class MainFragment extends BaseFragment {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         } catch (Exception e){
             //it's for test. Need make listener class for errors
-            FirebaseCrashlytics.getInstance().recordException(e);
+//            FirebaseCrashlytics.getInstance().recordException(e);
         }
     }
 
@@ -307,4 +315,5 @@ public class MainFragment extends BaseFragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
