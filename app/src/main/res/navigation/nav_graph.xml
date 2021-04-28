@@ -62,7 +62,7 @@
         android:id="@+id/editAccountFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment"
         android:label="@string/edit_profile"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_profile_edit" />
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.chat.ChatsFragment"
@@ -76,7 +76,7 @@
         android:id="@+id/currentChatFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.chat.CurrentChatFragment"
         android:label="@string/current_chat"
-        tools:layout="@layout/fragment_current_chat" />
+        tools:layout="@layout/fragment_chat_current" />
     <fragment
         android:id="@+id/myInitiativesFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.initiative.MyInitiativesFragment"
@@ -90,7 +90,7 @@
         android:id="@+id/currentInitiativeFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.initiative.CurrentInitiativeFragment"
         android:label="@string/current_initiative"
-        tools:layout="@layout/fragment_current_initiative">
+        tools:layout="@layout/fragment_initiative_current">
         <action
             android:id="@+id/action_currentInitiativeFragment_to_editInitiativeFragment"
             app:destination="@id/editInitiativeFragment" />
@@ -107,7 +107,7 @@
         android:id="@+id/editInitiativeFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment"
         android:label="@string/edit_initiative"
-        tools:layout="@layout/fragment_edit_initiative">
+        tools:layout="@layout/fragment_initiative_edit">
         <action
             android:id="@+id/action_editInitiativeFragment_to_mainFragment"
             app:destination="@id/mainFragment"

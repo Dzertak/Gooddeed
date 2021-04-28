@@ -21,7 +21,8 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.databinding.FragmentEditProfileBinding;
+
+import com.kravchenko.apps.gooddeed.databinding.FragmentProfileEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
 import com.kravchenko.apps.gooddeed.util.Resource;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class EditProfileFragment extends BaseFragment {
 
-    private FragmentEditProfileBinding binding;
+    private FragmentProfileEditBinding binding;
     private ProfileViewModel mViewModel;
 
     @Override
@@ -44,7 +45,7 @@ public class EditProfileFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentEditProfileBinding.inflate(inflater, container, false);
+        binding = FragmentProfileEditBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

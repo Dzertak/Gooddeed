@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +23,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.databinding.FragmentEditInitiativeBinding;
+import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
 import java.util.Calendar;
@@ -32,13 +32,13 @@ import java.util.TimeZone;
 
 public class EditInitiativeFragment extends BaseFragment {
 
-    private FragmentEditInitiativeBinding binding;
+    private FragmentInitiativeEditBinding binding;
     private final String[] categoryName = {"Help", "Work", "Volunteer", "Meeting"};
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentEditInitiativeBinding.inflate(inflater, container, false);
+        binding = FragmentInitiativeEditBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -51,9 +51,9 @@ public class EditInitiativeFragment extends BaseFragment {
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         initDropDownCategory();
 
-        binding.chosePlaceOnMapButton.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_pickInitiativeLocationFragment));
-        binding.confirmButton.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment));
-        binding.dateTimePickerButton.setOnClickListener(v -> {
+        binding.cvLocationChoice.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_pickInitiativeLocationFragment));
+        binding.btnConfirm.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment));
+        binding.cvTimeChoice.setOnClickListener(v -> {
             DialogFragment newFragment = new DatePickerFragment();
             newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
 
@@ -62,17 +62,8 @@ public class EditInitiativeFragment extends BaseFragment {
 
     private void initDropDownCategory() {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, categoryName);
-        binding.editCategory.setAdapter(arrayAdapter);
-        binding.editCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                String category = (String) adapterView.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+        binding.cvCategoryChoice.setOnClickListener(t -> {
+            Toast.makeText(requireContext(), "Choice category", Toast.LENGTH_SHORT).show();
         });
     }
 

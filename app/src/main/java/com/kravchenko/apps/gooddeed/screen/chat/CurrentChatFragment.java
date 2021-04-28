@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
-import com.kravchenko.apps.gooddeed.databinding.FragmentCurrentChatBinding;
+import com.kravchenko.apps.gooddeed.databinding.FragmentChatCurrentBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageAdapter;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
@@ -31,7 +31,7 @@ public class CurrentChatFragment extends Fragment {
 
     private String currentChatRoomId;
     private DatabaseReference myRefChatroom;
-    private FragmentCurrentChatBinding currentChatBinding;
+    private FragmentChatCurrentBinding currentChatBinding;
     private MessageAdapter messageAdapter;
     List<MessageEntity> listOfMessages;
 
@@ -43,7 +43,7 @@ public class CurrentChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        currentChatBinding = FragmentCurrentChatBinding.inflate(inflater,container,false);
+        currentChatBinding = FragmentChatCurrentBinding.inflate(inflater,container,false);
         return currentChatBinding.getRoot();
     }
 
