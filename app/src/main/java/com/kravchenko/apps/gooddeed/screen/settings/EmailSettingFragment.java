@@ -52,7 +52,7 @@ public class EmailSettingFragment extends BaseFragment {
                 case SUCCESS:
                     hideNetworkProgressDialog();
                     Toast.makeText(getContext(), R.string.email_changed_successfully, Toast.LENGTH_SHORT).show();
-                    getNavController().navigate(R.id.action_emailSettingFragment_to_settingsFragment2);
+                    getNavController().navigate(R.id.action_emailSettingFragment_to_settingsFragment);
                     break;
                 case ERROR:
                     hideNetworkProgressDialog();

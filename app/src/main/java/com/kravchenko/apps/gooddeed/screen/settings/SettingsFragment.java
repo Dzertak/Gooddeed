@@ -54,22 +54,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         NavigationUI.setupWithNavController(toolbar, navController);
 
         findPreference(PREFERENCE_PASSWORD_KEY).setOnPreferenceClickListener(p -> {
-//            NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToConfirmAuthorizationFragment(NAV_ARG_PASSWORD);
-//            navController.navigate(action);
+           NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToConfirmAuthorizationFragment(NAV_ARG_PASSWORD);
+           navController.navigate(action);
             return true;
         });
 
         findPreference(PREFERENCE_EMAIL_KEY).setOnPreferenceClickListener(p -> {
-//            NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToConfirmAuthorizationFragment(NAV_ARG_EMAIL);
-//            navController.navigate(action);
+           NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToConfirmAuthorizationFragment(NAV_ARG_EMAIL);
+           navController.navigate(action);
             return true;
         });
         findPreference(PREFERENCE_SUBSCRIPTIONS_KEY).setOnPreferenceClickListener(p -> {
-            //navController.navigate(R.id.action_settingsFragment_to_subscriptionsSettingsFragment);
+            navController.navigate(R.id.action_settingsFragment_to_subscriptionsSettingsFragment);
             return true;
         });
         findPreference(PREFERENCE_SYNCHRONIZATIONS_KEY).setOnPreferenceClickListener(p -> {
-            //navController.navigate(R.id.action_settingsFragment_to_synchronizationSettingsFragment);
+            navController.navigate(R.id.action_settingsFragment_to_synchronizationSettingsFragment);
             return true;
         });
         findPreference(PREFERENCE_NOTIFICATIONS_KEY).setOnPreferenceClickListener(p -> {

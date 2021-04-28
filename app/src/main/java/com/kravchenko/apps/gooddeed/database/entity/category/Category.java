@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.database.entity;
+package com.kravchenko.apps.gooddeed.database.entity.category;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
