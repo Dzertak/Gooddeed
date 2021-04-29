@@ -115,4 +115,8 @@
     <string name="hint_about_me">About me</string>
 
     <string name="title">Title</string>
+    <string name="add_image">Add Image</string>
+    <string name="save">Save</string>
+    <string name="additional_information">Additional Information</string>
+    <string name="chose_type_initiative">Chose type initiative</string>
 </resources>

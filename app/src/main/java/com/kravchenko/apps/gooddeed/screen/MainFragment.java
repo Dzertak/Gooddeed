@@ -66,6 +66,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private final static String titleName = "MARKER";
     private Marker mMarker;
     private MapViewModel mapViewModel;
+    private GoogleMap mMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,34 +83,52 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         return binding.getRoot();
     }
 
-    private boolean getCurrentLocation() {
-        fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            Task<Location> task = fusedLocation.getLastLocation();
-            task.addOnSuccessListener(location -> {
-                if (location != null) {
-                    supportMapFragment.getMapAsync(googleMap -> {
-                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        MarkerOptions markerCurrentLocation = new MarkerOptions().position(latLng).title("Im here!");
-                        markerCurrentLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                        googleMap.addMarker(markerCurrentLocation);
-                    });
-                }
-            });
-            return true;
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        }
-        return false;
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        LatLng latLngOdessa = new LatLng(46.482952, 30.712481);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
+        mMap.setOnMarkerClickListener(marker -> {
+            getNavController().navigate(R.id.action_mainFragment_to_currentInitiativeFragment);
+            return false;
+        });
+        mMap.setOnMapClickListener(latLng -> {
+            String snippet = "Some info here";
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title(titleName);
+            markerOptions.snippet(snippet);
+            mMarker = mMap.addMarker(markerOptions);
+            mapViewModel.newCoordinates(latLng);
+            mapViewModel.newTitle(titleName);
+            //googleMap.clear();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+            mMap.addMarker(markerOptions);
+        });
+//        supportMapFragment.getMapAsync(googleMap -> googleMap.setOnMapClickListener(latLng -> {
+//
+//            String snippet = "Some info here";
+//            MarkerOptions markerOptions = new MarkerOptions();
+//            markerOptions.position(latLng);
+//            markerOptions.title(titleName);
+//            markerOptions.snippet(snippet);
+//            mMarker = googleMap.addMarker(markerOptions);
+//            mapViewModel.newCoordinates(latLng);
+//            mapViewModel.newTitle(titleName);
+//            //googleMap.clear();
+//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//            googleMap.addMarker(markerOptions);
+//
+//        }));
+//        if (!getCurrentLocation()) {
+//            LatLng latLng = new LatLng(46.482952, 30.712481);
+//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+//        }
     }
 
-    private void addInitiativeButton() {
-        binding.addInitiativeFloatingButton.setOnClickListener(v -> getNavController().navigate(R.id.action_mainFragment_to_editInitiativeFragment));
 
-    }
+
+
 
     private void searchFunction() {
         binding.inputSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -128,13 +147,15 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                     }
                     Address address = addressList.get(0);
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                        @Override
-                        public void onMapReady(@NonNull GoogleMap googleMap) {
-                            googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                        }
-                    });
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+//                        @Override
+//                        public void onMapReady(@NonNull GoogleMap googleMap) {
+//                            googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
+//                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//                        }
+//                    });
                 }
                 return false;
             }
@@ -144,7 +165,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                 return false;
             }
         });
-        supportMapFragment.getMapAsync(this);
+
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -191,14 +212,16 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        supportMapFragment.getMapAsync(this);
         mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
         mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
         mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());
 
-        addInitiativeButton();
+        binding.addInitiativeFloatingButton.setOnClickListener(v -> getNavController().navigate(R.id.action_mainFragment_to_editInitiativeFragment));
+
         yourLocation();
-        onMapClick();
-        onMarkerClick();
+        //onMapClick();
+
         searchFunction();
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
@@ -241,23 +264,23 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     }
 
 
-    private void onMapClick() {
-        supportMapFragment.getMapAsync(googleMap -> googleMap.setOnMapClickListener(latLng -> {
-
-            String snippet = "Some info here";
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title(titleName);
-            markerOptions.snippet(snippet);
-            mMarker = googleMap.addMarker(markerOptions);
-            mapViewModel.newCoordinates(latLng);
-            mapViewModel.newTitle(titleName);
-            //googleMap.clear();
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-            googleMap.addMarker(markerOptions);
-
-        }));
-    }
+//    private void onMapClick() {
+//        supportMapFragment.getMapAsync(googleMap -> googleMap.setOnMapClickListener(latLng -> {
+//
+//            String snippet = "Some info here";
+//            MarkerOptions markerOptions = new MarkerOptions();
+//            markerOptions.position(latLng);
+//            markerOptions.title(titleName);
+//            markerOptions.snippet(snippet);
+//            mMarker = googleMap.addMarker(markerOptions);
+//            mapViewModel.newCoordinates(latLng);
+//            mapViewModel.newTitle(titleName);
+//            //googleMap.clear();
+//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//            googleMap.addMarker(markerOptions);
+//
+//        }));
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -276,13 +299,15 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroyView() {
-        if (supportMapFragment != null) supportMapFragment.onDestroyView();
+        //if (mMap!=null) mMap.clear();
+        //if (supportMapFragment != null) supportMapFragment.onDestroyView();
         super.onDestroyView();
         binding = null;
     }
 
     @Override
     public void onDestroy() {
+        //if (mMap!=null) mMap.clear();
         if (supportMapFragment != null) supportMapFragment.onDestroy();
         if (mMarker != null){
             mMarker.remove();
@@ -291,25 +316,31 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         super.onDestroy();
     }
 
-    private void onMarkerClick() {
-        supportMapFragment.getMapAsync(googleMap -> {
-            googleMap.setOnMarkerClickListener(marker -> {
-                getNavController().navigate(R.id.action_mainFragment_to_currentInitiativeFragment);
-                return false;
-            });
-        });
-    }
+//    private void onMarkerClick() {
+//        supportMapFragment.getMapAsync(googleMap -> {
+//            googleMap.setOnMarkerClickListener(marker -> {
+//                getNavController().navigate(R.id.action_mainFragment_to_currentInitiativeFragment);
+//                return false;
+//            });
+//        });
+//    }
 
     private void initMapWithInitiatives() {
         if (markersLatLng != null && markersTitle !=null) {
-            supportMapFragment.getMapAsync(googleMap -> {
-                for (int i = 0; i < markersLatLng.size(); i++) {
-                    for (int j = 0; j < markersTitle.size(); j++) {
-                        googleMap.addMarker(new MarkerOptions().position(markersLatLng.get(i)).title(String.valueOf(markersTitle.get(j))));
-                    }
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(markersLatLng.get(i)));
+            for (int i = 0; i < markersLatLng.size(); i++) {
+                for (int j = 0; j < markersTitle.size(); j++) {
+                    mMap.addMarker(new MarkerOptions().position(markersLatLng.get(i)).title(String.valueOf(markersTitle.get(j))));
                 }
-            });
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(markersLatLng.get(i)));
+            }
+//            supportMapFragment.getMapAsync(googleMap -> {
+//                for (int i = 0; i < markersLatLng.size(); i++) {
+//                    for (int j = 0; j < markersTitle.size(); j++) {
+//                        googleMap.addMarker(new MarkerOptions().position(markersLatLng.get(i)).title(String.valueOf(markersTitle.get(j))));
+//                    }
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(markersLatLng.get(i)));
+//                }
+//            });
         }
     }
 
@@ -360,12 +391,34 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        if (!getCurrentLocation()) {
-            LatLng latLng = new LatLng(46.482952, 30.712481);
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+    private boolean getCurrentLocation() {
+        fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Task<Location> task = fusedLocation.getLastLocation();
+            task.addOnSuccessListener(location -> {
+                if (location != null) {
+//                    supportMapFragment.getMapAsync(googleMap -> {
+//                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                        MarkerOptions markerCurrentLocation = new MarkerOptions().position(latLng).title("Im here!");
+//                        markerCurrentLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+//                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//                        googleMap.addMarker(markerCurrentLocation);
+//                    });
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    MarkerOptions markerCurrentLocation = new MarkerOptions().position(latLng).title("Im here!");
+                    markerCurrentLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                    mMap.addMarker(markerCurrentLocation);
+                }
+            });
+            return true;
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         }
+        return false;
     }
+
+
 }

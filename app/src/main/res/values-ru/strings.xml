@@ -97,7 +97,7 @@
     <string name="people_in_chat">Людей в чате:</string>
     <string name="add_category">Добавить категорию</string>
     <string name="chose_date_and_time">Выберете дату и время</string>
-    <string name="chose_location">выберете местоположение</string>
+    <string name="chose_location">Выберете местоположение</string>
     <string name="category_explanation">Установите категории, по которым вы хотели бы получать уведомления.</string>
     <string name="change_synchronization">Изменить синхронизацию</string>
     <string name="change_subscriptions">Изменить подписки</string>
@@ -111,5 +111,9 @@
     <string name="hint_about_me">О себе</string>
 
     <string name="title">Заголовок</string>
+    <string name="add_image">Добавьте фото</string>
+    <string name="save">Сохранить</string>
+    <string name="additional_information">Дополнительная информация</string>
+    <string name="chose_type_initiative">Выберете тип инициативы</string>
 </resources>
 

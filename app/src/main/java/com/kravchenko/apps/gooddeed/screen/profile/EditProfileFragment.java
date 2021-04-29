@@ -97,14 +97,14 @@ public class EditProfileFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.edit_profile_menu, menu);
+        inflater.inflate(R.menu.save_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.save_settings) {
+        if (item.getItemId() == R.id.save) {
             mViewModel.updateUser(
                     binding.etProfileFirstName.getText().toString().trim(),
                     binding.etProfileLastName.getText().toString().trim(),

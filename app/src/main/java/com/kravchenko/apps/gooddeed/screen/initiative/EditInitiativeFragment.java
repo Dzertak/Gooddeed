@@ -1,11 +1,15 @@
 package com.kravchenko.apps.gooddeed.screen.initiative;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,6 +47,12 @@ public class EditInitiativeFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -52,7 +62,6 @@ public class EditInitiativeFragment extends BaseFragment {
         initDropDownCategory();
 
         binding.cvLocationChoice.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_pickInitiativeLocationFragment));
-        binding.btnConfirm.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment));
         binding.cvTimeChoice.setOnClickListener(v -> {
             DialogFragment newFragment = new DatePickerFragment();
             newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
@@ -109,6 +118,21 @@ public class EditInitiativeFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.save_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.save) {
+            Toast.makeText(requireContext(), "Сохранить инициативу", Toast.LENGTH_SHORT).show();
+            getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onDestroyView() {
