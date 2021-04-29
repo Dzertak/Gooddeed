@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen.adapter;
+package com.kravchenko.apps.gooddeed.screen.adapter.message;
 
 import android.net.Uri;
 import android.util.Log;
@@ -35,10 +35,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        if (viewType == MSG_TYPE_RIGHT) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item_right, parent, false);
+        if (viewType==MSG_TYPE_RIGHT){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_right, parent, false);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item_left, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_left, parent, false);
         }
         return new ViewHolder(view);
     }

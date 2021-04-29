@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,19 +24,25 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<String> subscriptions = new ArrayList<>();
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
+    private boolean isEditable = false;
 
 
-    public SubscriptionAdapter(Context context, List<String> subscriptions) {
+    public SubscriptionAdapter(Context context, List<String> subscriptions, boolean isEditable) {
         this.context = context;
         this.subscriptions = subscriptions;
-        //it's for make last item for adding new category
-        subscriptions.add("");
+        this.isEditable = isEditable;
+        if (isEditable){
+            //it's for make last item for adding new category
+            subscriptions.add("");
+        }
     }
 
     public void setSubscriptions(List<String> subscriptions) {
         this.subscriptions = subscriptions;
-        //it's for make last item for adding new category
-        subscriptions.add("");
+        if (isEditable){
+            //it's for make last item for adding new category
+            subscriptions.add("");
+        }
         notifyDataSetChanged();
     }
 
@@ -50,7 +57,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        return position != subscriptions.size()-1 ? SUBSCRIPTION_TYPE : SUBSCRIPTION_ADD_TYPE;
+        return position == subscriptions.size()-1 && isEditable ? SUBSCRIPTION_ADD_TYPE : SUBSCRIPTION_TYPE;
     }
 
     @Override
@@ -59,6 +66,13 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (viewType == SUBSCRIPTION_TYPE){
             SubViewHolder viewHolderSub = (SubViewHolder) holder;
             viewHolderSub.textViewTitle.setText(subscriptions.get(position));
+            if (!isEditable){
+                viewHolderSub.imageViewRemove.setVisibility(View.GONE);
+            } else {
+                viewHolderSub.imageViewRemove.setOnClickListener(t -> {
+                    Toast.makeText(context, "Remove Subscription", Toast.LENGTH_SHORT).show();
+                });
+            }
         } else {
             SubAddViewHolder viewHolderSub = (SubAddViewHolder) holder;
             viewHolderSub.textViewAdd.setOnClickListener(t -> Toast.makeText(context, "Add Category", Toast.LENGTH_SHORT).show());
@@ -72,20 +86,23 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private static class SubViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
+        private final ImageView imageViewRemove;
 
         public SubViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.text_view_subscription_title);
-
+            imageViewRemove = itemView.findViewById(R.id.image_view_subscription_remove);
         }
     }
 
     private static class SubAddViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewAdd;
+        private final ImageView imageViewRemove;
 
         public SubAddViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewAdd = itemView.findViewById(R.id.text_view_subscription_add);
+            imageViewRemove = itemView.findViewById(R.id.image_view_subscription_remove);
         }
     }
 }

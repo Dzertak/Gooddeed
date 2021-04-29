@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screen.ProfileFragment">
+    tools:context=".screen.profile.ProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/green"
             app:menu="@menu/profile_menu"
-            app:title="@string/profile_name"
+            app:title="@string/title_profile"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -90,7 +90,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
                 android:layout_marginTop="@dimen/margin_middle"
-                android:layout_marginEnd="@dimen/margin_standard"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsize_little"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -121,10 +120,11 @@
                     android:id="@+id/tv_profile_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/title_rating"
                     android:layout_marginStart="@dimen/margin_middle"
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsize_standard"
-                    tools:text="Рейтинг: 4,3" />
+                    tools:text="Rating: 4,3" />
             </LinearLayout>
 
             <TextView

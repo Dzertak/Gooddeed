@@ -29,4 +29,9 @@ public class CategoryFilterFragment extends BaseFragment {
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
 
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

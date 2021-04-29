@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.initiative;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -20,12 +20,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.databinding.FragmentCurrentInitiativeBinding;
-import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
+
+import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeCurrentBinding;
+
 
 public class CurrentInitiativeFragment extends Fragment {
 
-    private FragmentCurrentInitiativeBinding binding;
+    private FragmentInitiativeCurrentBinding binding;
     private NavController navController;
     private View view;
 
@@ -38,7 +39,7 @@ public class CurrentInitiativeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentCurrentInitiativeBinding.inflate(inflater, container, false);
+        binding = FragmentInitiativeCurrentBinding.inflate(inflater, container, false);
         view = binding.getRoot();
         return view;
     }
@@ -51,13 +52,13 @@ public class CurrentInitiativeFragment extends Fragment {
         // check Navigation.findNavController(view)  here and below. Cant use getNavController()
         NavigationUI.setupWithNavController(binding.toolbar, Navigation.findNavController(view));
 
-        binding.openMapButton.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_mainFragment));
+        //binding.cvLocationChoice.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_mainFragment));
 
         //TODO (from Dima Sukhov) here we need to get id of current initiative from database and put it into Bundle
         Bundle args = new Bundle();
         String initiativeId = "TODO"; //TODO
         args.putString("initiative_id",initiativeId);
-        binding.openChatButton.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_currentChatFragment,args));
+        binding.btnSendProposeHelp.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_currentChatFragment,args));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,8 +38,23 @@ public class AuthViewModel extends ViewModel {
         return mAuthRepository.getUser();
     }
 
+    public void changeEmail(String newEmail) {
+        mAuthRepository.changeEmail(newEmail);
+    }
+
+    public void changePassword(String newPassword) {
+        mAuthRepository.changePassword(newPassword);
+    }
+
     public void signOutUser() {
         mAuthRepository.signOutUser();
     }
 
+    public LiveData<Resource<Object>> getActionMarker(){
+        return mAuthRepository.getActionMarker();
+    }
+
+    public void loginWithPassword(String password) {
+        mAuthRepository.loginWithPassword(password);
+    }
 }

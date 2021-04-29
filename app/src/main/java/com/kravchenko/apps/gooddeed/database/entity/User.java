@@ -11,49 +11,12 @@ public class User {
     @Ignore
     private String firebaseUserId;
 
-    private int rate;
     private String name;
     private String lastName;
     private String email;
-    private String imgUri;
+    private int rate;
+    private String description;
+    private String imgID;
 
-    public User(int rate, String name, String lastName, String email, String imgUri) {
-        this.rate = rate;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.imgUri = imgUri;
-    }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public String getFirebaseUserId() {
-        return firebaseUserId;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getImgUri() {
-        return imgUri;
-    }
 }

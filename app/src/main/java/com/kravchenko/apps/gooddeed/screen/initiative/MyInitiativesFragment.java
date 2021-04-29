@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.initiative;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.NavigationUI;
 
 import com.kravchenko.apps.gooddeed.databinding.FragmentMyInitiativesBinding;
+import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
 public class MyInitiativesFragment extends BaseFragment {
     private FragmentMyInitiativesBinding binding;

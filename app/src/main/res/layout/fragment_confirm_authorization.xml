@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screen.settings.PasswordSettingsFragment">
+    tools:context=".screen.settings.ConfirmAuthorizationFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -21,39 +21,33 @@
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/tv_explanation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:textColor="@color/dark_grey"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        tools:text="@string/change_password_explanation" />
+
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_passwordHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/new_password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:textColorHint="@color/grey"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        app:passwordToggleEnabled="true">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_view"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_confirm_passwordHolder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:textColorHint="@color/grey"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_passwordHolder"
+        app:layout_constraintTop_toBottomOf="@id/tv_explanation"
         app:passwordToggleEnabled="true">
 
         <EditText
@@ -64,13 +58,25 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_apply_changes"
+        android:id="@+id/btn_confirm"
         android:layout_width="0dp"
+        android:layout_margin="16dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:background="@drawable/rounded_view"
-        android:text="@string/apply_changes"
+        android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_confirm_passwordHolder" />
+        app:layout_constraintTop_toBottomOf="@+id/til_passwordHolder" />
+
+    <TextView
+        android:id="@+id/tv_forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/forgot_password"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_confirm" />
 </androidx.constraintlayout.widget.ConstraintLayout>

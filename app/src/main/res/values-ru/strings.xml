@@ -10,7 +10,7 @@
     <string name="default_error_msg">Что-то пошло не так :(</string>
     <string name="share">Поделиться</string>
     <string name="suggest_initiative">Предложить инициативу</string>
-    <string name="profile_name">Имя профиля</string>
+    <string name="title_profile">Профиль</string>
     <string name="statistics_by_initiatives">Статистика по инициативам:</string>
     <string name="created">Создано:</string>
     <string name="active">Активных:</string>
@@ -92,8 +92,28 @@
     <string name="tasks_created">Заданий\nсоздано</string>
     <string name="tasks_completed">Заданий\nвыполнено</string>
     <string name="zero">0</string>
+    <string name="title_rating">Рейтинг: %.1f</string>
     <string name="type_a_message">Введите сообщение…</string>
     <string name="people_in_chat">Людей в чате:</string>
     <string name="add_category">Добавить категорию</string>
+    <string name="chose_date_and_time">Выберете дату и время</string>
+    <string name="chose_location">Выберете местоположение</string>
+    <string name="category_explanation">Установите категории, по которым вы хотели бы получать уведомления.</string>
+    <string name="change_synchronization">Изменить синхронизацию</string>
+    <string name="change_subscriptions">Изменить подписки</string>
+    <string name="password_changed_successfully">Пароль успешно изменён!</string>
+    <string name="confirm">подтверждить</string>
+    <string name="change_password_explanation">"Чтобы изменить пароль, вам необходимо ввести действующий пароль. "</string>
+    <string name="change_email_explanation">"Чтобы сменить электронную почту, вам необходимо ввести действующий пароль. "</string>
+    <string name="loading">"Загружается..."</string>
+    <string name="updating_data">"Данные обновляются  "</string>
+    <string name="email_changed_successfully">"Электронная почта успешно изменена  "</string>
+    <string name="hint_about_me">О себе</string>
+
+    <string name="title">Заголовок</string>
+    <string name="add_image">Добавьте фото</string>
+    <string name="save">Сохранить</string>
+    <string name="additional_information">Дополнительная информация</string>
+    <string name="chose_type_initiative">Выберете тип инициативы</string>
 </resources>
 

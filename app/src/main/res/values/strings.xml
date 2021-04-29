@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">Gooddeed</string>
     <string name="share">Share</string>
     <string name="suggest_initiative">Suggest initiative</string>
-    <string name="profile_name">Profile name</string>
+    <string name="title_profile">Profile</string>
     <string name="statistics_by_initiatives">Initiatives statistics:</string>
     <string name="created">Created:</string>
     <string name="active">Active:</string>
@@ -57,6 +57,7 @@
     <string name="edit_initiative">Edit initiative</string>
     <string name="my_initiatives">my_initiatives</string>
     <string name="current_chat">Current chat</string>
+    <string name="chats">chats</string>
     <string name="change_radius_filter">Change radius</string>
     <string name="edit_current_initiative">Edit current Initiative</string>
     <string name="status">Status</string>
@@ -94,11 +95,28 @@
     <string name="mute_notifications">Mute Notifications</string>
     <string name="change_subscriptions">Change subscriptions</string>
     <string name="change_synchronization">Change synchronization</string>
+    <string name="category_explanation">Set the categories for which you would like to receive notifications.</string>
+    <string name="password_changed_successfully">The password changed successfully!</string>
+    <string name="updating_data">The data is updating</string>
+    <string name="email_changed_successfully">E-mail changes successfully</string>
     <string name="tasks_created">Tasks\ncreated</string>
     <string name="tasks_completed">Tasks\ncompleted</string>
     <string name="zero">0</string>
+    <string name="confirm">confirm</string>
+    <string name="change_password_explanation">To change the password, you need to enter your acting password.</string>
+    <string name="change_email_explanation">To change the e-mail, you need to enter your acting password.</string>
     <string name="type_a_message">Type a message…</string>
     <string name="people_in_chat">People in chat:</string>
-    <string name="chats">Chats</string>
     <string name="add_category">Add category</string>
+    <string name="title_rating">Rating: %.1f</string>
+    <string name="chose_date_and_time">Chose date and time</string>
+    <string name="chose_location">Chose Location</string>
+    <string name="loading">Loading...</string>
+    <string name="hint_about_me">About me</string>
+
+    <string name="title">Title</string>
+    <string name="add_image">Add Image</string>
+    <string name="save">Save</string>
+    <string name="additional_information">Additional Information</string>
+    <string name="chose_type_initiative">Chose type initiative</string>
 </resources>
