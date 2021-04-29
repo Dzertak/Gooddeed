@@ -1,11 +1,16 @@
 package com.kravchenko.apps.gooddeed.repository;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.util.Resource;
@@ -18,19 +23,18 @@ import static com.kravchenko.apps.gooddeed.repository.AuthRepository.COLLECTION_
 
 public class ProfileRepository {
 
-    private final String FIELD_FIRSTNAME = "firstName";
-    private final String FIELD_LASTNAME = "lastName";
-    private final String FIELD_IMAGEURL = "imageUrl";
-    private final String FIELD_EMAIL = "email";
-    private final String FIELD_DESCRIPTION = "description";
+    private static final String USER_PATH = "users";
+    private static final String IMAGES_PATH = "images";
     private final FirebaseAuth mAuth;
     private final FirebaseFirestore mFirestore;
+    private final FirebaseStorage mStorage;
     private DocumentReference mUserDocRef;
     private MutableLiveData<Resource<FirestoreUser>> mUser;
 
     public ProfileRepository() {
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
+        mStorage = FirebaseStorage.getInstance();
     }
 
     public LiveData<Resource<FirestoreUser>> getUser() {
@@ -56,26 +60,57 @@ public class ProfileRepository {
         }
     }
 
-    public void updateUser(String firstName, String lastName, String imageUrl, String email, String description) {
-        // Updating only a few fields
+    public void updateUser(String firstName, String lastName, Uri imageUri, String
+            email, String description) {
+        if (mUser.getValue() != null && mUser.getValue().data != null) {
+            FirestoreUser user = mUser.getValue().data;
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            user.setDescription(description);
+
+            StorageReference profilePicRef = mStorage.getReference()
+                    .child(USER_PATH)
+                    .child(mAuth.getCurrentUser().getUid())
+                    .child(IMAGES_PATH)
+                    .child(imageUri.getLastPathSegment());
+            UploadTask uploadTask = profilePicRef.putFile(imageUri);
+
+            uploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful() && task.getException() != null) {
+                    throw task.getException();
+                }
+                // Continue with the task to get the download URL
+                return profilePicRef.getDownloadUrl();
+
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    user.setImageUrl(task.getResult().toString());
+                }
+                updateUserInFirestore(user);
+            });
+        }
+    }
+
+    private void updateUserInFirestore(FirestoreUser user) {
+        String FIELD_FIRSTNAME = "firstName";
+        String FIELD_LASTNAME = "lastName";
+        String FIELD_IMAGEURL = "imageUrl";
+        String FIELD_EMAIL = "email";
+        String FIELD_DESCRIPTION = "description";
+
+        // Updating only some fields
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put(FIELD_FIRSTNAME, firstName);
-        userMap.put(FIELD_LASTNAME, lastName);
-        userMap.put(FIELD_IMAGEURL, imageUrl);
-        userMap.put(FIELD_EMAIL, email);
-        userMap.put(FIELD_DESCRIPTION, description);
-        FirestoreUser user = mUser.getValue().data;
+        userMap.put(FIELD_FIRSTNAME, user.getFirstName());
+        userMap.put(FIELD_LASTNAME, user.getLastName());
+        userMap.put(FIELD_IMAGEURL, user.getImageUrl());
+        userMap.put(FIELD_EMAIL, user.getEmail());
+        userMap.put(FIELD_DESCRIPTION, user.getDescription());
         mUser.setValue(Resource.loading(Utils.getString(R.string.loading), null));
         mUserDocRef.update(userMap).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                user.setImageUrl(imageUrl);
-                user.setEmail(email);
-                user.setDescription(description);
                 mUser.setValue(Resource.success(user));
             } else {
-                // Error updating document
                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
             }
         });

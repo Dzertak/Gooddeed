@@ -74,7 +74,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tv_profile_locale"
                 />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_view_profile_avatar"
                 android:layout_width="@dimen/profile_avatar_size"
                 android:layout_height="@dimen/profile_avatar_size"
@@ -82,7 +82,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/no_photo" />
+                android:src="@drawable/no_photo" />
 
             <TextView
                 android:id="@+id/tv_profile_locale"

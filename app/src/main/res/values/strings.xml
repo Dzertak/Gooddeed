@@ -57,7 +57,7 @@
     <string name="edit_initiative">Edit initiative</string>
     <string name="my_initiatives">my_initiatives</string>
     <string name="current_chat">Current chat</string>
-    <string name="chats">chats</string>
+    <string name="chats">Chats</string>
     <string name="change_radius_filter">Change radius</string>
     <string name="edit_current_initiative">Edit current Initiative</string>
     <string name="status">Status</string>
@@ -115,6 +115,7 @@
     <string name="hint_about_me">About me</string>
 
     <string name="title">Title</string>
+    <string name="change">Change</string>
     <string name="add_image">Add Image</string>
     <string name="save">Save</string>
     <string name="additional_information">Additional Information</string>
