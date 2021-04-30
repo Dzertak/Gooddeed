@@ -54,6 +54,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
+import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
@@ -223,6 +224,8 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         View headerLayout = binding.navView.getHeaderView(0);
         TextView username = headerLayout.findViewById(R.id.tv_username);
         ImageView userAvatar = headerLayout.findViewById(R.id.imv_ava);
+
+        binding.rvInitiatives.setAdapter(new InitiativeMapAdapter(requireContext(), new ArrayList<>()));
 
     }
 
