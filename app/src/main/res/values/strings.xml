@@ -111,7 +111,7 @@
     <string name="title_rating">Rating: %.1f</string>
     <string name="chose_date_and_time">Chose date and time</string>
     <string name="chose_location">Chose Location</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="hint_about_me">About me</string>
 
     <string name="title">Title</string>
@@ -119,4 +119,6 @@
     <string name="save">Save</string>
     <string name="additional_information">Additional Information</string>
     <string name="chose_type_initiative">Chose type initiative</string>
+    <string name="no_name">No name</string>
+    <string name="initiative_title">Initiative title</string>
 </resources>

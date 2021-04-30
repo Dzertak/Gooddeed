@@ -13,12 +13,12 @@ public class FirestoreUser {
     private String rate;
     private String description;
     private String imageUrl;
-    private ArrayList<ChatforUserWrapper> chats;
+    private ArrayList<String> chats;
 
     public FirestoreUser() {
     }
 
-    public FirestoreUser(String userId, String firstName, String lastName, String email, String rate, String description, String imageUrl, ArrayList<ChatforUserWrapper> chats) {
+    public FirestoreUser(String userId, String firstName, String lastName, String email, String rate, String description, String imageUrl, ArrayList<String> chats) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -85,11 +85,11 @@ public class FirestoreUser {
         this.imageUrl = imageUrl;
     }
 
-    public ArrayList<ChatforUserWrapper> getChats() {
+    public ArrayList<String> getChats() {
         return chats;
     }
 
-    public void setChats(ArrayList<ChatforUserWrapper> chats) {
+    public void setChats(ArrayList<String> chats) {
         this.chats = chats;
     }
 
@@ -136,26 +136,5 @@ public class FirestoreUser {
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
-    }
-
-    public class ChatforUserWrapper {
-        private String chatId;
-        private String lastMessageId;
-
-        public String getChatId() {
-            return chatId;
-        }
-
-        public void setChatId(String chatId) {
-            this.chatId = chatId;
-        }
-
-        public String getLastMessageId() {
-            return lastMessageId;
-        }
-
-        public void setLastMessageId(String lastMessageId) {
-            this.lastMessageId = lastMessageId;
-        }
     }
 }

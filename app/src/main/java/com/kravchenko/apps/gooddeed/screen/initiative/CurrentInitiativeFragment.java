@@ -54,7 +54,7 @@ public class CurrentInitiativeFragment extends Fragment {
 
         //binding.cvLocationChoice.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_mainFragment));
 
-        //TODO (from Dima Sukhov) here we need to get id of current initiative from database and put it into Bundle
+        //TODO here we need to get id of current initiative from database and put it into Bundle
         Bundle args = new Bundle();
         String initiativeId = "TODO"; //TODO
         args.putString("initiative_id",initiativeId);

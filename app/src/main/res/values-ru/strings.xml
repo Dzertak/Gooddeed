@@ -115,5 +115,7 @@
     <string name="save">Сохранить</string>
     <string name="additional_information">Дополнительная информация</string>
     <string name="chose_type_initiative">Выберете тип инициативы</string>
+    <string name="no_name">Без имени</string>
+    <string name="initiative_title">Название инициативы</string>
 </resources>
 
