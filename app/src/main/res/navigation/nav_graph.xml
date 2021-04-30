@@ -159,7 +159,7 @@
 
     <fragment
         android:id="@+id/pickInitiativeLocationFragment"
-        android:name="com.kravchenko.apps.gooddeed.PickInitiativeLocationFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.PickInitiativeLocationFragment"
         android:label="fragment_pick_initiative_location"
         tools:layout="@layout/fragment_pick_initiative_location">
         <action

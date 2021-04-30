@@ -95,12 +95,13 @@ public class EditProfileFragment extends BaseFragment {
                 if (firestoreUser.data.getDescription() != null) {
                     binding.etDescription.setText(firestoreUser.data.getDescription());
                 }
-
-                imageUri = Uri.parse(firestoreUser.data.getImageUrl());
-                Glide.with(this)
-                        .load(firestoreUser.data.getImageUrl())
-                        .fallback(R.drawable.no_photo)
-                        .into(binding.ivProfileAvatar);
+                if (firestoreUser.data.getImageUrl() != null){
+                    imageUri = Uri.parse(firestoreUser.data.getImageUrl());
+                    Glide.with(this)
+                            .load(firestoreUser.data.getImageUrl())
+                            .fallback(R.drawable.no_photo)
+                            .into(binding.ivProfileAvatar);
+                }
                 binding.etProfileEmail.setText(firestoreUser.data.getEmail());
             } else if (firestoreUser.status.equals(Resource.Status.LOADING)) {
                 Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
