@@ -16,4 +16,5 @@
     <color name="lightgreen">#d5f199</color>
     <color name="darkergreen">#79C500</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="black_alpha">#80000000</color>
 </resources>

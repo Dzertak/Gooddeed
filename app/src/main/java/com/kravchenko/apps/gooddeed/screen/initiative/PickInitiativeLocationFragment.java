@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed;
+package com.kravchenko.apps.gooddeed.screen.initiative;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
 public class PickInitiativeLocationFragment extends BaseFragment {

@@ -1,5 +1,7 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -19,8 +21,8 @@ public class ProfileViewModel extends ViewModel {
         return mRepository.getUser();
     }
 
-    public void updateUser(String firstName, String lastName, String imageUrl, String email, String description) {
-        mRepository.updateUser(firstName, lastName, imageUrl, email, description);
+    public void updateUser(String firstName, String lastName, Uri imageUri, String email, String description) {
+        mRepository.updateUser(firstName, lastName, imageUri, email, description);
     }
 
 }

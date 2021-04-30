@@ -111,6 +111,7 @@
     <string name="hint_about_me">О себе</string>
 
     <string name="title">Заголовок</string>
+    <string name="change">Изменить</string>
     <string name="add_image">Добавьте фото</string>
     <string name="save">Сохранить</string>
     <string name="additional_information">Дополнительная информация</string>
