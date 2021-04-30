@@ -38,6 +38,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -225,6 +227,8 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         TextView username = headerLayout.findViewById(R.id.tv_username);
         ImageView userAvatar = headerLayout.findViewById(R.id.imv_ava);
 
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(binding.rvInitiatives);
         binding.rvInitiatives.setAdapter(new InitiativeMapAdapter(requireContext(), new ArrayList<>()));
 
     }
