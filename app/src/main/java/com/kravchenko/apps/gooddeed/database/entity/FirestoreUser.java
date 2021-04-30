@@ -2,7 +2,10 @@ package com.kravchenko.apps.gooddeed.database.entity;
 
 import androidx.annotation.NonNull;
 
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class FirestoreUser {
 
@@ -13,12 +16,14 @@ public class FirestoreUser {
     private String rate;
     private String description;
     private String imageUrl;
-    private ArrayList<String> chats;
+    private List<String> chats;
+    private List<Category> subscriptions;
 
     public FirestoreUser() {
     }
 
-    public FirestoreUser(String userId, String firstName, String lastName, String email, String rate, String description, String imageUrl, ArrayList<String> chats) {
+    public FirestoreUser(String userId, String firstName, String lastName, String email, String rate,
+                         String description, String imageUrl, List<String> chats, List<Category> subscriptions) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,6 +32,7 @@ public class FirestoreUser {
         this.description = description;
         this.imageUrl = imageUrl;
         this.chats = chats;
+        this.subscriptions = subscriptions;
     }
 
     public String getUserId() {
@@ -85,12 +91,20 @@ public class FirestoreUser {
         this.imageUrl = imageUrl;
     }
 
-    public ArrayList<String> getChats() {
+    public List<String> getChats() {
         return chats;
     }
 
-    public void setChats(ArrayList<String> chats) {
+    public void setChats(List<String> chats) {
         this.chats = chats;
+    }
+
+    public List<Category> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Category> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     @Override

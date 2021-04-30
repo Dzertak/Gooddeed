@@ -8,6 +8,7 @@ import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ChatViewModel extends ViewModel {
 
@@ -69,7 +70,7 @@ public class ChatViewModel extends ViewModel {
         return chatRepository.getLastMessagesLiveData();
     }
 
-    public LiveData<ArrayList<String>> getChatroomsOfCurrentUser() {
+    public LiveData<List<String>> getChatroomsOfCurrentUser() {
         return chatRepository.getChatroomsOfCurrentUser();
     }
 }

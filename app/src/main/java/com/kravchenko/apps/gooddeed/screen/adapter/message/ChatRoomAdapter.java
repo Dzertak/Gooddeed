@@ -20,6 +20,7 @@ import com.kravchenko.apps.gooddeed.viewmodel.ChatViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHolder> {
@@ -28,10 +29,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     private Context context;
     private HashMap<String, String> allChatRoomNames;
     private HashMap<String, String> lastMessages;
-    private ArrayList<String> chatroomsOfCurrentUser;
+    private List<String> chatroomsOfCurrentUser;
     private static final String TAG = "gooddeed_tag";
 
-    public ChatRoomAdapter(ChatViewModel chatViewModel, Context context,ArrayList<String> chatroomsOfCurrentUser) {
+    public ChatRoomAdapter(ChatViewModel chatViewModel, Context context, List<String> chatroomsOfCurrentUser) {
         //init components
         this.chatroomsOfCurrentUser = chatroomsOfCurrentUser;
         Log.i(TAG,chatroomsOfCurrentUser.size()+"");

@@ -21,6 +21,7 @@ import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChatRepository {
@@ -40,12 +41,12 @@ public class ChatRepository {
     private MutableLiveData<HashMap<String, String>> fullNamesLiveData;
     private MutableLiveData<HashMap<String, String>> avatarUrlsLiveData;
     private MutableLiveData<Boolean> arraysForChatroomsListAreFilled;
-    private ArrayList<String> chatroomsOfCurrentUser;
+    private List<String> chatroomsOfCurrentUser;
     private HashMap<String, String> allChatRoomNames;
     private HashMap<String, String> lastMessages;
     private MutableLiveData<HashMap<String, String>> allChatRoomNamesLiveData;
     private MutableLiveData<HashMap<String, String>> lastMessagesLiveData;
-    private MutableLiveData<ArrayList<String>> chatroomsOfCurrentUserLiveData;
+    private MutableLiveData<List<String>> chatroomsOfCurrentUserLiveData;
     private static final String TAG = "gooddeed_tag";
 
     public ChatRepository() {
@@ -92,7 +93,7 @@ public class ChatRepository {
         DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(userId);
         userRef.get().addOnSuccessListener(documentSnapshot -> {
             FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
-            ArrayList<String> chats = new ArrayList<>();
+            List<String> chats = new ArrayList<>();
             if (firestoreUser != null && firestoreUser.getChats() != null) {
                 chats = firestoreUser.getChats();
             }
@@ -236,7 +237,7 @@ public class ChatRepository {
         return lastMessagesLiveData;
     }
 
-    public LiveData<ArrayList<String>> getChatroomsOfCurrentUser() {
+    public LiveData<List<String>> getChatroomsOfCurrentUser() {
         return chatroomsOfCurrentUserLiveData;
     }
 
