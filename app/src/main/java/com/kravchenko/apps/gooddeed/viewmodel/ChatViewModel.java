@@ -3,6 +3,7 @@ package com.kravchenko.apps.gooddeed.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.repository.ChatRepository;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
@@ -58,19 +59,7 @@ public class ChatViewModel extends ViewModel {
         chatRepository.getDataForChatRooms();
     }
 
-    public LiveData<Boolean> arraysForChatroomsListAreFilled() {
-        return chatRepository.arraysForChatroomsListAreFilled();
-    }
-
-    public LiveData<HashMap<String, String>> getAllChatRoomNamesLiveData() {
-        return chatRepository.getAllChatRoomNamesLiveData();
-    }
-
-    public LiveData<HashMap<String, String>> getLastMessagesLiveData() {
-        return chatRepository.getLastMessagesLiveData();
-    }
-
-    public LiveData<List<String>> getChatroomsOfCurrentUser() {
+    public LiveData<List<ChatRoom>> getChatroomsOfCurrentUser() {
         return chatRepository.getChatroomsOfCurrentUser();
     }
 }

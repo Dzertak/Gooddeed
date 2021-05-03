@@ -49,7 +49,7 @@ public class CurrentChatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         if (getArguments() != null) {
-            currentChatRoomId = getArguments().getString("initiative_id");
+            currentChatRoomId = getArguments().getString("chatroom_id");
         }
         chatViewModel.getInitiativeTitle().observe(getActivity(), s -> {
             currentChatBinding.tvChatroomName.setText(s);

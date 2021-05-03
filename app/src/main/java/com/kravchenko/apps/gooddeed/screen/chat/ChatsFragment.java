@@ -8,14 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.kravchenko.apps.gooddeed.databinding.FragmentChatsBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.ChatRoomAdapter;
-import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageAdapter;
 import com.kravchenko.apps.gooddeed.viewmodel.ChatViewModel;
 
 public class ChatsFragment extends Fragment {
@@ -28,7 +25,7 @@ public class ChatsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentChatsBinding.inflate(inflater, container, false);
         return binding.getRoot();

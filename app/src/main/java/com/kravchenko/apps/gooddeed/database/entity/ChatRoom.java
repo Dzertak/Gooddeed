@@ -9,12 +9,31 @@ public class ChatRoom {
     private String chatRoomName;
     private ArrayList<String> chatRoomMembers;
     private ArrayList<MessageEntity> listOfMessages;
+    private String lastMessage;
+    private String imageUrl;
 
-    public ChatRoom(String chatRoomId, String chatRoomName, ArrayList<String> chatRoomMembers, ArrayList<MessageEntity> listOfMessages) {
+    public ChatRoom(String chatRoomId, String chatRoomName, ArrayList<String> chatRoomMembers, ArrayList<MessageEntity> listOfMessages, String imageUrl) {
         this.chatRoomId = chatRoomId;
         this.chatRoomName = chatRoomName;
         this.chatRoomMembers = chatRoomMembers;
         this.listOfMessages = listOfMessages;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getChatRoomId() {
