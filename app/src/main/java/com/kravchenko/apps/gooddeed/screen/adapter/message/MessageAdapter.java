@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,7 +27,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,6 +43,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     private final HashMap<String, String> avatarUrls;
     private final Context context;
     private static final String TAG = "gooddeed_tag";
+    private String previousDate;
+    private String previousSender;
 
     public MessageAdapter(ChatRoom currentChatRoom, HashMap<String, String> fullNames, HashMap<String, String> avatarUrls, Context context) {
         this.fullNames = fullNames;
@@ -47,10 +52,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         this.currentChatRoom = currentChatRoom;
         this.context = context;
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.i(TAG, String.valueOf(currentChatRoom.getLastMessage()));
-        Log.i(TAG, String.valueOf(fullNames));
-        Log.i(TAG, String.valueOf(avatarUrls));
-        Log.i(TAG, String.valueOf(context));
     }
 
     @NonNull
@@ -67,8 +68,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
+        //TODO add day and time
         MessageEntity messageEntity = currentChatRoom.getListOfMessages().get(position);
         holder.textViewMessage.setText(messageEntity.getTextOfMessage());
+        Date date = new Date(messageEntity.getTimeInMillis());
+        if (previousDate!=null && previousDate.equals(DateFormat.getDateInstance().format(date))){
+            holder.textViewDay.setVisibility(View.GONE);
+        }else{
+            holder.textViewDay.setText(DateFormat.getDateInstance().format(date));
+        }
+        holder.textViewTime.setText(DateFormat.getTimeInstance().format(date));
         if (getItemViewType(position) == MSG_TYPE_LEFT) {
             //if sender is not me - set username and avatar
             if (fullNames != null && fullNames.get(messageEntity.getSender()) != null) {
@@ -84,8 +93,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 Glide.with(context).load(R.drawable.no_photo).circleCrop()
                         .into(holder.avatar);
             }
+            if (previousSender!=null && previousSender.equals(messageEntity.getSender())){
+                holder.linearLayoutOfUser.setVisibility(View.GONE);
+            }
         }
-        Log.i(TAG,holder+"");
+        previousDate = DateFormat.getDateInstance().format(date);
+        previousSender = messageEntity.getSender();
     }
 
     @Override
@@ -94,14 +107,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewUsername;
-        TextView textViewMessage;
+        TextView textViewUsername, textViewMessage, textViewDay, textViewTime;
         ImageView avatar;
+        LinearLayout linearLayoutOfUser;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            linearLayoutOfUser = itemView.findViewById(R.id.linearlayout_user_in_chat);
             textViewUsername = itemView.findViewById(R.id.tv_username);
             textViewMessage = itemView.findViewById(R.id.tv_messagetext);
+            textViewDay = itemView.findViewById(R.id.tv_day);
+            textViewTime = itemView.findViewById(R.id.tv_time);
             avatar = itemView.findViewById(R.id.imgview_sender_avatar);
         }
     }

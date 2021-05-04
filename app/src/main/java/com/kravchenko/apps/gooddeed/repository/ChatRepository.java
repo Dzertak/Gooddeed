@@ -1,7 +1,5 @@
 package com.kravchenko.apps.gooddeed.repository;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -25,7 +23,6 @@ import java.util.Map;
 
 public class ChatRepository {
     private DatabaseReference myRefCurrentChatroom;
-    private ArrayList<MessageEntity> listOfMessages;
     private String userId;
     private String currentChatRoomId;
     private ArrayList<String> chatRoomMembersIds;
@@ -33,7 +30,6 @@ public class ChatRepository {
     private HashMap<String, String> avatarUrls;
     private MutableLiveData<HashMap<String, String>> fullNamesLiveData;
     private MutableLiveData<HashMap<String, String>> avatarUrlsLiveData;
-    //private List<ChatRoom> chatroomsOfCurrentUser;
     private MutableLiveData<List<ChatRoom>> chatroomsOfCurrentUserLiveData;
     private static final String TAG = "gooddeed_tag";
     private final MutableLiveData<ChatRoom> currentChatRoomLiveData;
@@ -118,6 +114,7 @@ public class ChatRepository {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", userId);
         hashMap.put("textOfMessage", message);
+        hashMap.put("timeInMillis",System.currentTimeMillis());
         FirebaseDatabase.getInstance().getReference().child("Chats").child(currentChatRoomId)
                 .child("messages").push().setValue(hashMap);
     }
@@ -147,6 +144,7 @@ public class ChatRepository {
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
                             messageEntity.setSender(message.child("sender").getValue().toString());
+                            messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
                             messageEntity.setTextOfMessage(message.child("textOfMessage").getValue().toString());
                             arrayListOfMessageEntities.add(messageEntity);
                         }
@@ -175,7 +173,6 @@ public class ChatRepository {
     private void initializeComponents() {
         listOfchatIds = new ArrayList<>();
         chatRoomMembersIds = new ArrayList<>();
-        //chatroomsOfCurrentUser = new ArrayList<>();
         chatRoomMembersIds = new ArrayList<>();
         fullNamesLiveData = new MutableLiveData<>();
         avatarUrlsLiveData = new MutableLiveData<>();

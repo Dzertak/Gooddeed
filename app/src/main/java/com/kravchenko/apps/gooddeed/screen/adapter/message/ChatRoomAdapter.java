@@ -45,10 +45,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatRoom chatroomEntity = chatroomsOfCurrentUser.get(position);
-        if (chatroomEntity.getImageUrl() != null)
-            Glide.with(context).load(Uri.parse(chatroomEntity.getImageUrl())).circleCrop().into(holder.icon);
         if (chatroomEntity.getImageUrl().equals("default"))
             Glide.with(context).load(R.drawable.gooddeed_logo).circleCrop().into(holder.icon);
+        else if (chatroomEntity.getImageUrl() != null)
+            Glide.with(context).load(Uri.parse(chatroomEntity.getImageUrl())).circleCrop().into(holder.icon);
         holder.textViewTitle.setText(chatroomEntity.getChatRoomName());
         if (chatroomEntity.getLastMessage() != null)
             holder.textViewLastMessage.setText(chatroomEntity.getLastMessage().getTextOfMessage());

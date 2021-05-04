@@ -2,7 +2,6 @@ package com.kravchenko.apps.gooddeed.screen.chat;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kravchenko.apps.gooddeed.MainActivity;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.databinding.FragmentChatCurrentBinding;
@@ -28,7 +26,6 @@ import com.kravchenko.apps.gooddeed.viewmodel.ChatViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CurrentChatFragment extends Fragment {
 
@@ -40,6 +37,7 @@ public class CurrentChatFragment extends Fragment {
     private HashMap<String, String> avatarUrls;
     private static final String TAG = "gooddeed_tag";
     private ChatRoom currentChatRoom;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,12 +55,8 @@ public class CurrentChatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        chatViewModel.getFullNames().observe(getActivity(), fullnamesMap -> {
-            fullNames = fullnamesMap;
-        });
-        chatViewModel.getAvatarUrls().observe(getActivity(), avatarUrlsMap -> {
-            avatarUrls = avatarUrlsMap;
-        });
+        chatViewModel.getFullNames().observe(getActivity(), fullnamesMap -> fullNames = fullnamesMap);
+        chatViewModel.getAvatarUrls().observe(getActivity(), avatarUrlsMap -> avatarUrls = avatarUrlsMap);
         if (getArguments() != null) {
             currentChatRoomId = getArguments().getString("chatroom_id");
         }
@@ -78,6 +72,7 @@ public class CurrentChatFragment extends Fragment {
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
                             messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
+                            messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
                             messageEntity.setTextOfMessage(String.valueOf(message.child("textOfMessage").getValue()));
                             listOfMessages.add(messageEntity);
                         }
@@ -92,13 +87,14 @@ public class CurrentChatFragment extends Fragment {
                             currentChatBinding.tvMembers.setText(text);
                             currentChatRoom.setListOfMessages(listOfMessages);
                             currentChatBinding.recyclerMessages.setHasFixedSize(true);
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                            linearLayoutManager = new LinearLayoutManager(getContext());
                             messageAdapter = new MessageAdapter(currentChatRoom, fullNames, avatarUrls, getContext());
                             currentChatBinding.recyclerMessages.setAdapter(messageAdapter);
-                            linearLayoutManager.setStackFromEnd(true);
+                            //linearLayoutManager.setStackFromEnd(true);
                             currentChatBinding.recyclerMessages.setLayoutManager(linearLayoutManager);
                             //TODO scroll to last item which was read by user
                         }
+                        linearLayoutManager.scrollToPosition(messageAdapter.getItemCount()-1);
                     }
 
                     @Override
