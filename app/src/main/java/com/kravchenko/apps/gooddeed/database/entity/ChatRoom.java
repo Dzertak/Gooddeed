@@ -24,7 +24,9 @@ public class ChatRoom {
     }
 
     public MessageEntity getLastMessage() {
+        if (listOfMessages.size()!=0)
         return listOfMessages.get(listOfMessages.size() - 1);
+        else return null;
     }
 
     public String getImageUrl() {

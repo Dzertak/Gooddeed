@@ -46,17 +46,17 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatRoom chatroomEntity = chatroomsOfCurrentUser.get(position);
-        if (chatroomEntity.getImageUrl()!=null)Glide.with(context).load(Uri.parse(chatroomEntity.getImageUrl())).circleCrop().into(holder.icon);
-        if (chatroomEntity.getImageUrl().equals("default"))Glide.with(context).load(R.drawable.gooddeed_logo).circleCrop().into(holder.icon);
+        if (chatroomEntity.getImageUrl() != null)
+            Glide.with(context).load(Uri.parse(chatroomEntity.getImageUrl())).circleCrop().into(holder.icon);
+        if (chatroomEntity.getImageUrl().equals("default"))
+            Glide.with(context).load(R.drawable.gooddeed_logo).circleCrop().into(holder.icon);
         holder.textViewTitle.setText(chatroomEntity.getChatRoomName());
-        holder.textViewLastMessage.setText(chatroomEntity.getLastMessage().getTextOfMessage());
-        holder.chatroomItemRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putString("chatroom_id",chatroomEntity.getChatRoomId());
-                Navigation.findNavController(v).navigate(R.id.action_chatsFragment_to_currentChatFragment,args);
-            }
+        if (chatroomEntity.getLastMessage() != null)
+            holder.textViewLastMessage.setText(chatroomEntity.getLastMessage().getTextOfMessage());
+        holder.chatroomItemRoot.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("chatroom_id", chatroomEntity.getChatRoomId());
+            Navigation.findNavController(v).navigate(R.id.action_chatsFragment_to_currentChatFragment, args);
         });
     }
 

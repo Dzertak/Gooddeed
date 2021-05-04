@@ -35,7 +35,6 @@ public class CurrentChatFragment extends Fragment {
     private FragmentChatCurrentBinding currentChatBinding;
     private ChatViewModel chatViewModel;
     private MessageAdapter messageAdapter;
-    private ArrayList<MessageEntity> listOfMessages;
     private HashMap<String, String> fullNames;
     private HashMap<String, String> avatarUrls;
     private static final String TAG = "gooddeed_tag";
@@ -56,7 +55,6 @@ public class CurrentChatFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listOfMessages = new ArrayList<>();
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         chatViewModel.getFullNames().observe(getActivity(), fullnamesMap -> {
             fullNames = fullnamesMap;
@@ -72,9 +70,9 @@ public class CurrentChatFragment extends Fragment {
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<MessageEntity> listOfMessages = new ArrayList<>();
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
-                            messageEntity.setNumber((Long) message.child("number").getValue());
                             messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
                             messageEntity.setTextOfMessage(String.valueOf(message.child("textOfMessage").getValue()));
                             listOfMessages.add(messageEntity);
@@ -82,6 +80,7 @@ public class CurrentChatFragment extends Fragment {
 
                         currentChatRoom = snapshot.getValue(ChatRoom.class);
                         if (currentChatRoom != null) {
+                            currentChatBinding.tvChatroomName.setText(currentChatRoom.getChatRoomName());
                             if (!currentChatRoom.getImageUrl().equals("default")) {
                                 Glide.with(getActivity()).load(Uri.parse(currentChatRoom.getImageUrl())).circleCrop().into(currentChatBinding.currentChatroomLogo);
                             }

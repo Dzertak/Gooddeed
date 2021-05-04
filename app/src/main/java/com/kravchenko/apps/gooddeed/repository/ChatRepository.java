@@ -27,7 +27,6 @@ public class ChatRepository {
     private DatabaseReference myRefCurrentChatroom;
     private ArrayList<MessageEntity> listOfMessages;
     private String userId;
-    private long messageNumber;
     private String currentChatRoomId;
     private ArrayList<String> chatRoomMembersIds;
     private HashMap<String, String> fullNames;
@@ -117,7 +116,6 @@ public class ChatRepository {
 
     public void sendMessage(String message) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("number", messageNumber + 1);
         hashMap.put("sender", userId);
         hashMap.put("textOfMessage", message);
         FirebaseDatabase.getInstance().getReference().child("Chats").child(currentChatRoomId)
@@ -148,7 +146,6 @@ public class ChatRepository {
                         ArrayList<MessageEntity> arrayListOfMessageEntities = new ArrayList<>();
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
-                            messageEntity.setNumber((Long) message.child("number").getValue());
                             messageEntity.setSender(message.child("sender").getValue().toString());
                             messageEntity.setTextOfMessage(message.child("textOfMessage").getValue().toString());
                             arrayListOfMessageEntities.add(messageEntity);
