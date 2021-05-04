@@ -49,7 +49,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         if (chatroomEntity.getImageUrl()!=null)Glide.with(context).load(Uri.parse(chatroomEntity.getImageUrl())).circleCrop().into(holder.icon);
         if (chatroomEntity.getImageUrl().equals("default"))Glide.with(context).load(R.drawable.gooddeed_logo).circleCrop().into(holder.icon);
         holder.textViewTitle.setText(chatroomEntity.getChatRoomName());
-        holder.textViewLastMessage.setText(chatroomEntity.getLastMessage());
+        holder.textViewLastMessage.setText(chatroomEntity.getLastMessage().getTextOfMessage());
         holder.chatroomItemRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

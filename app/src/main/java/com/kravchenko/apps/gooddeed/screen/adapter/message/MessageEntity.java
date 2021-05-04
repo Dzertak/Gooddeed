@@ -5,6 +5,9 @@ public class MessageEntity {
     private String sender;
     private String textOfMessage;
 
+    public MessageEntity() {
+    }
+
     public String getTextOfMessage() {
         return textOfMessage;
     }

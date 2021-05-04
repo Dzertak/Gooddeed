@@ -45,6 +45,8 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        chatViewModel.getChatroomsOfCurrentUser().removeObservers(getActivity());
         binding = null;
+        chatViewModel = null;
     }
 }
