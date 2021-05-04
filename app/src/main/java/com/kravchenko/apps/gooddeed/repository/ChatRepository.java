@@ -33,7 +33,7 @@ public class ChatRepository {
     private HashMap<String, String> avatarUrls;
     private MutableLiveData<HashMap<String, String>> fullNamesLiveData;
     private MutableLiveData<HashMap<String, String>> avatarUrlsLiveData;
-    private List<ChatRoom> chatroomsOfCurrentUser;
+    //private List<ChatRoom> chatroomsOfCurrentUser;
     private MutableLiveData<List<ChatRoom>> chatroomsOfCurrentUserLiveData;
     private static final String TAG = "gooddeed_tag";
     private final MutableLiveData<ChatRoom> currentChatRoomLiveData;
@@ -131,13 +131,13 @@ public class ChatRepository {
     }
 
     public void getDataForChatRooms() {
+        List<ChatRoom> chatroomsOfCurrentUser = new ArrayList<>();
         DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(userId);
         userRef.get().addOnSuccessListener(documentSnapshot -> {
             FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
             if (firestoreUser != null && firestoreUser.getChats() != null) {
                 listOfchatIds = firestoreUser.getChats();
             }
-
             for (String roomId : listOfchatIds) {
                 DatabaseReference chatRefFromList = FirebaseDatabase.getInstance().getReference("Chats").child(roomId);
                 chatRefFromList.addValueEventListener(new ValueEventListener() {
@@ -175,7 +175,7 @@ public class ChatRepository {
     private void initializeComponents() {
         listOfchatIds = new ArrayList<>();
         chatRoomMembersIds = new ArrayList<>();
-        chatroomsOfCurrentUser = new ArrayList<>();
+        //chatroomsOfCurrentUser = new ArrayList<>();
         chatRoomMembersIds = new ArrayList<>();
         fullNamesLiveData = new MutableLiveData<>();
         avatarUrlsLiveData = new MutableLiveData<>();

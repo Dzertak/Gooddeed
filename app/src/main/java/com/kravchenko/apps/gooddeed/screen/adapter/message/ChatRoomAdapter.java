@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,10 +23,10 @@ import java.util.List;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHolder> {
 
-    private ChatViewModel chatViewModel;
-    private Context context;
-    private List<ChatRoom> chatroomsOfCurrentUser;
-    private String TAG = "gooddeed_tag";
+    private final ChatViewModel chatViewModel;
+    private final Context context;
+    private final List<ChatRoom> chatroomsOfCurrentUser;
+    private final String TAG = "gooddeed_tag";
 
     public ChatRoomAdapter(ChatViewModel chatViewModel, Context context, List<ChatRoom> chatroomsOfCurrentUser) {
         this.chatroomsOfCurrentUser = chatroomsOfCurrentUser;

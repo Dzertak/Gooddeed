@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kravchenko.apps.gooddeed.MainActivity;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.databinding.FragmentChatCurrentBinding;
@@ -70,6 +71,9 @@ public class CurrentChatFragment extends Fragment {
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (getActivity() == null) {
+                            return;
+                        }
                         ArrayList<MessageEntity> listOfMessages = new ArrayList<>();
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
@@ -89,7 +93,7 @@ public class CurrentChatFragment extends Fragment {
                             currentChatRoom.setListOfMessages(listOfMessages);
                             currentChatBinding.recyclerMessages.setHasFixedSize(true);
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                            messageAdapter = new MessageAdapter(currentChatRoom, fullNames, avatarUrls, getActivity());
+                            messageAdapter = new MessageAdapter(currentChatRoom, fullNames, avatarUrls, getContext());
                             currentChatBinding.recyclerMessages.setAdapter(messageAdapter);
                             linearLayoutManager.setStackFromEnd(true);
                             currentChatBinding.recyclerMessages.setLayoutManager(linearLayoutManager);
