@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_standard"
                     android:layout_marginBottom="@dimen/margin_middle"
-                    app:layout_constraintBottom_toTopOf="@id/et_profile_email_layout"
+                    app:layout_constraintBottom_toTopOf="@id/et_description_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/et_profile_first_name_layout">
@@ -103,27 +103,27 @@
                         android:hint="@string/last_name" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_profile_email_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_standard"
-                    android:layout_marginBottom="@dimen/margin_middle"
-                    app:layout_constraintBottom_toTopOf="@id/et_description_layout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_profile_last_name_layout">
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/et_profile_email_layout"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="@dimen/margin_standard"-->
+<!--                    android:layout_marginBottom="@dimen/margin_middle"-->
+<!--                    app:layout_constraintBottom_toTopOf="@id/et_description_layout"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/et_profile_last_name_layout">-->
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_profile_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:focusable="false"
-                        android:hint="@string/email"
-                        android:inputType="none"
-                        android:textColor="@color/grey" />
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/et_profile_email"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:focusable="false"-->
+<!--                        android:hint="@string/email"-->
+<!--                        android:inputType="none"-->
+<!--                        android:textColor="@color/grey" />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <!--            <EditText-->
                 <!--                android:id="@+id/tv_profile_city"-->
@@ -158,7 +158,7 @@
                     app:layout_constraintBottom_toTopOf="@id/tv_categories_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_profile_email_layout">
+                    app:layout_constraintTop_toBottomOf="@+id/et_profile_last_name_layout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_description"

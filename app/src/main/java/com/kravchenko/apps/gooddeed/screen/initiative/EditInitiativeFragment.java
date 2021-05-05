@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -27,12 +28,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import static android.app.Activity.RESULT_OK;
 
 public class EditInitiativeFragment extends BaseFragment {
 
@@ -67,6 +73,8 @@ public class EditInitiativeFragment extends BaseFragment {
             newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
 
         });
+
+        binding.cvImageChoice.setOnClickListener(v -> pickImage());
     }
 
     private void initDropDownCategory() {
@@ -115,6 +123,29 @@ public class EditInitiativeFragment extends BaseFragment {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
+        }
+    }
+
+    private void pickImage() {
+        ImagePicker.Companion.with(this)
+                .galleryMimeTypes(new String[]{"image/png", "image/jpg", "image/jpeg"})
+                .start();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == ImagePicker.REQUEST_CODE) {
+
+                Glide.with(this)
+                        .load(data.getData())
+                        .fallback(R.drawable.no_photo)
+                        .into(binding.ivInitiativeImage);
+            }
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(requireContext(), ImagePicker.Companion.getError(data), Toast.LENGTH_SHORT).show();
         }
     }
 

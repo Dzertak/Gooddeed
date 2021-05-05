@@ -59,14 +59,6 @@ public class AuthRepository {
                             if (task.isSuccessful()) {
                                 // Login successful
                                 mUser.setValue(Resource.success(mAuth.getCurrentUser()));
-                                addUserToFirebase(new FirestoreUser(
-                                        mAuth.getCurrentUser().getUid(),
-                                        null,
-                                        null,
-                                        mAuth.getCurrentUser().getEmail(),
-                                        "5.0",
-                                        null,
-                                        null,null));
                                 Log.d(TAG, "User logged in successfully");
                             } else {
                                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
@@ -101,17 +93,23 @@ public class AuthRepository {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(authResultTask -> {
-                    if (authResultTask.isSuccessful()) {
-                        Log.d(TAG, "Sign in with credential: success");
-                        mUser.setValue(Resource.success(mAuth.getCurrentUser()));
+                    if (authResultTask.isSuccessful() && mAuth.getCurrentUser() != null) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        mUser.setValue(Resource.success(user));
+                        String lastName = "";
+                        if (user.getDisplayName() != null && user.getDisplayName().contains(" ")) {
+                            String displayName = user.getDisplayName();
+                            lastName = displayName.substring(displayName.indexOf(" ")).trim();
+                        }
+
                         addUserToFirebase(new FirestoreUser(
-                                mAuth.getCurrentUser().getUid(),
-                                mAuth.getCurrentUser().getDisplayName().split("\\s+")[0],
-                                mAuth.getCurrentUser().getDisplayName().split("\\s+")[1],
-                                mAuth.getCurrentUser().getEmail(),
+                                user.getUid(),
+                                user.getDisplayName().split("\\s+")[0],
+                                lastName,
+                                user.getEmail(),
                                 "5.0",
                                 null,
-                                mAuth.getCurrentUser().getPhotoUrl().toString(),
+                                user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null,
                                 null));
                     } else {
                         mUser.setValue(Resource.error(authResultTask.getException().getMessage(), null));
@@ -124,19 +122,11 @@ public class AuthRepository {
         return mGoogleSignIn;
     }
 
-    public void signOutUser() {
-        if (mAuth.getCurrentUser() != null) {
-            mAuth.signOut();
-            mGoogleSignIn.signOut();
-            mUser.setValue(Resource.inactive());
-            Log.d(TAG, "User logged out");
-        }
-    }
-
     // Checks if user exists in Firebase
     // Adds user document if user doesn't exist in Firebase.
     private void addUserToFirebase(FirestoreUser user) {
         DocumentReference userDocRef = mFirestore.collection(COLLECTION_USERS).document(user.getUserId());
+        Log.d(TAG, "Google user: " + user);
         userDocRef.get()
                 .addOnCompleteListener(snapshotTask -> {
                     if (snapshotTask.isSuccessful()) {

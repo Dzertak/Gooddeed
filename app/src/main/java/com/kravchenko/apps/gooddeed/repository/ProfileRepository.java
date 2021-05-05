@@ -60,13 +60,11 @@ public class ProfileRepository {
         }
     }
 
-    public void updateUser(String firstName, String lastName, Uri imageUri, String
-            email, String description) {
+    public void updateUser(String firstName, String lastName, Uri imageUri, String description) {
         if (mUser.getValue() != null && mUser.getValue().data != null) {
             FirestoreUser user = mUser.getValue().data;
             user.setFirstName(firstName);
             user.setLastName(lastName);
-            user.setEmail(email);
             user.setDescription(description);
 
             StorageReference profilePicRef = mStorage.getReference()
@@ -96,7 +94,6 @@ public class ProfileRepository {
         String FIELD_FIRSTNAME = "firstName";
         String FIELD_LASTNAME = "lastName";
         String FIELD_IMAGEURL = "imageUrl";
-        String FIELD_EMAIL = "email";
         String FIELD_DESCRIPTION = "description";
 
         // Updating only some fields
@@ -104,7 +101,6 @@ public class ProfileRepository {
         userMap.put(FIELD_FIRSTNAME, user.getFirstName());
         userMap.put(FIELD_LASTNAME, user.getLastName());
         userMap.put(FIELD_IMAGEURL, user.getImageUrl());
-        userMap.put(FIELD_EMAIL, user.getEmail());
         userMap.put(FIELD_DESCRIPTION, user.getDescription());
         mUser.setValue(Resource.loading(Utils.getString(R.string.loading), null));
         mUserDocRef.update(userMap).addOnCompleteListener(task -> {

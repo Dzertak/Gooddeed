@@ -46,10 +46,6 @@ public class AuthViewModel extends ViewModel {
         mAuthRepository.changePassword(newPassword);
     }
 
-    public void signOutUser() {
-        mAuthRepository.signOutUser();
-    }
-
     public LiveData<Resource<Object>> getActionMarker(){
         return mAuthRepository.getActionMarker();
     }

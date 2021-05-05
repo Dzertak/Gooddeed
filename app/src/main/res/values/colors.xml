@@ -16,5 +16,8 @@
     <color name="lightgreen">#d5f199</color>
     <color name="darkergreen">#79C500</color>
     <color name="transparent">#00FFFFFF</color>
-    <color name="black_alpha">#80000000</color>
+    <color name="black_alpha">#99000000</color>
+    <color name="ucrop_color_toolbar">@color/green</color>
+    <color name="ucrop_color_statusbar">@color/darkgreen</color>
+    <color name="ucrop_color_widget_active">@color/teal_700</color>
 </resources>

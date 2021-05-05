@@ -21,8 +21,8 @@ public class ProfileViewModel extends ViewModel {
         return mRepository.getUser();
     }
 
-    public void updateUser(String firstName, String lastName, Uri imageUri, String email, String description) {
-        mRepository.updateUser(firstName, lastName, imageUri, email, description);
+    public void updateUser(String firstName, String lastName, Uri imageUri, String description) {
+        mRepository.updateUser(firstName, lastName, imageUri, description);
     }
 
 }
