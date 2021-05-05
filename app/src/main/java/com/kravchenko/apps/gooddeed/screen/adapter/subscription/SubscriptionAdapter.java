@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.database.entity.Filter;
-import com.kravchenko.apps.gooddeed.screen.adapter.filter.MainFilterRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

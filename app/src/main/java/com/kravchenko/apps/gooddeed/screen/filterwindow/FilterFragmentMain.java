@@ -17,20 +17,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.database.entity.Filter;
 import com.kravchenko.apps.gooddeed.databinding.FragmentFilterMainBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
-import com.kravchenko.apps.gooddeed.screen.adapter.filter.MainFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.util.Utils;
-import com.kravchenko.apps.gooddeed.util.annotation.FilterName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class FilterFragmentMain extends BaseFragment {
     private FragmentFilterMainBinding binding;
-    private MainFilterRecyclerViewAdapter filterAdapter;
+
     private final String DATA_PICKER_TAG = "DATA_PICKER";
 
     @Override
@@ -66,38 +60,6 @@ public class FilterFragmentMain extends BaseFragment {
     }
 
 
-    private void initRecyclerView() {
-        filterAdapter = new MainFilterRecyclerViewAdapter(getContext());
-        filterAdapter.setOnItemClickListener(filter -> {
-                    switch (filter.getFilterName()) {
-                        case FilterName.CATEGORY:
-                            getNavController().navigate(R.id.action_filterFragment_to_categoryTypeFilterFragment);
-                            break;
-                        case FilterName.PERFORMER_INITIATIVE:
-                            getNavController().navigate(R.id.action_filterFragment_to_performerInitiativeFragment);
-                            break;
-                        case FilterName.PERIOD_REALIZATION:
-                            getNavController().navigate(R.id.action_filterFragment_to_periodRealizationFilterFragment);
-                            break;
-                        case FilterName.RADIUS:
-                            getNavController().navigate(R.id.action_filterFragment_to_radiusFilterFragment);
-                            break;
-                    }
-
-                }
-        );
-
-
-        // binding.recyclerViewFilterFragment.setLayoutManager(new LinearLayoutManager(getContext()));
-        //binding.recyclerViewFilterFragment.setAdapter(filterAdapter);
-        //TODO
-        List<Filter> filters = new ArrayList<>();
-        filters.add(new Filter(FilterName.CATEGORY, "default"));
-        filters.add(new Filter(FilterName.PERFORMER_INITIATIVE, "default"));
-        filters.add(new Filter(FilterName.PERIOD_REALIZATION, "default"));
-        filters.add(new Filter(FilterName.RADIUS, "default"));
-        filterAdapter.setFilters(filters);
-    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {

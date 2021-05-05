@@ -43,7 +43,6 @@ public class CategoryFilterFragment extends BaseFragment {
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         if (getArguments() != null) {
             categoryTypeId = CategoryFilterFragmentArgs.fromBundle(getArguments()).getCategoryTypeId();
-            Toast.makeText(getContext(), categoryTypeId, Toast.LENGTH_SHORT).show();
         }
         initRecyclerView();
         authViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
@@ -54,20 +53,8 @@ public class CategoryFilterFragment extends BaseFragment {
 
     private void initRecyclerView() {
         adapter = new CategoryRecyclerViewAdapter(getContext());
-//        adapter.setOnItemClickListener(categoryType -> {
-//            Toast.makeText(getContext(), Utils.getString((int) categoryType.getTitle()), Toast.LENGTH_SHORT).show();
-//            //TODO change args
-//            NavDirections action = CategoryTypeFilterFragmentDirections.actionCategoryTypeFilterFragmentToCategoryFilterFragment(Utils.getString(categoryType.getTitle()));
-//            getNavController().navigate(action);
-//        });
         binding.recyclerViewCategories.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewCategories.setAdapter(adapter);
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category(R.string.building_title, R.id.tv_about_title));
-        categories.add(new Category(R.string.building_title, R.id.tv_about_title));
-        categories.add(new Category(R.string.building_title, R.id.tv_about_title));
-        categories.add(new Category(R.string.building_title, R.id.tv_about_title));
-        adapter.setCategories(categories);
     }
 
     @Override
