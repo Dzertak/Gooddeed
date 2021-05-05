@@ -12,11 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:text="СЕГОДНЯ"
         android:background="@drawable/rounded_view"
         android:backgroundTint="@color/light_grey"
+        android:padding="@dimen/margin_middle"
         android:textColor="@color/black"
-        android:padding="@dimen/margin_middle"/>
+        tools:text="СЕГОДНЯ"
+        android:layout_marginBottom="@dimen/margin_standard"/>
 
     <LinearLayout
         android:id="@+id/linearlayout_user_in_chat"
@@ -28,17 +29,17 @@
             android:id="@+id/imgview_sender_avatar"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="@dimen/margin_middle"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_middle" />
 
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_middle"
             android:text="@string/login"
-            android:textSize="@dimen/textsize_little"
-            android:layout_gravity="center"/>
+            android:textSize="@dimen/textsize_little" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,10 +55,11 @@
             android:layout_height="wrap_content"
             android:maxWidth="240dp"
             android:textColor="@color/black"
+            android:textSize="@dimen/textsize_standard"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="test test TEST"
-            android:textSize="@dimen/textsize_standard"/>
+            tools:text="test test TEST" />
 
         <TextView
             android:id="@+id/tv_time"

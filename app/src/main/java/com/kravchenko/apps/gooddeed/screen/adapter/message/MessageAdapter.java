@@ -72,10 +72,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         MessageEntity messageEntity = currentChatRoom.getListOfMessages().get(position);
         holder.textViewMessage.setText(messageEntity.getTextOfMessage());
         Date date = new Date(messageEntity.getTimeInMillis());
-        if (previousDate!=null && previousDate.equals(DateFormat.getDateInstance().format(date))){
+        holder.textViewDay.setVisibility(View.VISIBLE);
+        holder.textViewDay.setText(DateFormat.getDateInstance().format(date));
+        if (previousDate!=null && previousDate.equals(DateFormat.getDateInstance().format(date))) {
             holder.textViewDay.setVisibility(View.GONE);
-        }else{
-            holder.textViewDay.setText(DateFormat.getDateInstance().format(date));
         }
         holder.textViewTime.setText(DateFormat.getTimeInstance().format(date));
         if (getItemViewType(position) == MSG_TYPE_LEFT) {
@@ -93,9 +93,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 Glide.with(context).load(R.drawable.no_photo).circleCrop()
                         .into(holder.avatar);
             }
-            if (previousSender!=null && previousSender.equals(messageEntity.getSender())){
+            holder.linearLayoutOfUser.setVisibility(View.VISIBLE);
+            if (previousSender != null && previousSender.equals(messageEntity.getSender())) {
                 holder.linearLayoutOfUser.setVisibility(View.GONE);
-            }
+            } 
         }
         previousDate = DateFormat.getDateInstance().format(date);
         previousSender = messageEntity.getSender();

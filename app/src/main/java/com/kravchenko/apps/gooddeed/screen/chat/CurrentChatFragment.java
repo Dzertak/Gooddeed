@@ -90,7 +90,7 @@ public class CurrentChatFragment extends Fragment {
                             linearLayoutManager = new LinearLayoutManager(getContext());
                             messageAdapter = new MessageAdapter(currentChatRoom, fullNames, avatarUrls, getContext());
                             currentChatBinding.recyclerMessages.setAdapter(messageAdapter);
-                            //linearLayoutManager.setStackFromEnd(true);
+                            linearLayoutManager.setStackFromEnd(false);
                             currentChatBinding.recyclerMessages.setLayoutManager(linearLayoutManager);
                             //TODO scroll to last item which was read by user
                         }
@@ -101,6 +101,7 @@ public class CurrentChatFragment extends Fragment {
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
+
 
         currentChatBinding.btnSendMessage.setOnClickListener(v -> {
             if (!currentChatBinding.etTypeMessage.getText().toString().trim().equals("")) {

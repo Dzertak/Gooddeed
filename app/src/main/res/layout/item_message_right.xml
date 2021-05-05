@@ -12,11 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:text="СЕГОДНЯ"
         android:background="@drawable/rounded_view"
         android:backgroundTint="@color/light_grey"
+        android:padding="@dimen/margin_middle"
         android:textColor="@color/black"
-        android:padding="@dimen/margin_middle"/>
+        tools:text="СЕГОДНЯ"
+        android:layout_marginBottom="@dimen/margin_standard"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -35,6 +36,7 @@
             android:textSize="@dimen/textsize_standard"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="test test TEST" />
 
         <TextView
@@ -42,8 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/tv_messagetext"
-            app:layout_constraintTop_toBottomOf="@id/tv_messagetext"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="7:37:53 PM" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
