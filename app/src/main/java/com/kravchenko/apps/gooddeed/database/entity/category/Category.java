@@ -1,43 +1,57 @@
 package com.kravchenko.apps.gooddeed.database.entity.category;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "category")
 public class Category {
-    @PrimaryKey(autoGenerate = true)
-    private long categoryId;
-    @Ignore
-    private String firebaseCategoryId;
+    @NonNull
+    @PrimaryKey
+    private String categoryId;
 
-    private String description;
-    private String title;
-    private String imgUrl;
+    private String categoryOwnerId;
+    private long title;
+    private long description;
 
-    public Category(String description, String title, String imgUrl) {
-        this.description = description;
+    public Category(long title, long description) {
         this.title = title;
-        this.imgUrl = imgUrl;
+        this.description = description;
     }
 
-    public long getCategoryId() {
+    public Category() {
+    }
+
+    @NonNull
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public String getFirebaseCategoryId() {
-        return firebaseCategoryId;
+    public void setCategoryId(@NonNull String categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCategoryOwnerId() {
+        return categoryOwnerId;
     }
 
-    public String getTitle() {
+    public void setCategoryOwnerId(String categoryOwnerId) {
+        this.categoryOwnerId = categoryOwnerId;
+    }
+
+    public long getTitle() {
         return title;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public void setTitle(long title) {
+        this.title = title;
+    }
+
+    public long getDescription() {
+        return description;
+    }
+
+    public void setDescription(long description) {
+        this.description = description;
     }
 }

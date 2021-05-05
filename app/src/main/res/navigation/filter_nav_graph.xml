@@ -11,13 +11,6 @@
         android:label="@string/filter_fragment_label"
         tools:layout="@layout/fragment_filter_main" >
         <action
-            android:id="@+id/action_filterFragment_to_categoryFilterFragment"
-            app:destination="@id/categoryFilterFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
             android:id="@+id/action_filterFragment_to_radiusFilterFragment"
             app:destination="@id/radiusFilterFragment" />
         <action
@@ -26,12 +19,10 @@
         <action
             android:id="@+id/action_filterFragment_to_performerInitiativeFragment"
             app:destination="@id/performerInitiativeFragment" />
+        <action
+            android:id="@+id/action_filterFragment_to_categoryTypeFilterFragment"
+            app:destination="@id/categoryTypeFilterFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/categoryFilterFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryFilterFragment"
-        android:label="@string/category"
-        tools:layout="@layout/fragment_category_filter" />
     <fragment
         android:id="@+id/radiusFilterFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.RadiusFilterFragment"
@@ -47,4 +38,22 @@
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.PerformerInitiativeFragment"
         android:label="@string/performer_initiative"
         tools:layout="@layout/fragment_performer_initiative_filter" />
+    <fragment
+        android:id="@+id/categoryTypeFilterFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryTypeFilterFragment"
+        android:label="fragment_category_type_filter"
+        tools:layout="@layout/fragment_category_type_filter" >
+        <action
+            android:id="@+id/action_categoryTypeFilterFragment_to_categoryFilterFragment3"
+            app:destination="@id/categoryFilterFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFilterFragment3"
+        android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryFilterFragment"
+        android:label="fragment_category_filter"
+        tools:layout="@layout/fragment_category_filter" >
+        <argument
+            android:name="category_type_Id"
+            app:argType="string" />
+    </fragment>
 </navigation>

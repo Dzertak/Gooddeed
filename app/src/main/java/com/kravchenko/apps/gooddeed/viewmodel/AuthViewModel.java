@@ -1,13 +1,21 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseUser;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypesWithCategories;
 import com.kravchenko.apps.gooddeed.repository.AuthRepository;
 import com.kravchenko.apps.gooddeed.util.Resource;
+
+import java.util.List;
 
 public class AuthViewModel extends ViewModel {
 
@@ -52,5 +60,21 @@ public class AuthViewModel extends ViewModel {
 
     public void loginWithPassword(String password) {
         mAuthRepository.loginWithPassword(password);
+    }
+
+    public LiveData<List<CategoryType>> getCategoryTypes() {
+        return mAuthRepository.getCategoryTypes();
+    }
+
+    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(String ownerId) {
+        return mAuthRepository.findCategoryTypesByCategoryOwnerId(ownerId);}
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void fetchCategoryTypeWithCategoriesFromFirestore() {
+        mAuthRepository.fetchCategoryTypeWithCategoriesFromFirestore();
+    }
+
+    public LiveData<List<CategoryTypesWithCategories>> getCategoryTypesWithCategoriesLiveData() {
+        return mAuthRepository.getCategoryTypesWithCategoriesLiveData();
     }
 }
