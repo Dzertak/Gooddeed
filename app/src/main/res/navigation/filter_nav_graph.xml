@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/categoryTypeFilterFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryTypeFilterFragment"
-        android:label="fragment_category_type_filter"
+        android:label="@string/type_category_filter"
         tools:layout="@layout/fragment_category_type_filter" >
         <action
             android:id="@+id/action_categoryTypeFilterFragment_to_categoryFilterFragment3"
@@ -50,8 +50,8 @@
     <fragment
         android:id="@+id/categoryFilterFragment3"
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryFilterFragment"
-        android:label="fragment_category_filter"
-        tools:layout="@layout/fragment_category_filter" >
+        android:label="@string/category_filter"
+        tools:layout="@layout/fragment_category_filter">
         <argument
             android:name="category_type_Id"
             app:argType="string" />
