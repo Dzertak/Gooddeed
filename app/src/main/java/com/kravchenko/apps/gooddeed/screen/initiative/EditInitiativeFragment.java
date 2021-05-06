@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.NavController;
 import androidx.navigation.ui.NavigationUI;
 
@@ -72,6 +73,16 @@ public class EditInitiativeFragment extends BaseFragment {
             DialogFragment newFragment = new DatePickerFragment();
             newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
 
+        });
+
+        getParentFragmentManager().setFragmentResultListener(PickInitiativeLocationFragment.REQUEST_LOCATION_RESULT, getViewLifecycleOwner(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                if (requestKey.equals(PickInitiativeLocationFragment.REQUEST_LOCATION_RESULT)){
+                    String location = result.getDouble("lat")+", "+result.getDouble("lng");
+                    binding.tvLocation.setText(location);
+                }
+            }
         });
 
         binding.cvImageChoice.setOnClickListener(v -> pickImage());
