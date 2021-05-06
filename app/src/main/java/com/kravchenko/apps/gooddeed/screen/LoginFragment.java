@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentLoginBinding;
+import com.kravchenko.apps.gooddeed.util.FillHelper;
 import com.kravchenko.apps.gooddeed.util.InputValidator;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
@@ -66,6 +67,8 @@ public class LoginFragment extends BaseFragment {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
                     if (!isSignedOut) {
+                        FillHelper.fillDB();
+                        mAuthViewModel.fetchCategoryTypeWithCategoriesFromFirestore();
                         getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
                     }
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {

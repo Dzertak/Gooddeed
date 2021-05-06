@@ -25,7 +25,7 @@
     <string name="log_in_with_google">Sign In with Google</string>
     <string name="log_in_with_facebook">Sign In with Facebook</string>
     <string name="default_error_msg">Somethings went wrong :(</string>
-    <string name="your_search_request_here">Your search request here</string>
+    <string name="your_search_request_here">Needed location</string>
     <string name="my_subscriptions">My subscriptions:</string>
     <string name="change_my_subscriptions">Change my subscriptions</string>
     <string name="delete_this_account">Delete this account</string>
@@ -55,7 +55,7 @@
     <string name="or">OR</string>
     <string name="current_initiative">Current initiative</string>
     <string name="edit_initiative">Edit initiative</string>
-    <string name="my_initiatives">my_initiatives</string>
+    <string name="my_initiatives">My initiatives</string>
     <string name="current_chat">Current chat</string>
     <string name="chats">Chats</string>
     <string name="change_radius_filter">Change radius</string>
@@ -122,4 +122,99 @@
     <string name="chose_type_initiative">Chose type initiative</string>
     <string name="no_name">No name</string>
     <string name="initiative_title">Initiative title</string>
+    <string name="im_creator">I\'m creator</string>
+    <string name="im_doer">I\'m doer</string>
+
+    <!--Categories-->
+    <string name="charity_title">Charity</string>
+    <string name="charity_desc">TODO</string>
+    <string name="cleaning_title">Cleaning</string>
+    <string name="cleaning_desc">TODO</string>
+    <string name="tutoring_and_training_title">Tutoring and training</string>
+    <string name="tutoring_and_training_desc">TODO</string>
+    <string name="beauty_and_health_title">Beauty and health</string>
+    <string name="beauty_and_health_desc">TODO</string>
+    <string name="photo_and_video_title">Photo and video</string>
+    <string name="photo_and_video_desc">TODO</string>
+    <string name="delivery_and_transportation_title">Delivery and transportation</string>
+    <string name="delivery_and_transportation_desc">TODO</string>
+    <string name="repair_and_construction_title">Repair and construction</string>
+    <string name="repair_and_construction_desc">TODO</string>
+
+    <!--Charity category-->
+    <string name="donations_title">Donations</string>
+    <string name="donations_desc">TODO</string>
+    <string name="help_those_in_need_title">Help those in need</string>
+    <string name="help_those_in_need_desc">TODO</string>
+
+    <!--Cleaning category-->
+    <string name="house_cleaning_title">House cleaning</string>
+    <string name="house_cleaning_desc">TODO</string>
+    <string name="yard_cleaning_title">Yard cleaning</string>
+    <string name="yard_cleaning_desc">TODO</string>
+
+    <!--Delivery and transportation category-->
+    <string name="cargo_transportation_title">Cargo transportation</string>
+    <string name="cargo_transportation_desc">TODO</string>
+    <string name="courier_title">Courier</string>
+    <string name="courier_desc">TODO</string>
+    <string name="taxi_title">Taxi</string>
+    <string name="taxi_desc">TODO</string>
+
+    <!--Tutoring and training category-->
+    <string name="art_title">Art</string>
+    <string name="art_desc">TODO</string>
+    <string name="foreign_languages_title">Foreign languages</string>
+    <string name="foreign_languages_desc">TODO</string>
+    <string name="programming_title">Programming</string>
+    <string name="programming_desc">TODO</string>
+    <string name="science_title">Science</string>
+    <string name="science_desc">TODO</string>
+    <string name="sport_title">Sport</string>
+    <string name="sport_desc">TODO</string>
+
+    <!--Beauty and health-->
+    <string name="massage_title">Massage</string>
+    <string name="massage_desc">TODO</string>
+    <string name="cosmetologist_services_title">Cosmetologist Services</string>
+    <string name="cosmetologist_services_desc">TODO</string>
+    <string name="hairdressing_title">Hairdressing</string>
+    <string name="hairdressing_desc">TODO</string>
+    <string name="psychologists_title">Psychologists</string>
+    <string name="psychologists_desc">TODO</string>
+
+    <!--Photo and video-->
+    <string name="filming_title">Filming</string>
+    <string name="filming_desc">TODO</string>
+    <string name="photoshoot_title">Photoshoot</string>
+    <string name="photoshoot_desc">TODO</string>
+
+    <!--Repair and construction-->
+    <string name="electrical_title">Electrical</string>
+    <string name="electrical_desc">TODO</string>
+    <string name="building_title">Building</string>
+    <string name="building_desc">TODO</string>
+    <string name="handyman_for_hour_title">Handyman for hour</string>
+    <string name="handyman_for_hour_desc">TODO</string>
+    <string name="plumbing_title">Plumbing</string>
+    <string name="plumbing_desc">TODO</string>
+    <string name="repair_of_electrical_equipment_title">Repair of electrical equipment</string>
+    <string name="repair_of_electrical_equipment_desc">TODO</string>
+    <string name="vehicle_repair_title">Vehicle repair</string>
+    <string name="vehicle_repair_desc">TODO</string>
+
+    <string name="timeline">Timeline</string>
+    <string name="data_picker_title">Select a date range</string>
+    <string name="arrow_symbol">⟩</string>
+    <string name="filter_category_type">Filter category type</string>
+    <string name="filter_category">Filter category</string>
+    <string name="select_all">Select all</string>
+    <string name="type_category_filter">Type category filter</string>
+    <string name="category_filter">Category filter</string>
+    <string name="clear">Clear</string>
+
+    <string name="msg_dialog_enable_gps">"Your GPS seems to be disabled, do you want to enable it?"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="msg_hint_input_city_name">Enter the name of the settlement, if there is no exact address for your initiative</string>
 </resources>
