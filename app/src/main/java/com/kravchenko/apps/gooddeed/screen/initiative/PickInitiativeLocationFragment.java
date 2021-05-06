@@ -68,7 +68,7 @@ public class PickInitiativeLocationFragment extends BaseFragment implements OnMa
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        geocoder = new Geocoder(requireActivity());
+        geocoder = new Geocoder(requireContext());
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
             //onMapClick();
@@ -121,10 +121,13 @@ public class PickInitiativeLocationFragment extends BaseFragment implements OnMa
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        mapFragment.onDestroyView();
-        mMap.clear();
+        if (mMap!=null) mMap.clear();
+        if (mapFragment != null) mapFragment.onDestroy();
+        if (mMarker != null) mMarker.remove();
+        mapFragment = null;
+        mMarker = null;
         binding = null;
+        super.onDestroyView();
     }
 
     private void geocodeCoordinates(){

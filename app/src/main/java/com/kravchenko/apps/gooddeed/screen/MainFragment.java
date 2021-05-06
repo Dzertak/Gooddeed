@@ -47,6 +47,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -80,9 +81,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private ArrayList<LatLng> markersLatLng;
     private ArrayList<String> markersTitle;
     private final static String titleName = "MARKER";
-    private Marker mMarker;
     private MapViewModel mapViewModel;
-    private AuthViewModel authViewModel;
     private FilterViewModel filterViewModel;
     private GoogleMap mMap;
 
@@ -104,7 +103,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         LatLng latLngOdessa = AppConstants.ODESSA_COORDINATES;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
     }
 
 
@@ -157,8 +156,8 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
 
     //TODO
         filterViewModel.getAllSelectedCategoriesLiveData()
@@ -175,9 +174,9 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();
 
-        mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
-        mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
-        mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());
+
+//        mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
+//        mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());
 
         binding.addInitiativeFloatingButton.setOnClickListener(v -> getNavController().navigate(R.id.action_mainFragment_to_editInitiativeFragment));
         binding.icGps.setOnClickListener(v -> getCurrentLocation());
@@ -229,27 +228,37 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @Override
     public void onPause() {
         super.onPause();
+        supportMapFragment.onPause();
         binding.drawerLayout.closeDrawer(binding.navView);
     }
 
     @Override
-    public void onDestroyView() {
-        //if (mMap!=null) mMap.clear();
-        //if (supportMapFragment != null) supportMapFragment.onDestroyView();
-        super.onDestroyView();
-        binding = null;
+    public void onStop() {
+        super.onStop();
+        supportMapFragment.onStop();
     }
 
     @Override
-    public void onDestroy() {
-        //if (mMap!=null) mMap.clear();
-        if (supportMapFragment != null) supportMapFragment.onDestroy();
-        if (mMarker != null) {
-            mMarker.remove();
-            mMarker = null;
-        }
-        super.onDestroy();
+    public void onStart() {
+        super.onStart();
+        supportMapFragment.onStart();
     }
+
+    @Override
+    public void onDestroyView() {
+        if (mMap!=null) mMap.clear();
+        if (supportMapFragment != null) supportMapFragment.onDestroy();
+        supportMapFragment = null;
+        binding = null;
+        super.onDestroyView();
+    }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        if (mMap!=null) mMap.clear();
+//        if (supportMapFragment != null) supportMapFragment.onDestroy();
+//    }
 
 
     private void initMapWithInitiatives() {
