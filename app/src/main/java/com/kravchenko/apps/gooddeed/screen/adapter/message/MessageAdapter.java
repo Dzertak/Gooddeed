@@ -72,12 +72,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         MessageEntity messageEntity = currentChatRoom.getListOfMessages().get(position);
         holder.textViewMessage.setText(messageEntity.getTextOfMessage());
         Date date = new Date(messageEntity.getTimeInMillis());
-        holder.textViewDay.setVisibility(View.VISIBLE);
-        holder.textViewDay.setText(DateFormat.getDateInstance().format(date));
-        if (previousDate!=null && previousDate.equals(DateFormat.getDateInstance().format(date))) {
-            holder.textViewDay.setVisibility(View.GONE);
-        }
-        holder.textViewTime.setText(DateFormat.getTimeInstance().format(date));
+        String dateTimeText = DateFormat.getDateInstance().format(date) + " " + DateFormat.getTimeInstance().format(date);
+        holder.textViewTime.setText(dateTimeText);
         if (getItemViewType(position) == MSG_TYPE_LEFT) {
             //if sender is not me - set username and avatar
             if (fullNames != null && fullNames.get(messageEntity.getSender()) != null) {
@@ -93,10 +89,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 Glide.with(context).load(R.drawable.no_photo).circleCrop()
                         .into(holder.avatar);
             }
-            holder.linearLayoutOfUser.setVisibility(View.VISIBLE);
-            if (previousSender != null && previousSender.equals(messageEntity.getSender())) {
-                holder.linearLayoutOfUser.setVisibility(View.GONE);
-            } 
         }
         previousDate = DateFormat.getDateInstance().format(date);
         previousSender = messageEntity.getSender();
@@ -108,16 +100,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewUsername, textViewMessage, textViewDay, textViewTime;
+        TextView textViewUsername, textViewMessage, textViewTime;
         ImageView avatar;
-        LinearLayout linearLayoutOfUser;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            linearLayoutOfUser = itemView.findViewById(R.id.linearlayout_user_in_chat);
             textViewUsername = itemView.findViewById(R.id.tv_username);
             textViewMessage = itemView.findViewById(R.id.tv_messagetext);
-            textViewDay = itemView.findViewById(R.id.tv_day);
             textViewTime = itemView.findViewById(R.id.tv_time);
             avatar = itemView.findViewById(R.id.imgview_sender_avatar);
         }

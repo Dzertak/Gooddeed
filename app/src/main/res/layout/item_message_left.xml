@@ -7,18 +7,6 @@
     android:layout_margin="@dimen/margin_little"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_view"
-        android:backgroundTint="@color/light_grey"
-        android:padding="@dimen/margin_middle"
-        android:textColor="@color/black"
-        tools:text="СЕГОДНЯ"
-        android:layout_marginBottom="@dimen/margin_standard"/>
-
     <LinearLayout
         android:id="@+id/linearlayout_user_in_chat"
         android:layout_width="wrap_content"
