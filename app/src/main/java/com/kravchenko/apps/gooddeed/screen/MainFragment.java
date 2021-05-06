@@ -96,27 +96,27 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         LatLng latLngOdessa = new LatLng(46.482952, 30.712481);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
-        mMap.setOnMarkerClickListener(marker -> {
-            getNavController().navigate(R.id.action_mainFragment_to_currentInitiativeFragment);
-            return false;
-        });
-        mMap.setOnMapClickListener(latLng -> {
-            String snippet = "Some info here";
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title(titleName);
-            markerOptions.snippet(snippet);
-            mMarker = mMap.addMarker(markerOptions);
-            mapViewModel.newCoordinates(latLng);
-            mapViewModel.newTitle(titleName);
-            //googleMap.clear();
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-            mMap.addMarker(markerOptions);
-        });
+//        mMap.setOnMarkerClickListener(marker -> {
+//            getNavController().navigate(R.id.action_mainFragment_to_currentInitiativeFragment);
+//            return false;
+//        });
+//        mMap.setOnMapClickListener(latLng -> {
+//            String snippet = "Some info here";
+//            MarkerOptions markerOptions = new MarkerOptions();
+//            markerOptions.position(latLng);
+//            markerOptions.title(titleName);
+//            markerOptions.snippet(snippet);
+//            mMarker = mMap.addMarker(markerOptions);
+//            mapViewModel.newCoordinates(latLng);
+//            mapViewModel.newTitle(titleName);
+//            //googleMap.clear();
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//            mMap.addMarker(markerOptions);
+//        });
     }
 
 
@@ -159,9 +159,9 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        hideKeyboard();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -178,33 +178,33 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
         binding.addInitiativeFloatingButton.setOnClickListener(v -> getNavController().navigate(R.id.action_mainFragment_to_editInitiativeFragment));
         binding.icGps.setOnClickListener(v -> getCurrentLocation());
-        //onMapClick();
-        binding.inputSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                String location = binding.inputSearch.getQuery().toString();
-                if (location != null || !location.isEmpty()) {
-                    try {
-                        Geocoder geocoder = new Geocoder(requireActivity());
-                        List<Address> addressList = geocoder.getFromLocationName(location, 1);
-                        Address address = addressList.get(0);
+//        //onMapClick();
+//        binding.inputSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                String location = binding.inputSearch.getQuery().toString();
+//                if (location != null && !location.isEmpty()) {
+//                    try {
+//                        Geocoder geocoder = new Geocoder(requireActivity());
+//                        List<Address> addressList = geocoder.getFromLocationName(location, 1);
+//                        Address address = addressList.get(0);
+//
+//                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+//                        mMap.addMarker(new MarkerOptions().position(latLng).title(location));
+//                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                return false;
+//            }
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
 
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         buildDrawerToggle();
 
@@ -236,6 +236,8 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     private void hideKeyboard() {
         try {
+//            final InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         } catch (Exception e){
             //it's for test. Need make listener class for errors

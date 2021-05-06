@@ -208,4 +208,8 @@
     <string name="select_all">Select all</string>
     <string name="type_category_filter">Type category filter</string>
     <string name="category_filter">Category filter</string>
+
+    <string name="msg_dialog_enable_gps">"Your GPS seems to be disabled, do you want to enable it?"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -116,5 +116,9 @@
     <string name="save">Сохранить</string>
     <string name="additional_information">Дополнительная информация</string>
     <string name="chose_type_initiative">Выберете тип инициативы</string>
+
+    <string name="msg_dialog_enable_gps">"Ваш GPS похоже что отключён. Вы хотите включить его?"</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>
 
