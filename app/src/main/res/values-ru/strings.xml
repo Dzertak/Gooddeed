@@ -49,7 +49,7 @@
     <string name="radius">Радиус</string>
     <string name="category">Категория</string>
     <string name="navigation_drawer_close">Закрыть шторку навигации</string>
-    <string name="your_search_request_here">Ваш поисковый запрос здесь</string>
+    <string name="your_search_request_here">Необходимая локация</string>
     <string name="current_initiative">Текущая инициатива</string>
     <string name="edit_initiative">Править инициативу</string>
     <string name="my_initiatives">Мои инициативы</string>
@@ -120,5 +120,6 @@
     <string name="msg_dialog_enable_gps">"Ваш GPS похоже что отключён. Вы хотите включить его?"</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="msg_hint_input_city_name">Введите название населённого пункта, если для вашей инициативы нет, точного адресса</string>
 </resources>
 

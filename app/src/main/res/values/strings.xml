@@ -25,7 +25,7 @@
     <string name="log_in_with_google">Sign In with Google</string>
     <string name="log_in_with_facebook">Sign In with Facebook</string>
     <string name="default_error_msg">Somethings went wrong :(</string>
-    <string name="your_search_request_here">Your search request here</string>
+    <string name="your_search_request_here">Needed location</string>
     <string name="my_subscriptions">My subscriptions:</string>
     <string name="change_my_subscriptions">Change my subscriptions</string>
     <string name="delete_this_account">Delete this account</string>
@@ -199,7 +199,6 @@
     <string name="vehicle_repair_title">Vehicle repair</string>
     <string name="vehicle_repair_desc">TODO</string>
 
-
     <string name="timeline">Timeline</string>
     <string name="data_picker_title">Select a date range</string>
     <string name="arrow_symbol">⟩</string>
@@ -213,4 +212,5 @@
     <string name="msg_dialog_enable_gps">"Your GPS seems to be disabled, do you want to enable it?"</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="msg_hint_input_city_name">Enter the name of the settlement, if there is no exact address for your initiative</string>
 </resources>

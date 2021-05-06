@@ -32,6 +32,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 
@@ -45,6 +46,7 @@ public class EditInitiativeFragment extends BaseFragment {
 
     private FragmentInitiativeEditBinding binding;
     private final String[] categoryName = {"Help", "Work", "Volunteer", "Meeting"};
+    private Initiative initiativeCur;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -79,8 +81,14 @@ public class EditInitiativeFragment extends BaseFragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 if (requestKey.equals(PickInitiativeLocationFragment.REQUEST_LOCATION_RESULT)){
-                    String location = result.getDouble("lat")+", "+result.getDouble("lng");
+                    //String location = result.getDouble("lat")+", "+result.getDouble("lng");
+                    //here location info
+                    String lat = String.valueOf(result.getDouble("lat"));
+                    String lng = String.valueOf(result.getDouble("lng"));
+                    String location = result.getString("location");
                     binding.tvLocation.setText(location);
+
+
                 }
             }
         });

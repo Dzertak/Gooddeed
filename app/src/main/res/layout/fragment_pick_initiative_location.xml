@@ -25,6 +25,7 @@
         android:layout_margin="@dimen/margin_standard"
         android:background="@drawable/search_view"
         android:hint="@string/your_search_request_here"
+        android:queryHint="@string/your_search_request_here"
         android:iconifiedByDefault="false"
         android:theme="@style/SearchViewStyle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,6 +33,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </SearchView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="@dimen/margin_standard"
+        android:textStyle="italic|bold"
+        android:textColor="@color/grey"
+        android:text="@string/msg_hint_input_city_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_search"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ic_gps"
