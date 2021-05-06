@@ -2,7 +2,6 @@ package com.kravchenko.apps.gooddeed.screen.adapter.filter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,6 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
                 holder.imageViewCheck.setVisibility(View.VISIBLE);
                 holder.itemView.setBackgroundColor(Color.LTGRAY);
             } else {
-                Log.i("dev", "isSelectAll() else");
                 holder.imageViewCheck.setVisibility(View.GONE);
                 holder.itemView.setBackgroundColor(Color.WHITE);
             }
@@ -74,11 +72,19 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     public void selectAll() {
         if (categories.size() == selectedCategories.size()) {
             isSelectAll = false;
+            selectedCategories.forEach(category ->
+                    filterViewModel.removeSelectedCategory(category)
+            );
             selectedCategories.clear();
+
         } else {
             isSelectAll = true;
             selectedCategories.clear();
             selectedCategories.addAll(categories);
+            selectedCategories.forEach(category ->
+                    filterViewModel.addSelectedCategory(category)
+            );
+
         }
         filterViewModel.setSelectedCategories(selectedCategories);
         notifyDataSetChanged();
@@ -90,10 +96,12 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             holder.imageViewCheck.setVisibility(View.VISIBLE);
             holder.itemView.setBackgroundColor(Color.LTGRAY);
             selectedCategories.add(category);
+            filterViewModel.addSelectedCategory(category);
         } else {
             holder.imageViewCheck.setVisibility(View.GONE);
             holder.itemView.setBackgroundColor(Color.WHITE);
             selectedCategories.remove(category);
+            filterViewModel.removeSelectedCategory(category);
         }
         filterViewModel.setSelectedCategories(selectedCategories);
     }

@@ -67,7 +67,7 @@ public class LoginFragment extends BaseFragment {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
                     if (!isSignedOut) {
-                       // FillHelper.fillDB();
+                        FillHelper.fillDB();
                         mAuthViewModel.fetchCategoryTypeWithCategoriesFromFirestore();
                         getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
                     }

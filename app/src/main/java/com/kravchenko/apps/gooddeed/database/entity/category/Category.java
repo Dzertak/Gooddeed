@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "category")
 public class Category {
     @NonNull
@@ -53,5 +55,21 @@ public class Category {
 
     public void setDescription(long description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return title == category.title &&
+                description == category.description &&
+                categoryId.equals(category.categoryId) &&
+                categoryOwnerId.equals(category.categoryOwnerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryId, categoryOwnerId, title, description);
     }
 }

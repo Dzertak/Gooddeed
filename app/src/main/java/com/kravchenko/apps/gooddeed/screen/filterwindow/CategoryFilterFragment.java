@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.CategoryRecyclerViewAdapter;
@@ -50,18 +51,17 @@ public class CategoryFilterFragment extends BaseFragment {
                     categoriesSize = categories.size();
                     adapter.setCategories(categories);
                 });
-
         filterViewModel.getSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), selectedCategories -> {
-
                     if (selectedCategories.isEmpty() || selectedCategories.size() < categoriesSize) {
                         binding.cardViewSelectAll.setCardBackgroundColor(Color.WHITE);
+                        binding.textViewSelectAllTitle.setText(R.string.select_all);
                         binding.imageViewCheckBox.setVisibility(View.GONE);
                     } else {
                         binding.cardViewSelectAll.setCardBackgroundColor(Color.LTGRAY);
+                        binding.textViewSelectAllTitle.setText(R.string.clear);
                         binding.imageViewCheckBox.setVisibility(View.VISIBLE);
                     }
-
                 });
         binding.cardViewSelectAll.setOnClickListener(v -> adapter.selectAll());
     }
