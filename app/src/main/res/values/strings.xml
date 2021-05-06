@@ -55,7 +55,7 @@
     <string name="or">OR</string>
     <string name="current_initiative">Current initiative</string>
     <string name="edit_initiative">Edit initiative</string>
-    <string name="my_initiatives">my_initiatives</string>
+    <string name="my_initiatives">My initiatives</string>
     <string name="current_chat">Current chat</string>
     <string name="chats">Chats</string>
     <string name="change_radius_filter">Change radius</string>
@@ -120,6 +120,8 @@
     <string name="save">Save</string>
     <string name="additional_information">Additional Information</string>
     <string name="chose_type_initiative">Chose type initiative</string>
+    <string name="im_creator">I\'m creator</string>
+    <string name="im_doer">I\'m doer</string>
 
     <!--Categories-->
     <string name="charity_title">Charity</string>
