@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.repository.ChatRepository;
-import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,28 +21,8 @@ public class ChatViewModel extends ViewModel {
         chatRepository.initComponentsForCurrentChat(currentChatRoomId);
     }
 
-    public LiveData<String> getInitiativeIconUri() {
-       return chatRepository.getInitiativeIconUri();
-    }
-
-    public LiveData<String> getInitiativeTitle() {
-        return chatRepository.getInitiativeTitle();
-    }
-
     public void sendMessage(String message) {
         chatRepository.sendMessage(message);
-    }
-
-    public LiveData<String> getChatRoomMembersCount() {
-        return chatRepository.getChatRoomMembersCount();
-    }
-
-    public LiveData<Boolean> arraysForMessagesAreFilled() {
-        return chatRepository.arraysForMessagesAreFilled();
-    }
-
-    public LiveData<ArrayList<MessageEntity>> getListOfMessages() {
-        return chatRepository.getListOfMessages();
     }
 
     public LiveData<HashMap<String, String>> getFullNames() {

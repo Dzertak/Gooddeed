@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,24 +27,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
-    private final List<MessageEntity> listOfMessages;
+    private final ChatRoom currentChatRoom;
     private static final int MSG_TYPE_LEFT = 0;
     private static final int MSG_TYPE_RIGHT = 1;
     private final String currentUserId;
     private final HashMap<String, String> fullNames;
     private final HashMap<String, String> avatarUrls;
     private final Context context;
+    private static final String TAG = "gooddeed_tag";
 
-    public MessageAdapter(ArrayList<MessageEntity> listOfMessages, HashMap<String, String> fullNames, HashMap<String, String> avatarUrls, Context context) {
+    public MessageAdapter(ChatRoom currentChatRoom, HashMap<String, String> fullNames, HashMap<String, String> avatarUrls, Context context) {
         this.fullNames = fullNames;
         this.avatarUrls = avatarUrls;
-        this.listOfMessages = listOfMessages;
+        this.currentChatRoom = currentChatRoom;
         this.context = context;
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
@@ -62,8 +66,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
-        MessageEntity messageEntity = listOfMessages.get(position);
+        //TODO add day and time
+        MessageEntity messageEntity = currentChatRoom.getListOfMessages().get(position);
         holder.textViewMessage.setText(messageEntity.getTextOfMessage());
+        holder.textViewTime.setText(messageEntity.getDateAndTime());
         if (getItemViewType(position) == MSG_TYPE_LEFT) {
             //if sender is not me - set username and avatar
             if (fullNames != null && fullNames.get(messageEntity.getSender()) != null) {
@@ -84,25 +90,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return listOfMessages.size();
+        return currentChatRoom.getListOfMessages().size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewUsername;
-        TextView textViewMessage;
+        TextView textViewUsername, textViewMessage, textViewTime;
         ImageView avatar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewUsername = itemView.findViewById(R.id.tv_username);
             textViewMessage = itemView.findViewById(R.id.tv_messagetext);
+            textViewTime = itemView.findViewById(R.id.tv_time);
             avatar = itemView.findViewById(R.id.imgview_sender_avatar);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (listOfMessages.get(position).getSender().equals(currentUserId)) {
+        if (currentChatRoom.getListOfMessages().get(position).getSender().equals(currentUserId)) {
             return MSG_TYPE_RIGHT;
         } else return MSG_TYPE_LEFT;
     }

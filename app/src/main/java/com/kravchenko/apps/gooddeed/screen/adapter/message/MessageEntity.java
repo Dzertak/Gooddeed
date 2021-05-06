@@ -1,9 +1,19 @@
 package com.kravchenko.apps.gooddeed.screen.adapter.message;
 
 public class MessageEntity {
-    private long number;
+    private String dateAndTime;
     private String sender;
     private String textOfMessage;
+
+    public String getDateAndTime() {
+        return dateAndTime;
+    }
+
+    public void setDateAndTime(String dateAndTime) {
+        this.dateAndTime = dateAndTime;
+    }
+
+    public MessageEntity() {}
 
     public String getTextOfMessage() {
         return textOfMessage;
@@ -11,14 +21,6 @@ public class MessageEntity {
 
     public void setTextOfMessage(String textOfMessage) {
         this.textOfMessage = textOfMessage;
-    }
-
-    public long getNumber() {
-        return number;
-    }
-
-    public void setNumber(long number) {
-        this.number = number;
     }
 
     public String getSender() {
@@ -29,5 +31,5 @@ public class MessageEntity {
         this.sender = sender;
     }
 
-//TODO File
+    //TODO File
 }
