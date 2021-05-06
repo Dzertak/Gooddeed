@@ -43,8 +43,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     private final HashMap<String, String> avatarUrls;
     private final Context context;
     private static final String TAG = "gooddeed_tag";
-    private String previousDate;
-    private String previousSender;
 
     public MessageAdapter(ChatRoom currentChatRoom, HashMap<String, String> fullNames, HashMap<String, String> avatarUrls, Context context) {
         this.fullNames = fullNames;
@@ -71,9 +69,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         //TODO add day and time
         MessageEntity messageEntity = currentChatRoom.getListOfMessages().get(position);
         holder.textViewMessage.setText(messageEntity.getTextOfMessage());
-        Date date = new Date(messageEntity.getTimeInMillis());
-        String dateTimeText = DateFormat.getDateInstance().format(date) + " " + DateFormat.getTimeInstance().format(date);
-        holder.textViewTime.setText(dateTimeText);
+        holder.textViewTime.setText(messageEntity.getDateAndTime());
         if (getItemViewType(position) == MSG_TYPE_LEFT) {
             //if sender is not me - set username and avatar
             if (fullNames != null && fullNames.get(messageEntity.getSender()) != null) {
@@ -90,8 +86,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                         .into(holder.avatar);
             }
         }
-        previousDate = DateFormat.getDateInstance().format(date);
-        previousSender = messageEntity.getSender();
     }
 
     @Override

@@ -22,9 +22,9 @@
             android:maxWidth="240dp"
             android:textColor="@color/black"
             android:textSize="@dimen/textsize_standard"
+            android:layout_marginEnd="@dimen/margin_little"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             tools:text="test test TEST" />
 
         <TextView

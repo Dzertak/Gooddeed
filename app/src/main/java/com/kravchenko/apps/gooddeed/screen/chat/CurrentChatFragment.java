@@ -72,7 +72,7 @@ public class CurrentChatFragment extends Fragment {
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
                             messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
-                            messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
+                            messageEntity.setDateAndTime(String.valueOf(message.child("dateAndTime").getValue()));
                             messageEntity.setTextOfMessage(String.valueOf(message.child("textOfMessage").getValue()));
                             listOfMessages.add(messageEntity);
                         }

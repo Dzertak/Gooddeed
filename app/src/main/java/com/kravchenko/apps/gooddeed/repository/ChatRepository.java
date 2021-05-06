@@ -16,7 +16,9 @@ import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +116,9 @@ public class ChatRepository {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", userId);
         hashMap.put("textOfMessage", message);
-        hashMap.put("timeInMillis",System.currentTimeMillis());
+        Date date = new Date(System.currentTimeMillis());
+        String dateTimeText = DateFormat.getDateInstance().format(date) + " " + DateFormat.getTimeInstance().format(date);
+        hashMap.put("dateAndTime",dateTimeText);
         FirebaseDatabase.getInstance().getReference().child("Chats").child(currentChatRoomId)
                 .child("messages").push().setValue(hashMap);
     }
@@ -143,9 +147,9 @@ public class ChatRepository {
                         ArrayList<MessageEntity> arrayListOfMessageEntities = new ArrayList<>();
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
-                            messageEntity.setSender(message.child("sender").getValue().toString());
-                            messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
-                            messageEntity.setTextOfMessage(message.child("textOfMessage").getValue().toString());
+                            messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
+                            messageEntity.setDateAndTime(String.valueOf(message.child("dateAndTime").getValue()));
+                            messageEntity.setTextOfMessage(String.valueOf(message.child("textOfMessage").getValue()));
                             arrayListOfMessageEntities.add(messageEntity);
                         }
                         ChatRoom chatroom = new ChatRoom(

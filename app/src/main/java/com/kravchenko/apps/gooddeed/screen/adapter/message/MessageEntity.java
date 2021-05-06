@@ -1,20 +1,19 @@
 package com.kravchenko.apps.gooddeed.screen.adapter.message;
 
 public class MessageEntity {
-    private long timeInMillis;
+    private String dateAndTime;
     private String sender;
     private String textOfMessage;
 
-    public long getTimeInMillis() {
-        return timeInMillis;
+    public String getDateAndTime() {
+        return dateAndTime;
     }
 
-    public void setTimeInMillis(long timeInMillis) {
-        this.timeInMillis = timeInMillis;
+    public void setDateAndTime(String dateAndTime) {
+        this.dateAndTime = dateAndTime;
     }
 
-    public MessageEntity() {
-    }
+    public MessageEntity() {}
 
     public String getTextOfMessage() {
         return textOfMessage;
@@ -32,5 +31,5 @@ public class MessageEntity {
         this.sender = sender;
     }
 
-//TODO File
+    //TODO File
 }
