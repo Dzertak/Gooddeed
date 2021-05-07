@@ -2,18 +2,15 @@ package com.kravchenko.apps.gooddeed.screen.initiative;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -22,11 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
-import androidx.navigation.NavController;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
@@ -35,10 +28,11 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
+import com.kravchenko.apps.gooddeed.util.TimeUtil;
+import com.kravchenko.apps.gooddeed.util.annotation.InitiativeType;
+import com.kravchenko.apps.gooddeed.viewmodel.InitiativeViewModel;
 
-import java.io.File;
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,6 +41,8 @@ public class EditInitiativeFragment extends BaseFragment {
     private FragmentInitiativeEditBinding binding;
     private final String[] categoryName = {"Help", "Work", "Volunteer", "Meeting"};
     private Initiative initiativeCur;
+    private InitiativeViewModel initiativeViewModel;
+    private Calendar calendar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -66,34 +62,63 @@ public class EditInitiativeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         initDropDownCategory();
 
-        binding.cvLocationChoice.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_pickInitiativeLocationFragment));
-        binding.cvTimeChoice.setOnClickListener(v -> {
-            DialogFragment newFragment = new DatePickerFragment();
-            newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+        calendar = Calendar.getInstance();
 
-        });
-
-        getParentFragmentManager().setFragmentResultListener(PickInitiativeLocationFragment.REQUEST_LOCATION_RESULT, getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                if (requestKey.equals(PickInitiativeLocationFragment.REQUEST_LOCATION_RESULT)){
-                    //String location = result.getDouble("lat")+", "+result.getDouble("lng");
-                    //here location info
-                    String lat = String.valueOf(result.getDouble("lat"));
-                    String lng = String.valueOf(result.getDouble("lng"));
-                    String location = result.getString("location");
-                    binding.tvLocation.setText(location);
-
-
+        initiativeViewModel = new ViewModelProvider(requireActivity()).get(InitiativeViewModel.class);
+        initiativeViewModel.getInitiative().observe(getViewLifecycleOwner(), initiative -> {
+            initiativeCur = initiative != null ? initiative : new Initiative();
+            if (initiativeCur.getLocation() != null) binding.tvLocation.setText(initiativeCur.getLocation());
+            if (initiativeCur.getTimestamp() > 0) binding.tvTime.setText(TimeUtil.convertToDisplayTime(initiativeCur.getTimestamp()));
+            if (initiativeCur.getType() != null) {
+                switch (initiativeCur.getType()){
+                    case InitiativeType.SINGLE : binding.tvType.setText(getString(R.string.single)); break;
+                    case InitiativeType.GROUP : binding.tvType.setText(getString(R.string.group)); break;
+                    case InitiativeType.UNLIMITED : binding.tvType.setText(getString(R.string.unlimited)); break;
                 }
             }
         });
 
+
+
+        TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                if (initiativeCur == null) initiativeCur = new Initiative();
+                initiativeCur.setTimestamp(calendar.getTimeInMillis());
+                initiativeViewModel.updateInitiative(initiativeCur);
+            }
+        };
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //+5 for making initiative only in future
+                new TimePickerDialog(view.getContext(), timeListener,
+                        calendar.get(Calendar.HOUR_OF_DAY), Calendar.MINUTE + 5, true).show();
+            }
+        };
+
+        binding.cvLocationChoice.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_pickInitiativeLocationFragment));
+        binding.cvTimeChoice.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog =  new DatePickerDialog(v.getContext(), date, calendar
+                    .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            datePickerDialog.show();
+        });
+
         binding.cvImageChoice.setOnClickListener(v -> pickImage());
+        binding.cvTypeChoice.setOnClickListener(t -> getNavController().navigate(R.id.action_editInitiativeFragment_to_initiativeTypeFragment));
     }
 
     private void initDropDownCategory() {
@@ -101,48 +126,6 @@ public class EditInitiativeFragment extends BaseFragment {
         binding.cvCategoryChoice.setOnClickListener(t -> {
             Toast.makeText(requireContext(), "Choice category", Toast.LENGTH_SHORT).show();
         });
-    }
-
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            DialogFragment newFragment = new TimePickerFragment();
-            newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-        }
-    }
-
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-        }
     }
 
     private void pickImage() {

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -31,11 +32,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.databinding.FragmentPickInitiativeLocationBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
+import com.kravchenko.apps.gooddeed.util.Resource;
+import com.kravchenko.apps.gooddeed.viewmodel.InitiativeViewModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,6 +57,8 @@ public class PickInitiativeLocationFragment extends BaseFragment implements OnMa
     private Geocoder geocoder;
     private String locationName;
     private LatLng latLngCurrent;
+    private Initiative initiativeCur;
+    private InitiativeViewModel initiativeViewModel;
 
 
     @Nullable
@@ -74,15 +80,20 @@ public class PickInitiativeLocationFragment extends BaseFragment implements OnMa
             //onMapClick();
         }
 
+        initiativeViewModel = new ViewModelProvider(requireActivity()).get(InitiativeViewModel.class);
+        initiativeViewModel.getInitiative().observe(getViewLifecycleOwner(), initiative -> {
+            initiativeCur = initiative != null ? initiative : new Initiative();
+        });
+
         binding.cvCurrentLocation.setOnClickListener(t -> {
             if (latLngCurrent == null || locationName == null){
                 Toast.makeText(requireContext(), "Please, select location. We can use search field for input your city", Toast.LENGTH_SHORT).show();
             } else {
-                Bundle result = new Bundle();
-                result.putDouble("lat", latLngCurrent.latitude);
-                result.putDouble("lng", latLngCurrent.longitude);
-                result.putString("location", locationName);
-                getParentFragmentManager().setFragmentResult(REQUEST_LOCATION_RESULT, result);
+                if (initiativeCur == null) initiativeCur = new Initiative();
+                initiativeCur.setLocation(locationName);
+                initiativeCur.setLat(String.valueOf(latLngCurrent.longitude));
+                initiativeCur.setLng(String.valueOf(latLngCurrent.longitude));
+                initiativeViewModel.updateInitiative(initiativeCur);
                 getNavController().navigateUp();
             }
 

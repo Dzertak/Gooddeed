@@ -120,6 +120,10 @@
             android:id="@+id/action_editInitiativeFragment_to_pickInitiativeLocationFragment"
             app:destination="@id/pickInitiativeLocationFragment"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_initiativeTypeFragment"
+            app:destination="@id/initiativeTypeFragment"
+            app:launchSingleTop="true"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -204,4 +208,8 @@
             android:id="@+id/action_emailSettingFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/initiativeTypeFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.InitiativeTypeFragment"
+        android:label="@string/title_initiative_type" />
 </navigation>

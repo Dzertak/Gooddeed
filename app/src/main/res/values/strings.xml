@@ -217,4 +217,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="msg_hint_input_city_name">Enter the name of the settlement, if there is no exact address for your initiative</string>
+    <string name="msg_hint_initiative_types">Choose how many executors are needed for your initiative. Only "One", Maybe "Group" or "Unlimited"</string>
+
+    <string name="single">Single person</string>
+    <string name="group">Group people</string>
+    <string name="unlimited">Unlimited people</string>
+    <string name="title_initiative_type">Initiative Type</string>
 </resources>

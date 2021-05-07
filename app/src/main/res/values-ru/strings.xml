@@ -125,5 +125,12 @@
     <string name="msg_hint_input_city_name">Введите название населённого пункта, если для вашей инициативы нет, точного адресса</string>
     <string name="no_name">Без имени</string>
     <string name="initiative_title">Название инициативы</string>
+    <string name="msg_hint_initiative_types">Выберете сколько исполнителей необходимо для вашей инициативы. Только "Один", Возможно "Группа" или "Неограниченное" количество</string>
+
+    <string name="single">Один человек</string>
+    <string name="group">Группа людей</string>
+    <string name="unlimited">Неограниченно количество людей</string>
+    <string name="title_initiative_type">Тип Инициативы</string>
+
 </resources>
 
