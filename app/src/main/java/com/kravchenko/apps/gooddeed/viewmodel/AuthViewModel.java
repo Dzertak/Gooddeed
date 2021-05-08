@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -19,7 +20,7 @@ import java.util.List;
 public class AuthViewModel extends ViewModel {
 
     private final AuthRepository mAuthRepository;
-    private LiveData<List<CategoryTypesWithCategories>> selectedCategoriesLiveData;
+    private MutableLiveData<List<CategoryTypesWithCategories>> selectedCategoriesLiveData;
 
     public AuthViewModel() {
         super();
@@ -80,6 +81,7 @@ public class AuthViewModel extends ViewModel {
                 categoryTypesWithCategories.setCategories(selectedCategories);
             }
         });
+        selectedCategoriesLiveData.setValue(selectedCategoriesLiveData.getValue());
     }
 
     public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(String ownerId) {

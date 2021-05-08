@@ -137,18 +137,18 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
 
         //TODO
-//        authViewModel.getSelectedCategoriesLiveData()
-//                .observe(getViewLifecycleOwner(), selectedCategories -> {
-//                    //Todo
-//                    // handle filtered categories
-//                    selectedCategories.forEach(selectedCategory -> {
-//                        selectedCategory.getCategories().forEach(category -> {
-//                            Log.i("dev", "Main: " + category.getCategoryId());
-//                        });
-//                        Log.i("dev", "********************************");
-//                    });
-//                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-//                });
+        authViewModel.getSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), selectedCategories -> {
+                    //Todo
+                    // handle filtered categories
+                    selectedCategories.forEach(selectedCategory -> {
+                        selectedCategory.getCategories().forEach(category -> {
+                            Log.i("dev", "Main: " + category.getCategoryId());
+                        });
+                        Log.i("dev", "********************************");
+                    });
+                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+                });
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         supportMapFragment.getMapAsync(this);
