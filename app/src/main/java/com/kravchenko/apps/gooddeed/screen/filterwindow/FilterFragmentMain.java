@@ -34,8 +34,7 @@ public class FilterFragmentMain extends BaseFragment {
         return binding.getRoot();
     }
 
-    //TODO
-    // MACE BASE FRAGMENT
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

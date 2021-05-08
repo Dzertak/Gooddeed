@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,18 @@ import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryTypeFilterBindin
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.CategoryTypeRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
+import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class CategoryTypeFilterFragment extends BaseFragment {
     private FragmentCategoryTypeFilterBinding binding;
     private CategoryTypeRecyclerViewAdapter adapter;
     private AuthViewModel authViewModel;
+    private FilterViewModel filterViewModel;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -36,13 +43,27 @@ public class CategoryTypeFilterFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         initRecyclerView();
-        authViewModel.getCategoryTypes()
+        authViewModel.getCategoryTypesWithCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypes -> {
-                    adapter.setCategoryTypes(categoryTypes);
-                });
+                            Map<String, Integer> categorySizes = new HashMap<>();
+                            categoryTypes.forEach(categoryTypesWithCategories -> {
+                                String categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
+                                int categoriesSize = categoryTypesWithCategories.getCategories().size();
+                                categorySizes.put(categoryTypeId, categoriesSize);
+                            });
+                            adapter.setCategorySizes(categorySizes);
+                        }
+                );
+
+        authViewModel.getSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
+                adapter.setSelectedCategories(categoryTypesWithCategories)
+
+        );
+
     }
 
     private void initRecyclerView() {

@@ -223,4 +223,5 @@
     <string name="group">Group people</string>
     <string name="unlimited">Unlimited people</string>
     <string name="title_initiative_type">Initiative Type</string>
+    <string name="all">All</string>
 </resources>

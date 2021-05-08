@@ -53,6 +53,7 @@ public class AuthRepository {
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
     public AuthRepository() {
         categoryDao = CategoryDatabase.getInstance().categoryDao();
         Context context = AppInstance.getAppContext();
@@ -101,7 +102,7 @@ public class AuthRepository {
                                         mAuth.getCurrentUser().getEmail(),
                                         "5.0",
                                         null,
-                                        null,null, null));
+                                        null, null, null));
                             } else {
                                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
                                 Log.w(TAG, "Registration failure: " + task.getException());
@@ -250,6 +251,7 @@ public class AuthRepository {
     private interface OnEmailCheckListener {
         void onResult(boolean isRegistered);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void cashCategoryTypesWithCategories(CategoryTypesWithCategories categoryTypesWithCategories) {
         databaseWriteExecutor.execute(() ->
@@ -295,5 +297,13 @@ public class AuthRepository {
                         });
             }
         }).addOnFailureListener(e -> Log.i("dev", e.getLocalizedMessage()));
+    }
+
+    private MutableLiveData<List<CategoryTypesWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
+
+    public MutableLiveData<List<CategoryTypesWithCategories>> findCategoryTypesWithCategoryList() {
+        databaseWriteExecutor.execute(() ->
+                categoryTypesWithCategories.postValue(categoryDao.findCategoryTypesWithCategoryList()));
+        return categoryTypesWithCategories;
     }
 }

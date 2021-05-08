@@ -1,6 +1,8 @@
 package com.kravchenko.apps.gooddeed.screen.adapter.filter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +12,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypesWithCategories;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<CategoryTypeRecyclerViewAdapter.ViewHolder> {
     private final Context context;
-    private List<CategoryType> categoryTypes;
+    private List<CategoryTypesWithCategories> selectedCategories;
+    private Map<String, Integer> categorySizes;
     private OnItemClickListener listener;
 
     public CategoryTypeRecyclerViewAdapter(Context context) {
         this.context = context;
-        this.categoryTypes = new ArrayList<>();
+        this.selectedCategories = new ArrayList<>();
+        this.categorySizes = new HashMap<>();
     }
 
     @NonNull
@@ -34,28 +42,45 @@ public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<Catego
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoryType categoryType = categoryTypes.get(position);
+        CategoryTypesWithCategories categoryTypesWithCategories = selectedCategories.get(position);
+        CategoryType categoryType = selectedCategories.get(position).getCategoryType();
+        List<Category> categories = categoryTypesWithCategories.getCategories();
         holder.textViewCategoryTitle.setText(Utils.getString(categoryType.getTitle()));
+        Integer integer = categorySizes.get(categoryType.getCategoryTypeId());
+        if (integer != null) {
+            if (categories.size() == integer) {
+                holder.textViewCheck.setText(R.string.all);
+            } else if (categories.isEmpty()) {
+                holder.textViewCheck.setText(Utils.getString(R.string.arrow_symbol));
+            } else if (categories.size() == 1) {
+                holder.textViewCheck.setText(Utils.getString(categories.get(0).getTitle()));
+            } else {
+                holder.textViewCheck.setText(Utils.getString(categories.get(0).getTitle()) + ",\n" + Utils.getString(categories.get(1).getTitle()) + ",");
+            }
+        }
     }
 
-    public void setCategoryTypes(List<CategoryType> categoryTypes) {
-        this.categoryTypes = categoryTypes;
+
+    public void setSelectedCategories(List<CategoryTypesWithCategories> selectedCategories) {
+        this.selectedCategories = selectedCategories;
+        notifyDataSetChanged();
+    }
+
+    public void setCategorySizes(Map<String, Integer> categorySizes) {
+        this.categorySizes = categorySizes;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return categoryTypes.size();
+        return selectedCategories.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
-    }
-
-    public CategoryType getCategoryTypeAt(int position) {
-        return categoryTypes.get(position);
     }
 
     public interface OnItemClickListener {
@@ -64,14 +89,16 @@ public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewCategoryTitle;
+        private final TextView textViewCheck;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewCategoryTitle = itemView.findViewById(R.id.textView_categoryTypeTitle);
+            textViewCategoryTitle = itemView.findViewById(R.id.tvCategoryTypeTitle);
+            textViewCheck = itemView.findViewById(R.id.tvCategoryTypeCheck);
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(categoryTypes.get(position));
+                    listener.onItemClick(selectedCategories.get(position).getCategoryType());
                 }
             });
         }

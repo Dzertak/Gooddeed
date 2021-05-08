@@ -4,7 +4,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,10 +19,12 @@ import java.util.List;
 public class AuthViewModel extends ViewModel {
 
     private final AuthRepository mAuthRepository;
+    private LiveData<List<CategoryTypesWithCategories>> selectedCategoriesLiveData;
 
     public AuthViewModel() {
         super();
         mAuthRepository = new AuthRepository();
+        selectedCategoriesLiveData = mAuthRepository.findCategoryTypesWithCategoryList();
     }
 
     public void loginWithEmailAndPassword(String email, String password) {
@@ -54,7 +55,7 @@ public class AuthViewModel extends ViewModel {
         mAuthRepository.changePassword(newPassword);
     }
 
-    public LiveData<Resource<Object>> getActionMarker(){
+    public LiveData<Resource<Object>> getActionMarker() {
         return mAuthRepository.getActionMarker();
     }
 
@@ -62,19 +63,35 @@ public class AuthViewModel extends ViewModel {
         mAuthRepository.loginWithPassword(password);
     }
 
+    //Categories
     public LiveData<List<CategoryType>> getCategoryTypes() {
         return mAuthRepository.getCategoryTypes();
     }
 
-    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(String ownerId) {
-        return mAuthRepository.findCategoryTypesByCategoryOwnerId(ownerId);}
+    public LiveData<List<CategoryTypesWithCategories>> getSelectedCategoriesLiveData() {
+        return selectedCategoriesLiveData;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void fetchCategoryTypeWithCategoriesFromFirestore() {
-        mAuthRepository.fetchCategoryTypeWithCategoriesFromFirestore();
+    public void setSelectedCategories(List<Category> selectedCategories, String categoryOwnerId) {
+        selectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
+            if (categoryOwnerId
+                    .equals(categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
+                categoryTypesWithCategories.setCategories(selectedCategories);
+            }
+        });
+    }
+
+    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(String ownerId) {
+        return mAuthRepository.findCategoryTypesByCategoryOwnerId(ownerId);
     }
 
     public LiveData<List<CategoryTypesWithCategories>> getCategoryTypesWithCategoriesLiveData() {
         return mAuthRepository.getCategoryTypesWithCategoriesLiveData();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void fetchCategoryTypeWithCategoriesFromFirestore() {
+        mAuthRepository.fetchCategoryTypeWithCategoriesFromFirestore();
     }
 }

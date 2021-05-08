@@ -28,6 +28,9 @@ import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.app.Activity.RESULT_OK;
 
 public class LoginFragment extends BaseFragment {
@@ -61,7 +64,6 @@ public class LoginFragment extends BaseFragment {
         if (getArguments() != null) {
             isSignedOut = getArguments().getBoolean(SIGNED_OUT_FLAG);
         }
-
         mAuthViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
@@ -81,6 +83,7 @@ public class LoginFragment extends BaseFragment {
                 Toast.makeText(getContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
 

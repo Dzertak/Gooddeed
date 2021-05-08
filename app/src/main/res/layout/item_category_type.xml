@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent">
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="4dp">
 
     <TextView
-        android:id="@+id/textView_categoryTypeTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvCategoryTypeTitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:padding="12dp"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Category type" />
+        tools:text="CategoryTitle" />
 
     <TextView
+        android:id="@+id/tvCategoryTypeCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:text="@string/arrow_symbol"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.cardview.widget.CardView>
+        tools:text="All" />
+</LinearLayout>
