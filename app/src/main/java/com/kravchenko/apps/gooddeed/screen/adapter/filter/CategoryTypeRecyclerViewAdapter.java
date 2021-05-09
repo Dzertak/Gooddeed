@@ -2,7 +2,6 @@ package com.kravchenko.apps.gooddeed.screen.adapter.filter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypesWithCategories;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.ArrayList;
@@ -24,8 +23,8 @@ import java.util.Map;
 
 public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<CategoryTypeRecyclerViewAdapter.ViewHolder> {
     private final Context context;
-    private List<CategoryTypesWithCategories> selectedCategories;
-    private Map<String, Integer> categorySizes;
+    private List<CategoryTypeWithCategories> selectedCategories;
+    private Map<Long, Integer> categorySizes;
     private OnItemClickListener listener;
 
     public CategoryTypeRecyclerViewAdapter(Context context) {
@@ -45,9 +44,9 @@ public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<Catego
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoryTypesWithCategories categoryTypesWithCategories = selectedCategories.get(position);
+        CategoryTypeWithCategories categoryTypeWithCategories = selectedCategories.get(position);
         CategoryType categoryType = selectedCategories.get(position).getCategoryType();
-        List<Category> categories = categoryTypesWithCategories.getCategories();
+        List<Category> categories = categoryTypeWithCategories.getCategories();
         holder.textViewCategoryTitle.setText(Utils.getString(categoryType.getTitle()));
         Integer integer = categorySizes.get(categoryType.getCategoryTypeId());
         if (integer != null) {
@@ -64,12 +63,12 @@ public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<Catego
     }
 
 
-    public void setSelectedCategories(List<CategoryTypesWithCategories> selectedCategories) {
+    public void setSelectedCategories(List<CategoryTypeWithCategories> selectedCategories) {
         this.selectedCategories = selectedCategories;
         notifyDataSetChanged();
     }
 
-    public void setCategorySizes(Map<String, Integer> categorySizes) {
+    public void setCategorySizes(Map<Long, Integer> categorySizes) {
         this.categorySizes = categorySizes;
         notifyDataSetChanged();
     }

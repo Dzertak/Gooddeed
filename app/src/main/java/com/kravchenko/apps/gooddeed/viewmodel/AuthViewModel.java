@@ -11,7 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseUser;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypesWithCategories;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.repository.AuthRepository;
 import com.kravchenko.apps.gooddeed.util.Resource;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class AuthViewModel extends ViewModel {
 
     private final AuthRepository mAuthRepository;
-    private MutableLiveData<List<CategoryTypesWithCategories>> selectedCategoriesLiveData;
+    private MutableLiveData<List<CategoryTypeWithCategories>> selectedCategoriesLiveData;
 
     public AuthViewModel() {
         super();
@@ -69,31 +69,31 @@ public class AuthViewModel extends ViewModel {
         return mAuthRepository.getCategoryTypes();
     }
 
-    public LiveData<List<CategoryTypesWithCategories>> getSelectedCategoriesLiveData() {
+    public LiveData<List<CategoryTypeWithCategories>> getSelectedCategoriesLiveData() {
         return selectedCategoriesLiveData;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void setSelectedCategories(List<Category> selectedCategories, String categoryOwnerId) {
+    public void setSelectedCategories(List<Category> selectedCategories, long categoryOwnerId) {
         selectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
             if (categoryOwnerId
-                    .equals(categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
+                    ==(categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
                 categoryTypesWithCategories.setCategories(selectedCategories);
             }
         });
         selectedCategoriesLiveData.setValue(selectedCategoriesLiveData.getValue());
     }
 
-    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(String ownerId) {
+    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId) {
         return mAuthRepository.findCategoryTypesByCategoryOwnerId(ownerId);
     }
 
-    public LiveData<List<CategoryTypesWithCategories>> getCategoryTypesWithCategoriesLiveData() {
+    public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
         return mAuthRepository.getCategoryTypesWithCategoriesLiveData();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void fetchCategoryTypeWithCategoriesFromFirestore() {
-        mAuthRepository.fetchCategoryTypeWithCategoriesFromFirestore();
-    }
+
+//    public void fetchCategoryTypeWithCategoriesFromFirestore() {
+//        mAuthRepository.fetchCategoryTypeWithCategoriesFromFirestore();
+//    }
 }

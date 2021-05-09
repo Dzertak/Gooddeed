@@ -49,9 +49,9 @@ public class CategoryTypeFilterFragment extends BaseFragment {
         initRecyclerView();
         authViewModel.getCategoryTypesWithCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypes -> {
-                            Map<String, Integer> categorySizes = new HashMap<>();
+                            Map<Long, Integer> categorySizes = new HashMap<>();
                             categoryTypes.forEach(categoryTypesWithCategories -> {
-                                String categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
+                                long categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
                                 int categoriesSize = categoryTypesWithCategories.getCategories().size();
                                 categorySizes.put(categoryTypeId, categoriesSize);
                             });

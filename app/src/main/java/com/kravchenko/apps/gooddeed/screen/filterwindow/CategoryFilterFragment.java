@@ -30,7 +30,7 @@ import java.util.List;
 public class CategoryFilterFragment extends BaseFragment {
     private CategoryRecyclerViewAdapter adapter;
     private FragmentCategoryFilterBinding binding;
-    private String categoryTypeId;
+    private long categoryTypeId;
     private AuthViewModel authViewModel;
     private FilterViewModel filterViewModel;
     private int categoriesSize;
@@ -67,7 +67,7 @@ public class CategoryFilterFragment extends BaseFragment {
                     List<Category> categories = new ArrayList<>();
                     selectedCategories.forEach(categoryTypesWithCategories -> {
                         if (categoryTypesWithCategories.getCategoryType()
-                                .getCategoryTypeId().equals(categoryTypeId)) {
+                                .getCategoryTypeId() == categoryTypeId) {
 
                             categories.addAll(categoryTypesWithCategories.getCategories());
                            /* categories.forEach(category -> {
@@ -91,7 +91,7 @@ public class CategoryFilterFragment extends BaseFragment {
             List<Category> categories1 = new ArrayList<>();
             categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
                 if (categoryTypeWithCategories.getCategoryType()
-                        .getCategoryTypeId().equals(categoryTypeId)) {
+                        .getCategoryTypeId() == categoryTypeId) {
                     categories1.addAll(categoryTypeWithCategories.getCategories());
                 }
                 adapter.setSelectedCategories(categories1);

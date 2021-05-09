@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypesWithCategories;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class FilterViewModel extends ViewModel {
     private final MutableLiveData<List<Category>> selectedCategoriesLiveData;
     private final MutableLiveData<Set<Category>> allSelectedCategoriesLiveData;
-    private final MutableLiveData<List<CategoryTypesWithCategories>> categoryTypesWithCategoriesLiveData;
+    private final MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategoriesLiveData;
 
     public FilterViewModel() {
         this.selectedCategoriesLiveData = new MutableLiveData<>();
@@ -30,11 +30,11 @@ public class FilterViewModel extends ViewModel {
         selectedCategoriesLiveData.setValue(categories);
     }
 
-    public LiveData<List<CategoryTypesWithCategories>> getCategoryTypesWithCategoriesLiveData() {
+    public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
         return categoryTypesWithCategoriesLiveData;
     }
 
-    public void setCategoryTypesWithCategories(List<CategoryTypesWithCategories> categoryTypesWithCategories) {
+    public void setCategoryTypesWithCategories(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
         categoryTypesWithCategoriesLiveData.setValue(categoryTypesWithCategories);
     }
 

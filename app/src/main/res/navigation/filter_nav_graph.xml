@@ -54,6 +54,6 @@
         tools:layout="@layout/fragment_category_filter">
         <argument
             android:name="category_type_Id"
-            app:argType="string" />
+            app:argType="long" />
     </fragment>
 </navigation>

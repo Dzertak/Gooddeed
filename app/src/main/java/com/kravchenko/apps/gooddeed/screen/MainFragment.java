@@ -46,6 +46,7 @@ import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
+import com.kravchenko.apps.gooddeed.util.Utils;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
@@ -143,7 +144,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                     // handle filtered categories
                     selectedCategories.forEach(selectedCategory -> {
                         selectedCategory.getCategories().forEach(category -> {
-                            Log.i("dev", "Main: " + category.getCategoryId());
+                            Log.i("dev", "Main: " + Utils.getString(category.getTitle()));
                         });
                         Log.i("dev", "********************************");
                     });
