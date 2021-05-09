@@ -47,6 +47,9 @@ public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<Catego
         CategoryTypeWithCategories categoryTypeWithCategories = selectedCategories.get(position);
         CategoryType categoryType = selectedCategories.get(position).getCategoryType();
         List<Category> categories = categoryTypeWithCategories.getCategories();
+//        if (categories == null) {
+//            categories = new ArrayList<>();
+//        }
         holder.textViewCategoryTitle.setText(Utils.getString(categoryType.getTitle()));
         Integer integer = categorySizes.get(categoryType.getCategoryTypeId());
         if (integer != null) {

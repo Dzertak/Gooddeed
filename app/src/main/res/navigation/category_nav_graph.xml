@@ -25,5 +25,8 @@
         <argument
             android:name="category_type_Id"
             app:argType="long" />
+        <argument
+            android:name="root_direction"
+            app:argType="string" />
     </fragment>
 </navigation>

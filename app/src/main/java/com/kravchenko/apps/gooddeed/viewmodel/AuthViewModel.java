@@ -66,9 +66,9 @@ public class AuthViewModel extends ViewModel {
     }
 
     //Categories
-    public LiveData<List<CategoryType>> getCategoryTypes() {
-        return mAuthRepository.getCategoryTypes();
-    }
+//    public LiveData<List<CategoryType>> getCategoryTypes() {
+//        return mAuthRepository.getCategoryTypes();
+//    }
 
     public LiveData<List<CategoryTypeWithCategories>> getSelectedCategoriesLiveData() {
         return selectedCategoriesLiveData;

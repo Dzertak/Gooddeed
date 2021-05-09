@@ -41,7 +41,7 @@ public abstract class CategoryDao {
     public abstract LiveData<List<Category>> findCategories();
 
     @Query("SELECT * FROM category_type")
-    public abstract LiveData<List<CategoryType>> findCategoryTypes();
+    public abstract List<CategoryType> findCategoryTypes();
 
     @Query("SELECT * FROM category WHERE categoryOwnerId = :ownerId")
     public abstract LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId);

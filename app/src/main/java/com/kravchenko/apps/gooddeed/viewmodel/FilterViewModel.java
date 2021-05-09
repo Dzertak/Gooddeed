@@ -1,55 +1,38 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
+import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class FilterViewModel extends ViewModel {
-    private final MutableLiveData<List<Category>> selectedCategoriesLiveData;
-    private final MutableLiveData<Set<Category>> allSelectedCategoriesLiveData;
-    private final MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategoriesLiveData;
+    private final CategoryRepository categoryRepository;
 
     public FilterViewModel() {
-        this.selectedCategoriesLiveData = new MutableLiveData<>();
-        this.categoryTypesWithCategoriesLiveData = new MutableLiveData<>();
-        this.allSelectedCategoriesLiveData = new MutableLiveData<>(new HashSet<>());
-    }
-
-    public LiveData<List<Category>> getSelectedCategoriesLiveData() {
-        return selectedCategoriesLiveData;
-    }
-
-    public void setSelectedCategories(List<Category> categories) {
-        selectedCategoriesLiveData.setValue(categories);
+        this.categoryRepository = new CategoryRepository();
     }
 
     public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
-        return categoryTypesWithCategoriesLiveData;
+        return categoryRepository.getCategoryTypesWithCategoriesLiveData();
     }
 
-    public void setCategoryTypesWithCategories(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
-        categoryTypesWithCategoriesLiveData.setValue(categoryTypesWithCategories);
+    public void setInitiativesSelectedCategory(Category category, long categoryOwnerId) {
+        categoryRepository.setInitiativesSelectedCategory(category, categoryOwnerId);
     }
 
-    public LiveData<Set<Category>> getAllSelectedCategoriesLiveData() {
-        return allSelectedCategoriesLiveData;
+    public MutableLiveData<List<CategoryTypeWithCategories>> getInitiativesSelectedCategoriesLiveData() {
+        return categoryRepository.getInitiativesSelectedCategoriesLiveData();
     }
-
-    public void addSelectedCategory(Category category) {
-        Set<Category> value = allSelectedCategoriesLiveData.getValue();
-        value.add(category);
-        allSelectedCategoriesLiveData.setValue(value);
-    }
-    public void removeSelectedCategory(Category category) {
-        Set<Category> value = allSelectedCategoriesLiveData.getValue();
-        value.remove(category);
-        allSelectedCategoriesLiveData.setValue(value);
+    public MutableLiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategory() {
+      return categoryRepository.getCategoryTypesWithCategory();
     }
 }

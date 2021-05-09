@@ -25,7 +25,7 @@ import com.kravchenko.apps.gooddeed.util.Utils;
 
 public class FilterFragmentMain extends BaseFragment {
     private FragmentFilterMainBinding binding;
-    public static final String TAG = FilterFragmentMain.class.getName();
+    public static final String FILTER_FRAGMENT_MAIN_KEY = "FILTER_FRAGMENT_MAIN_KEY";
     private final String DATA_PICKER_TAG = "DATA_PICKER";
 
     @Override
@@ -57,7 +57,7 @@ public class FilterFragmentMain extends BaseFragment {
         });
         binding.cardViewCategories.setOnClickListener(v -> {
             NavDirections action
-                    = FilterFragmentMainDirections.actionFilterFragmentToCategoryNavGraph(TAG);
+                    = FilterFragmentMainDirections.actionFilterFragmentToCategoryNavGraph(FILTER_FRAGMENT_MAIN_KEY);
             getNavController().navigate(action);
         });
     }

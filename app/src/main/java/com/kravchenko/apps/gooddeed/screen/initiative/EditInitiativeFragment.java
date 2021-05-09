@@ -44,7 +44,7 @@ public class EditInitiativeFragment extends BaseFragment {
     private Initiative initiativeCur;
     private InitiativeViewModel initiativeViewModel;
     private Calendar calendar;
-    public static final String TAG = EditInitiativeFragment.class.getName();
+    public static final String EDIT_INITIATIVE_FRAGMENT_TAG = "EDIT_INITIATIVE_FRAGMENT_TAG";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -71,7 +71,7 @@ public class EditInitiativeFragment extends BaseFragment {
         calendar = Calendar.getInstance();
         binding.tvCategory.setOnClickListener(v -> {
             NavDirections action
-                    = EditInitiativeFragmentDirections.actionEditInitiativeFragmentToCategoryNavGraph(TAG);
+                    = EditInitiativeFragmentDirections.actionEditInitiativeFragmentToCategoryNavGraph(EDIT_INITIATIVE_FRAGMENT_TAG);
             getNavController().navigate(action);
         });
         initiativeViewModel = new ViewModelProvider(requireActivity()).get(InitiativeViewModel.class);

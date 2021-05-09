@@ -256,9 +256,9 @@ public class AuthRepository {
                 categoryDao.insertCategoryTypeWithCategories(categoryTypeWithCategories));
     }
 
-    public LiveData<List<CategoryType>> getCategoryTypes() {
-        return categoryDao.findCategoryTypes();
-    }
+//    public LiveData<List<CategoryType>> getCategoryTypes() {
+//        return categoryDao.findCategoryTypes();
+//    }
 
     public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
         return categoryDao.findCategoryTypesWithCategory();
