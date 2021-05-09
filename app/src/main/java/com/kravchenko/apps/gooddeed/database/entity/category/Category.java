@@ -57,4 +57,19 @@ public class Category {
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return categoryId == category.categoryId &&
+                categoryOwnerId == category.categoryOwnerId &&
+                title == category.title &&
+                description == category.description;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryId, categoryOwnerId, title, description);
+    }
 }

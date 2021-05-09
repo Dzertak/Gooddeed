@@ -17,6 +17,7 @@ import com.kravchenko.apps.gooddeed.util.Resource;
 
 import java.util.List;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class AuthViewModel extends ViewModel {
 
     private final AuthRepository mAuthRepository;
@@ -77,7 +78,7 @@ public class AuthViewModel extends ViewModel {
     public void setSelectedCategories(List<Category> selectedCategories, long categoryOwnerId) {
         selectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
             if (categoryOwnerId
-                    ==(categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
+                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
                 categoryTypesWithCategories.setCategories(selectedCategories);
             }
         });

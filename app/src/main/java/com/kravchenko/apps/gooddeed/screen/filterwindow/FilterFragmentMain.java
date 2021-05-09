@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.util.Pair;
+import androidx.navigation.NavDirections;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -24,7 +25,7 @@ import com.kravchenko.apps.gooddeed.util.Utils;
 
 public class FilterFragmentMain extends BaseFragment {
     private FragmentFilterMainBinding binding;
-
+    public static final String TAG = FilterFragmentMain.class.getName();
     private final String DATA_PICKER_TAG = "DATA_PICKER";
 
     @Override
@@ -54,10 +55,12 @@ public class FilterFragmentMain extends BaseFragment {
             //TODO
             // Handle DataPicker result
         });
-        binding.cardViewCategories.setOnClickListener(v ->
-                getNavController().navigate(R.id.action_filterFragment_to_categoryTypeFilterFragment));
+        binding.cardViewCategories.setOnClickListener(v -> {
+            NavDirections action
+                    = FilterFragmentMainDirections.actionFilterFragmentToCategoryNavGraph(TAG);
+            getNavController().navigate(action);
+        });
     }
-
 
 
     @Override

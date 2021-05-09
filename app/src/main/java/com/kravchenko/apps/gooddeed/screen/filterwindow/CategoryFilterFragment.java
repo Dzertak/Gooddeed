@@ -3,7 +3,6 @@ package com.kravchenko.apps.gooddeed.screen.filterwindow;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,12 +67,7 @@ public class CategoryFilterFragment extends BaseFragment {
                     selectedCategories.forEach(categoryTypesWithCategories -> {
                         if (categoryTypesWithCategories.getCategoryType()
                                 .getCategoryTypeId() == categoryTypeId) {
-
                             categories.addAll(categoryTypesWithCategories.getCategories());
-                           /* categories.forEach(category -> {
-                                Log.i("dev", category.getCategoryId());
-                            });
-                            Log.i("dev", "****************");*/
                         }
                     });
                     if (categories.isEmpty() || categories.size() < categoriesSize) {
@@ -88,32 +82,16 @@ public class CategoryFilterFragment extends BaseFragment {
                 });
 
         authViewModel.getSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
-            List<Category> categories1 = new ArrayList<>();
+            List<Category> categories = new ArrayList<>();
             categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
                 if (categoryTypeWithCategories.getCategoryType()
                         .getCategoryTypeId() == categoryTypeId) {
-                    categories1.addAll(categoryTypeWithCategories.getCategories());
+                    categories.addAll(categoryTypeWithCategories.getCategories());
                 }
-                adapter.setSelectedCategories(categories1);
+                adapter.setSelectedCategories(categories);
             });
         });
         binding.cardViewSelectAll.setOnClickListener(v -> adapter.selectAll());
-        authViewModel.getSelectedCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), selectedCategories -> {
-                    //Todo
-                    // handle filtered categories
-                    selectedCategories.forEach(selectedCategory -> {
-                        selectedCategory.getCategories().forEach(category -> {
-                            Log.i("dev", "Main: " + category.getCategoryId());
-                        });
-                        Log.i("dev", "********************************");
-                    });
-                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-                    Log.i("dev", "\n");
-                    Log.i("dev", "\n");
-                    Log.i("dev", "\n");
-                });
-
     }
 
 

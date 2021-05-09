@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/category_nav_graph"
+    app:startDestination="@id/categoryTypeFilterFragment2">
+
+    <fragment
+        android:id="@+id/categoryTypeFilterFragment2"
+        android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryTypeFilterFragment"
+        android:label="@string/type_category_filter"
+        tools:layout="@layout/fragment_category_type_filter" >
+        <action
+            android:id="@+id/action_categoryTypeFilterFragment2_to_categoryFilterFragment"
+            app:destination="@id/categoryFilterFragment" />
+        <argument
+            android:name="root_direction"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFilterFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryFilterFragment"
+        android:label="@string/category_filter"
+        tools:layout="@layout/fragment_category_filter" >
+        <argument
+            android:name="category_type_Id"
+            app:argType="long" />
+    </fragment>
+</navigation>

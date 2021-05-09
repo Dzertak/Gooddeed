@@ -69,7 +69,7 @@ public class CategoryTypeFilterFragment extends BaseFragment {
     private void initRecyclerView() {
         adapter = new CategoryTypeRecyclerViewAdapter(getContext());
         adapter.setOnItemClickListener(categoryType -> {
-            NavDirections action = CategoryTypeFilterFragmentDirections.actionCategoryTypeFilterFragmentToCategoryFilterFragment3(categoryType.getCategoryTypeId());
+            NavDirections action = CategoryTypeFilterFragmentDirections.actionCategoryTypeFilterFragment2ToCategoryFilterFragment(categoryType.getCategoryTypeId());
             getNavController().navigate(action);
         });
 

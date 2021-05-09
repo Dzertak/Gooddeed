@@ -50,11 +50,11 @@ public abstract class CategoryDatabase extends RoomDatabase {
             super.onCreate(db);
             List<CategoryTypeWithCategories> categoryTypesWithCategories
                     = FillHelper.getCategoryTypeWithCategories();
-            categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
-                databaseWriteExecutor.execute(() ->
-                        instance.categoryDao().insertCategoryTypeWithCategories(categoryTypeWithCategories)
-                );
-            });
+            categoryTypesWithCategories.forEach(categoryTypeWithCategories ->
+                    databaseWriteExecutor.execute(() ->
+                            instance.categoryDao()
+                                    .insertCategoryTypeWithCategories(categoryTypeWithCategories))
+            );
         }
     };
 }

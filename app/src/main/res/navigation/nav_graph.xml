@@ -123,7 +123,14 @@
         <action
             android:id="@+id/action_editInitiativeFragment_to_initiativeTypeFragment"
             app:destination="@id/initiativeTypeFragment"
-            app:launchSingleTop="true"/>
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_category_nav_graph"
+            app:destination="@id/category_nav_graph">
+            <argument
+                android:name="root_direction"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -149,14 +156,13 @@
         android:name="com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment"
         android:label="@string/change_subscriptions">
         <action
-            android:id="@+id/action_subscriptionsSettingsFragment_to_categoryFilterFragment2"
-            app:destination="@id/categoryFilterFragment2" />
+            android:id="@+id/action_subscriptionsSettingsFragment_to_category_nav_graph"
+            app:destination="@id/category_nav_graph">
+            <argument
+                android:name="root_direction"
+                app:argType="string" />
+        </action>
     </fragment>
-    <fragment
-        android:id="@+id/categoryFilterFragment2"
-        android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryFilterFragment"
-        android:label="@string/category"
-        tools:layout="@layout/fragment_category_filter" />
     <argument
         android:name="choose_destinations"
         app:argType="string" />
@@ -175,7 +181,7 @@
         android:id="@+id/passwordSettingsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.settings.PasswordSettingsFragment"
         android:label="fragment_password_settings"
-        tools:layout="@layout/fragment_password_settings" >
+        tools:layout="@layout/fragment_password_settings">
         <action
             android:id="@+id/action_passwordSettingsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -203,7 +209,7 @@
         android:id="@+id/emailSettingFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.settings.EmailSettingFragment"
         android:label="fragment_email_setting"
-        tools:layout="@layout/fragment_email_setting" >
+        tools:layout="@layout/fragment_email_setting">
         <action
             android:id="@+id/action_emailSettingFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -212,4 +218,5 @@
         android:id="@+id/initiativeTypeFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.initiative.InitiativeTypeFragment"
         android:label="@string/title_initiative_type" />
+    <include app:graph="@navigation/category_nav_graph" />
 </navigation>

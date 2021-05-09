@@ -31,6 +31,7 @@ import com.kravchenko.apps.gooddeed.util.Utils;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AuthRepository {
 
@@ -267,7 +268,7 @@ public class AuthRepository {
         return categoryDao.findCategoryTypesByCategoryOwnerId(ownerId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
 //    public void fetchCategoryTypeWithCategoriesFromFirestore() {
 //        CollectionReference categoryTypesRef = FirebaseFirestore.getInstance().collection(CATEGORY_TYPES_COLLECTION_PATH);
 //        categoryTypesRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -297,7 +298,6 @@ public class AuthRepository {
 //    }
 
     private MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
-
 
     public MutableLiveData<List<CategoryTypeWithCategories>> findCategoryTypesWithCategoryList() {
         databaseWriteExecutor.execute(() ->
