@@ -11,7 +11,7 @@
         android:id="@+id/img_ava"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/gooddeed_logo"
+        android:src="@drawable/ic_gooddeed_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
