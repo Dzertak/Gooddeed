@@ -2,7 +2,6 @@ package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryTypeFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.CategoryTypeRecyclerViewAdapter;
-import com.kravchenko.apps.gooddeed.util.Utils;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
@@ -44,7 +42,6 @@ public class CategoryTypeFilterFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -66,20 +63,20 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                     break;
             }
         }
-        filterViewModel.getInitiativesSelectedCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
-                    categoryTypeWithCategories.forEach(selectedCategory -> {
-                        selectedCategory.getCategories().forEach(category -> {
-                            Log.i("dev", Utils.getString(selectedCategory.getCategoryType().getTitle()) + ": " + Utils.getString(category.getTitle()));
-                        });
-                        Log.i("dev", "********************************");
-                    });
-                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-                });
+//        filterViewModel.getInitiativesSelectedCategoriesLiveData()
+//                .observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
+//                    categoryTypeWithCategories.forEach(selectedCategory -> {
+//                        selectedCategory.getCategories().forEach(category -> {
+//                            Log.i("dev", Utils.getString(selectedCategory.getCategoryType().getTitle()) + ": " + Utils.getString(category.getTitle()));
+//                        });
+//                        Log.i("dev", "********************************");
+//                    });
+//                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+//                });
     }
 
     private void initInitiativePreset() {
-        authViewModel.getCategoryTypesWithCategoriesLiveData()
+        filterViewModel.getCategoryTypesWithCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
                     Map<Long, Integer> categorySizes = new HashMap<>();
                     categoryTypeWithCategories.forEach(categoryTypesWithCategories -> {
@@ -94,7 +91,7 @@ public class CategoryTypeFilterFragment extends BaseFragment {
     }
 
     private void initFilterPreset() {
-        authViewModel.getCategoryTypesWithCategoriesLiveData()
+        filterViewModel.getCategoryTypesWithCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypes -> {
                             Map<Long, Integer> categorySizes = new HashMap<>();
                             categoryTypes.forEach(categoryTypesWithCategories -> {
@@ -106,9 +103,11 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                         }
                 );
 
-        authViewModel.getSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
+//        authViewModel.getSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
+//                adapter.setSelectedCategories(categoryTypesWithCategories)
+//        );
+        filterViewModel.getMapSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
                 adapter.setSelectedCategories(categoryTypesWithCategories)
-
         );
     }
 

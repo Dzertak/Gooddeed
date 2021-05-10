@@ -16,62 +16,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.util.Utils;
-import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.ViewHolder> {
+public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilterRecyclerViewAdapter.ViewHolder> {
     private final Context context;
-    // private final AuthViewModel authViewModel;
     private FilterViewModel filterViewModel;
     private List<Category> categories;
     private List<Category> selectedCategories;
     private Category category;
     private boolean isSelectAll;
-    boolean isFromInitiative;
+
     private int check;
-//TODO
-// для инициативы просто заменить лист на массив
 
-    public CategoryRecyclerViewAdapter(Context context, AuthViewModel authViewModel) {
+    public MapFilterRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
         this.context = context;
-        // this.authViewModel = authViewModel;
-        this.categories = new ArrayList<>();
-        this.selectedCategories = new ArrayList<>();
-        check = -1;
-    }
-
-    public CategoryRecyclerViewAdapter(Context context, AuthViewModel authViewModel, FilterViewModel filterViewModel, boolean isFromInitiative) {
-        this.context = context;
-        // this.authViewModel = authViewModel;
         this.categories = new ArrayList<>();
         this.selectedCategories = new ArrayList<>();
         this.filterViewModel = filterViewModel;
-        this.isFromInitiative = isFromInitiative;
-        check = -1;
-    }
-
-    public CategoryRecyclerViewAdapter(Context context, FilterViewModel filterViewModel, boolean isFromInitiative) {
-        this.context = context;
-        // this.authViewModel = authViewModel;
-        this.categories = new ArrayList<>();
-        this.selectedCategories = new ArrayList<>();
-        this.filterViewModel = filterViewModel;
-        this.isFromInitiative = isFromInitiative;
         check = -1;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //TODO take out in base adapter
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_category, parent, false);
-        return new ViewHolder(view);
+        return new MapFilterRecyclerViewAdapter.ViewHolder(view);
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -104,6 +79,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         notifyDataSetChanged();
     }
 
+
     public void selectAll() {
         if (categories.size() == selectedCategories.size()) {
             isSelectAll = false;
@@ -114,12 +90,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             selectedCategories.clear();
             selectedCategories.addAll(categories);
         }
-        if (isFromInitiative) {
-            filterViewModel.setInitiativesSelectedCategory(selectedCategories, category.getCategoryOwnerId());
-        } else {
-            // authViewModel.setSelectedCategories(selectedCategories, category.getCategoryOwnerId());
-            filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
-        }
+        filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
         notifyDataSetChanged();
     }
 
@@ -134,12 +105,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             holder.itemView.setBackgroundColor(Color.WHITE);
             selectedCategories.remove(category);
         }
-        if (isFromInitiative) {
-            filterViewModel.setInitiativesSelectedCategory(selectedCategories, category.getCategoryOwnerId());
-        } else {
-            // authViewModel.setSelectedCategories(selectedCategories, category.getCategoryOwnerId());
-            filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
-        }
+        filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -152,5 +118,4 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             imageViewCheck = itemView.findViewById(R.id.imageViewCheckBox);
         }
     }
-
 }

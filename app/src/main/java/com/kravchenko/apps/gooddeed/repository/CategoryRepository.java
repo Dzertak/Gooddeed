@@ -25,7 +25,7 @@ public class CategoryRepository {
 
     private MutableLiveData<List<CategoryTypeWithCategories>> mapSelectedCategoriesLiveData;
     private MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
-    private MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
+    private MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
 
 
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
@@ -35,10 +35,26 @@ public class CategoryRepository {
     // private
 
     public CategoryRepository() {
-        categoryDao = CategoryDatabase.getInstance().categoryDao();
-        mapSelectedCategoriesLiveData = getCategoryTypesWithCategory();
-        initiativesSelectedCategoriesLiveData = new MutableLiveData<>();
+        this.categoryDao = CategoryDatabase.getInstance().categoryDao();
+        this.categoryTypesWithCategories = new MutableLiveData<>();
+        this.mapSelectedCategoriesLiveData = initCategoryTypesWithCategory();
+        ;
+        this.initiativesSelectedCategoriesLiveData = new MutableLiveData<>();
         initInitiativesSelectedCategoriesLiveData();
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getMapSelectedCategoriesLiveData() {
+        return mapSelectedCategoriesLiveData;
+    }
+
+    public void setMapSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
+        mapSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
+            if (categoryOwnerId
+                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
+                categoryTypesWithCategories.setCategories(selectedCategories);
+            }
+        });
+        mapSelectedCategoriesLiveData.setValue(mapSelectedCategoriesLiveData.getValue());
     }
 
     private MutableLiveData<List<CategoryTypeWithCategories>> initInitiativesSelectedCategoriesLiveData() {
@@ -62,26 +78,23 @@ public class CategoryRepository {
     }
 
 
-    public MutableLiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategory() {
-        if (categoryTypesWithCategories == null) {
-            databaseWriteExecutor.execute(() ->
-                    categoryTypesWithCategories.postValue(categoryDao.findCategoryTypesWithCategoryList()));
-        }
+    public MutableLiveData<List<CategoryTypeWithCategories>> initCategoryTypesWithCategory() {
+        MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
+        databaseWriteExecutor.execute(() ->
+                categoryTypesWithCategories.postValue(categoryDao.findCategoryTypesWithCategoryList()));
         return categoryTypesWithCategories;
     }
 
 
-    public MutableLiveData<List<CategoryTypeWithCategories>> getInitiativesSelectedCategoriesLiveData() {
+    public LiveData<List<CategoryTypeWithCategories>> getInitiativesSelectedCategoriesLiveData() {
         return initiativesSelectedCategoriesLiveData;
     }
 
-    public void setInitiativesSelectedCategory(Category category, long categoryOwnerId) {
+    public void setInitiativesSelectedCategory(List<Category> selectedCategories, long categoryOwnerId) {
         initiativesSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
+            categoryTypesWithCategories.setCategories(new ArrayList<>());
             if (categoryOwnerId
                     == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
-                List<Category> selectedCategories = new ArrayList<>();
-                selectedCategories.add(category);
-
                 categoryTypesWithCategories.setCategories(selectedCategories);
             }
         });

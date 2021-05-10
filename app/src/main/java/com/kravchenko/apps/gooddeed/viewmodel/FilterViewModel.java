@@ -25,14 +25,26 @@ public class FilterViewModel extends ViewModel {
         return categoryRepository.getCategoryTypesWithCategoriesLiveData();
     }
 
-    public void setInitiativesSelectedCategory(Category category, long categoryOwnerId) {
-        categoryRepository.setInitiativesSelectedCategory(category, categoryOwnerId);
+    public void setMapSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
+        categoryRepository.setMapSelectedCategoriesLiveData(selectedCategories, categoryOwnerId);
     }
 
-    public MutableLiveData<List<CategoryTypeWithCategories>> getInitiativesSelectedCategoriesLiveData() {
+    public void setInitiativesSelectedCategory(List<Category> selectedCategories, long categoryOwnerId) {
+        categoryRepository.setInitiativesSelectedCategory(selectedCategories, categoryOwnerId);
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getMapSelectedCategoriesLiveData() {
+        return categoryRepository.getMapSelectedCategoriesLiveData();
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getInitiativesSelectedCategoriesLiveData() {
         return categoryRepository.getInitiativesSelectedCategoriesLiveData();
     }
+
     public MutableLiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategory() {
-      return categoryRepository.getCategoryTypesWithCategory();
+        return categoryRepository.initCategoryTypesWithCategory();
+    }
+    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId) {
+        return categoryRepository.findCategoryTypesByCategoryOwnerId(ownerId);
     }
 }
