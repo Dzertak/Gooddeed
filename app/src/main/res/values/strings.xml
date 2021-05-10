@@ -223,4 +223,11 @@
     <string name="group">Group people</string>
     <string name="unlimited">Unlimited people</string>
     <string name="title_initiative_type">Initiative Type</string>
+    <string name="chat_info">Chat info</string>
+    <string name="chat_title">Chat title</string>
+    <string name="executors">Executors</string>
+    <string name="chat_members">Chat members:</string>
+    <string name="name">Name</string>
+    <string name="leave_chat">Leave chat</string>
+    <string name="go_to_initiative">Go to initiative:</string>
 </resources>

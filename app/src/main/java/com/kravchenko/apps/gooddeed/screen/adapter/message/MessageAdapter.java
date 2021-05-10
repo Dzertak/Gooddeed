@@ -66,10 +66,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
-        //TODO add day and time
         MessageEntity messageEntity = currentChatRoom.getListOfMessages().get(position);
         holder.textViewMessage.setText(messageEntity.getTextOfMessage());
-        holder.textViewTime.setText(messageEntity.getDateAndTime());
+        //TODO
+        Date date = new Date(messageEntity.getTimeInMillis());
+        String dateTimeText = DateFormat.getDateInstance().format(date) + " " + DateFormat.getTimeInstance().format(date);
+        holder.textViewTime.setText(dateTimeText);
         if (getItemViewType(position) == MSG_TYPE_LEFT) {
             //if sender is not me - set username and avatar
             if (fullNames != null && fullNames.get(messageEntity.getSender()) != null) {

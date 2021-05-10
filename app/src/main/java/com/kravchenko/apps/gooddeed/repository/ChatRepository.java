@@ -116,9 +116,7 @@ public class ChatRepository {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", userId);
         hashMap.put("textOfMessage", message);
-        Date date = new Date(System.currentTimeMillis());
-        String dateTimeText = DateFormat.getDateInstance().format(date) + " " + DateFormat.getTimeInstance().format(date);
-        hashMap.put("dateAndTime",dateTimeText);
+        hashMap.put("timeInMillis",System.currentTimeMillis());
         FirebaseDatabase.getInstance().getReference().child("Chats").child(currentChatRoomId)
                 .child("messages").push().setValue(hashMap);
     }
@@ -148,7 +146,7 @@ public class ChatRepository {
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
                             messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
-                            messageEntity.setDateAndTime(String.valueOf(message.child("dateAndTime").getValue()));
+                            messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
                             messageEntity.setTextOfMessage(String.valueOf(message.child("textOfMessage").getValue()));
                             arrayListOfMessageEntities.add(messageEntity);
                         }

@@ -5,11 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.databinding.FragmentChatCurrentBinding;
+import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageAdapter;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 import com.kravchenko.apps.gooddeed.viewmodel.ChatViewModel;
@@ -27,7 +33,7 @@ import com.kravchenko.apps.gooddeed.viewmodel.ChatViewModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CurrentChatFragment extends Fragment {
+public class CurrentChatFragment extends BaseFragment {
 
     private String currentChatRoomId;
     private FragmentChatCurrentBinding currentChatBinding;
@@ -54,11 +60,20 @@ public class CurrentChatFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        currentChatBinding.linearLayoutGoToInitiative.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate
+                        (R.id.action_currentChatFragment_to_currentInitiativeFragment, getArguments()));
+        currentChatBinding.toolbarCurrentChat.setNavigationIcon(R.drawable.ic_back);
+        currentChatBinding.toolbarCurrentChat.setNavigationOnClickListener(v ->
+                getActivity().onBackPressed());
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         chatViewModel.getFullNames().observe(getActivity(), fullnamesMap -> fullNames = fullnamesMap);
         chatViewModel.getAvatarUrls().observe(getActivity(), avatarUrlsMap -> avatarUrls = avatarUrlsMap);
         if (getArguments() != null) {
             currentChatRoomId = getArguments().getString("chatroom_id");
+            currentChatBinding.toolbarCurrentChat.setOnClickListener(v ->
+                    Navigation.findNavController(v).navigate
+                            (R.id.action_currentChatFragment_to_chatInfoFragment, getArguments()));
         }
         chatViewModel.initComponentsForCurrentChat(currentChatRoomId);
         FirebaseDatabase.getInstance().getReference("Chats").child(currentChatRoomId).
@@ -72,13 +87,14 @@ public class CurrentChatFragment extends Fragment {
                         for (DataSnapshot message : snapshot.child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
                             messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
-                            messageEntity.setDateAndTime(String.valueOf(message.child("dateAndTime").getValue()));
+                            messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
                             messageEntity.setTextOfMessage(String.valueOf(message.child("textOfMessage").getValue()));
                             listOfMessages.add(messageEntity);
                         }
 
                         currentChatRoom = snapshot.getValue(ChatRoom.class);
                         if (currentChatRoom != null) {
+                            currentChatBinding.tvGoToInitiativeName.setText(currentChatRoom.getChatRoomName());
                             currentChatBinding.tvChatroomName.setText(currentChatRoom.getChatRoomName());
                             if (!currentChatRoom.getImageUrl().equals("default")) {
                                 Glide.with(getActivity()).load(Uri.parse(currentChatRoom.getImageUrl())).circleCrop().into(currentChatBinding.currentChatroomLogo);
@@ -94,7 +110,7 @@ public class CurrentChatFragment extends Fragment {
                             currentChatBinding.recyclerMessages.setLayoutManager(linearLayoutManager);
                             //TODO scroll to last item which was read by user
                         }
-                        linearLayoutManager.scrollToPosition(messageAdapter.getItemCount()-1);
+                        linearLayoutManager.scrollToPosition(messageAdapter.getItemCount() - 1);
                     }
 
                     @Override

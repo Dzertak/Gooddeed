@@ -1,42 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/chatroom_item_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_little"
-    android:padding="@dimen/margin_little">
+    android:layout_height="wrap_content">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/person_avatar"
         android:layout_width="52dp"
         android:layout_height="52dp"
+        android:layout_margin="@dimen/margin_middle"
         android:src="@drawable/gooddeed_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/initiative_name"
+        android:id="@+id/person_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_middle"
-        android:text="@string/initiative_title"
+        android:text="@string/name"
         android:textColor="@color/black"
         android:textSize="@dimen/textsize_standard"
-        app:layout_constraintBottom_toTopOf="@+id/last_message"
+        app:layout_constraintBottom_toBottomOf="@+id/person_avatar"
         app:layout_constraintStart_toEndOf="@+id/person_avatar"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/last_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_middle"
-        android:maxLength="40"
-        android:textSize="@dimen/textsize_little"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/person_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/initiative_name" />
+        app:layout_constraintTop_toTopOf="@+id/person_avatar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

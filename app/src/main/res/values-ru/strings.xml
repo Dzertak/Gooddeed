@@ -122,15 +122,22 @@
     <string name="msg_dialog_enable_gps">"Ваш GPS похоже что отключён. Вы хотите включить его?"</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="msg_hint_input_city_name">Введите название населённого пункта, если для вашей инициативы нет, точного адресса</string>
+    <string name="msg_hint_input_city_name">Введите название населённого пункта, если для вашей инициативы нет точного адресса</string>
     <string name="no_name">Без имени</string>
     <string name="initiative_title">Название инициативы</string>
-    <string name="msg_hint_initiative_types">Выберете сколько исполнителей необходимо для вашей инициативы. Только "Один", Возможно "Группа" или "Неограниченное" количество</string>
+    <string name="msg_hint_initiative_types">Выберите сколько исполнителей необходимо для вашей инициативы. Только Один, Возможно Группа или Неограниченное количество</string>
 
     <string name="single">Один человек</string>
     <string name="group">Группа людей</string>
-    <string name="unlimited">Неограниченно количество людей</string>
+    <string name="unlimited">Неограниченное количество людей</string>
     <string name="title_initiative_type">Тип Инициативы</string>
+    <string name="chat_info">О чате</string>
+    <string name="chat_title">Название чата</string>
+    <string name="executors">Исполнители</string>
+    <string name="chat_members">Участники чата:</string>
+    <string name="name">Имя</string>
+    <string name="leave_chat">Покинуть чат</string>
+    <string name="go_to_initiative">Перейти к инициативе:</string>
 
 </resources>
 

@@ -69,7 +69,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.initiative_name);
             textViewLastMessage = itemView.findViewById(R.id.last_message);
-            icon = itemView.findViewById(R.id.initiative_image);
+            icon = itemView.findViewById(R.id.person_avatar);
             chatroomItemRoot = itemView.findViewById(R.id.chatroom_item_root);
         }
     }
