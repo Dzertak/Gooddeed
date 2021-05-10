@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryTypeFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.CategoryTypeRecyclerViewAdapter;
-import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
 import java.util.HashMap;
@@ -31,7 +30,6 @@ import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettings
 public class CategoryTypeFilterFragment extends BaseFragment {
     private FragmentCategoryTypeFilterBinding binding;
     private CategoryTypeRecyclerViewAdapter adapter;
-    private AuthViewModel authViewModel;
     private FilterViewModel filterViewModel;
     private String rootDirection;
 
@@ -45,7 +43,6 @@ public class CategoryTypeFilterFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         initRecyclerView();
@@ -63,16 +60,6 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                     break;
             }
         }
-//        filterViewModel.getInitiativesSelectedCategoriesLiveData()
-//                .observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
-//                    categoryTypeWithCategories.forEach(selectedCategory -> {
-//                        selectedCategory.getCategories().forEach(category -> {
-//                            Log.i("dev", Utils.getString(selectedCategory.getCategoryType().getTitle()) + ": " + Utils.getString(category.getTitle()));
-//                        });
-//                        Log.i("dev", "********************************");
-//                    });
-//                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-//                });
     }
 
     private void initInitiativePreset() {
@@ -102,10 +89,6 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                             adapter.setCategorySizes(categorySizes);
                         }
                 );
-
-//        authViewModel.getSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
-//                adapter.setSelectedCategories(categoryTypesWithCategories)
-//        );
         filterViewModel.getMapSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
                 adapter.setSelectedCategories(categoryTypesWithCategories)
         );

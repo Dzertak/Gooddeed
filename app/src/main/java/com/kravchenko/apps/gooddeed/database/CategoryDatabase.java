@@ -18,7 +18,7 @@ import com.kravchenko.apps.gooddeed.util.FillHelper;
 
 import java.util.List;
 
-import static com.kravchenko.apps.gooddeed.repository.AuthRepository.databaseWriteExecutor;
+import static com.kravchenko.apps.gooddeed.repository.CategoryRepository.databaseWriteExecutor;
 
 
 @Database(entities = {

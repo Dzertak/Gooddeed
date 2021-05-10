@@ -43,17 +43,7 @@ public class AuthRepository {
     private final MutableLiveData<Resource<FirebaseUser>> mUser;
     private final MutableLiveData<Resource<Object>> actionMarker;
 
-    //Room
-    private final CategoryDao categoryDao;
-    private final String CATEGORY_TYPES_COLLECTION_PATH = "category-types";
-    private final String CATEGORIES_COLLECTION_PATH = "categories";
-
-    private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
-    public static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
     public AuthRepository() {
-        categoryDao = CategoryDatabase.getInstance().categoryDao();
         Context context = AppInstance.getAppContext();
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
@@ -250,58 +240,4 @@ public class AuthRepository {
         void onResult(boolean isRegistered);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void cashCategoryTypesWithCategories(CategoryTypeWithCategories categoryTypeWithCategories) {
-        databaseWriteExecutor.execute(() ->
-                categoryDao.insertCategoryTypeWithCategories(categoryTypeWithCategories));
-    }
-
-//    public LiveData<List<CategoryType>> getCategoryTypes() {
-//        return categoryDao.findCategoryTypes();
-//    }
-
-    public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
-        return categoryDao.findCategoryTypesWithCategory();
-    }
-
-    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId) {
-        return categoryDao.findCategoryTypesByCategoryOwnerId(ownerId);
-    }
-
-
-//    public void fetchCategoryTypeWithCategoriesFromFirestore() {
-//        CollectionReference categoryTypesRef = FirebaseFirestore.getInstance().collection(CATEGORY_TYPES_COLLECTION_PATH);
-//        categoryTypesRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-//            List<DocumentSnapshot> categoryTypesSnapshots = queryDocumentSnapshots.getDocuments();
-//            for (DocumentSnapshot categoryTypesSnapshot : categoryTypesSnapshots) {
-//                CategoryTypesWithCategories categoryTypesWithCategories = new CategoryTypesWithCategories();
-//                CategoryType categoryType = categoryTypesSnapshot.toObject(CategoryType.class);
-//                categoryType.setCategoryTypeId(categoryTypesSnapshot.getId());
-//                categoryTypesWithCategories.setCategoryType(categoryType);
-//                List<Category> categories = new ArrayList<>();
-//                categoryTypesSnapshot.getReference().collection(CATEGORIES_COLLECTION_PATH).get()
-//                        .addOnSuccessListener(queryDocumentSnapshots1 -> {
-//                            List<DocumentSnapshot> categoriesSnapshots = queryDocumentSnapshots1.getDocuments();
-//                            for (DocumentSnapshot categoriesSnapshot : categoriesSnapshots) {
-//                                Category category = categoriesSnapshot.toObject(Category.class);
-//                                category.setCategoryId(categoriesSnapshot.getId());
-//                                categories.add(category);
-//                            }
-//                            categoryTypesWithCategories.setCategories(categories);
-//                            cashCategoryTypesWithCategories(categoryTypesWithCategories);
-//                        })
-//                        .addOnFailureListener(e -> {
-//                            Log.i("dev", e.getLocalizedMessage());
-//                        });
-//            }
-//        }).addOnFailureListener(e -> Log.i("dev", e.getLocalizedMessage()));
-//    }
-
-    private MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
-
-    public MutableLiveData<List<CategoryTypeWithCategories>> findCategoryTypesWithCategoryList() {
-        databaseWriteExecutor.execute(() ->
-                categoryTypesWithCategories.postValue(categoryDao.findCategoryTypesWithCategoryList()));
-        return categoryTypesWithCategories;
-    }
 }

@@ -29,7 +29,7 @@ public class InitiativeFilterRecyclerViewAdapter extends RecyclerView.Adapter<In
     private List<Category> categories;
     private Category[] selectedCategories;
     private Category category;
-    private int check;
+    private final int check;
 
     public InitiativeFilterRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
         this.context = context;

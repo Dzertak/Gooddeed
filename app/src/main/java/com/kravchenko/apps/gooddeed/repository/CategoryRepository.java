@@ -32,8 +32,6 @@ public class CategoryRepository {
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    // private
-
     public CategoryRepository() {
         this.categoryDao = CategoryDatabase.getInstance().categoryDao();
         this.categoryTypesWithCategories = new MutableLiveData<>();

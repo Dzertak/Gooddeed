@@ -24,13 +24,12 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilterRecyclerViewAdapter.ViewHolder> {
     private final Context context;
-    private FilterViewModel filterViewModel;
+    private final FilterViewModel filterViewModel;
     private List<Category> categories;
     private List<Category> selectedCategories;
     private Category category;
     private boolean isSelectAll;
-
-    private int check;
+    private final int check;
 
     public MapFilterRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
         this.context = context;
