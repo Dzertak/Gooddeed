@@ -18,7 +18,6 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         navController = NavHostFragment.findNavController(this);
-
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage(getContext().getString(R.string.updating_data));
         progressDialog.setCancelable(false);

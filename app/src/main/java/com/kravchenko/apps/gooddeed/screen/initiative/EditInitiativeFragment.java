@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +44,7 @@ public class EditInitiativeFragment extends BaseFragment {
     private Initiative initiativeCur;
     private InitiativeViewModel initiativeViewModel;
     private Calendar calendar;
+    public static final String EDIT_INITIATIVE_FRAGMENT_TAG = "EDIT_INITIATIVE_FRAGMENT_TAG";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -66,21 +68,32 @@ public class EditInitiativeFragment extends BaseFragment {
         initDropDownCategory();
 
         calendar = Calendar.getInstance();
-
+        binding.tvCategory.setOnClickListener(v -> {
+            NavDirections action
+                    = EditInitiativeFragmentDirections.actionEditInitiativeFragmentToCategoryNavGraph(EDIT_INITIATIVE_FRAGMENT_TAG);
+            getNavController().navigate(action);
+        });
         initiativeViewModel = new ViewModelProvider(requireActivity()).get(InitiativeViewModel.class);
         initiativeViewModel.getInitiative().observe(getViewLifecycleOwner(), initiative -> {
             initiativeCur = initiative != null ? initiative : new Initiative();
-            if (initiativeCur.getLocation() != null) binding.tvLocation.setText(initiativeCur.getLocation());
-            if (initiativeCur.getTimestamp() > 0) binding.tvTime.setText(TimeUtil.convertToDisplayTime(initiativeCur.getTimestamp()));
+            if (initiativeCur.getLocation() != null)
+                binding.tvLocation.setText(initiativeCur.getLocation());
+            if (initiativeCur.getTimestamp() > 0)
+                binding.tvTime.setText(TimeUtil.convertToDisplayTime(initiativeCur.getTimestamp()));
             if (initiativeCur.getType() != null) {
-                switch (initiativeCur.getType()){
-                    case InitiativeType.SINGLE : binding.tvType.setText(getString(R.string.single)); break;
-                    case InitiativeType.GROUP : binding.tvType.setText(getString(R.string.group)); break;
-                    case InitiativeType.UNLIMITED : binding.tvType.setText(getString(R.string.unlimited)); break;
+                switch (initiativeCur.getType()) {
+                    case InitiativeType.SINGLE:
+                        binding.tvType.setText(getString(R.string.single));
+                        break;
+                    case InitiativeType.GROUP:
+                        binding.tvType.setText(getString(R.string.group));
+                        break;
+                    case InitiativeType.UNLIMITED:
+                        binding.tvType.setText(getString(R.string.unlimited));
+                        break;
                 }
             }
         });
-
 
 
         TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
@@ -109,7 +122,7 @@ public class EditInitiativeFragment extends BaseFragment {
 
         binding.cvLocationChoice.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_pickInitiativeLocationFragment));
         binding.cvTimeChoice.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog =  new DatePickerDialog(v.getContext(), date, calendar
+            DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), date, calendar
                     .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());

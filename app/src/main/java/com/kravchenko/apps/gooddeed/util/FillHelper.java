@@ -4,7 +4,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,5 +158,45 @@ public class FillHelper {
                 documentSnapshot.getReference().set(dataToSave);
             }
         });
+    }
+
+    public static List<CategoryTypeWithCategories> getCategoryTypeWithCategories() {
+        List<CategoryTypeWithCategories> categoryTypesWithCategories = new ArrayList<>();
+        for (int i = 0; i < categoryTypesTitles.length; i++) {
+            CategoryTypeWithCategories categoryTypeWithCategories = new CategoryTypeWithCategories();
+
+            CategoryType categoryType = new CategoryType(categoryTypesTitles[i], categoryTypesDescriptions[i]);
+            categoryTypeWithCategories.setCategoryType(categoryType);
+
+            List<Category> categories = new ArrayList<>();
+            for (int j = 0; j < categoryValues[i].titles.length; j++) {
+                Category category = new Category(categoryValues[i].titles[j], categoryValues[i].descriptions[j]);
+                categories.add(category);
+            }
+
+            categoryTypeWithCategories.setCategories(categories);
+            categoryTypesWithCategories.add(categoryTypeWithCategories);
+        }
+        return categoryTypesWithCategories;
+    }
+
+    static CategoryValues[] categoryValues = {
+            new CategoryValues(beauty_and_healthTitle, beauty_and_healthDesc),
+            new CategoryValues(charityTitle, charityDesc),
+            new CategoryValues(cleaningTitle, charityDesc),
+            new CategoryValues(delivery_and_transportationTitle, delivery_and_transportationDesc),
+            new CategoryValues(photo_and_videoTitle, photo_and_videoDesc),
+            new CategoryValues(repair_and_constructionCategoryTitles, repair_and_constructionCategoryDesc),
+            new CategoryValues(tutoring_and_trainingCategoryTitles, tutoring_and_trainingCategoryDesc)
+    };
+
+    static class CategoryValues {
+        int[] titles;
+        int[] descriptions;
+
+        public CategoryValues(int[] titles, int[] descriptions) {
+            this.titles = titles;
+            this.descriptions = descriptions;
+        }
     }
 }

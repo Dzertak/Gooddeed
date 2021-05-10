@@ -1,6 +1,7 @@
 package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,24 +9,36 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
-import com.kravchenko.apps.gooddeed.screen.adapter.filter.CategoryRecyclerViewAdapter;
-import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.InitiativeFilterRecyclerViewAdapter;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.MapFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.kravchenko.apps.gooddeed.screen.filterwindow.FilterFragmentMain.FILTER_FRAGMENT_MAIN_KEY;
+import static com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment.EDIT_INITIATIVE_FRAGMENT_TAG;
+import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG;
+
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class CategoryFilterFragment extends BaseFragment {
-    private CategoryRecyclerViewAdapter adapter;
     private FragmentCategoryFilterBinding binding;
-    private String categoryTypeId;
-    private AuthViewModel authViewModel;
+    private long categoryTypeId;
+    private MapFilterRecyclerViewAdapter mapFilterAdapter;
+    private InitiativeFilterRecyclerViewAdapter initiativeFilterAdapter;
     private FilterViewModel filterViewModel;
     private int categoriesSize;
+    private String rootDirection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,26 +47,69 @@ public class CategoryFilterFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
+
+        binding.recyclerViewCategories.setLayoutManager(new LinearLayoutManager(getContext()));
         if (getArguments() != null) {
             categoryTypeId = CategoryFilterFragmentArgs.fromBundle(getArguments()).getCategoryTypeId();
+            rootDirection = CategoryFilterFragmentArgs.fromBundle(getArguments()).getRootDirection();
+            switch (rootDirection) {
+                case FILTER_FRAGMENT_MAIN_KEY:
+                    mapFilterAdapter = new MapFilterRecyclerViewAdapter(getContext(), filterViewModel);
+                    binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
+                    initFilterPreset();
+                    break;
+                case EDIT_INITIATIVE_FRAGMENT_TAG:
+                    binding.cardViewSelectAll.setVisibility(View.GONE);
+                    initiativeFilterAdapter = new InitiativeFilterRecyclerViewAdapter(getContext(), filterViewModel);
+                    binding.recyclerViewCategories.setAdapter(initiativeFilterAdapter);
+                    initInitiativePreset();
+                    break;
+                case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
+                    break;
+            }
         }
-        initRecyclerView();
-        authViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
+    }
+
+    private void initInitiativePreset() {
+        filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
                 .observe(getViewLifecycleOwner(), categories -> {
                     categoriesSize = categories.size();
-                    adapter.setCategories(categories);
+                    initiativeFilterAdapter.setCategories(categories);
                 });
-        filterViewModel.getSelectedCategoriesLiveData()
+        filterViewModel.getInitiativesSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
+                    List<Category> categories = new ArrayList<>();
+                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+                        if (categoryTypeWithCategories.getCategoryType()
+                                .getCategoryTypeId() == categoryTypeId) {
+                            categories.addAll(categoryTypeWithCategories.getCategories());
+                        }
+                        initiativeFilterAdapter.setSelectedCategories(categories);
+                    });
+                });
+    }
+
+    private void initFilterPreset() {
+        binding.cardViewSelectAll.setOnClickListener(v -> mapFilterAdapter.selectAll());
+
+        filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
+                .observe(getViewLifecycleOwner(), categories -> {
+                    categoriesSize = categories.size();
+                    mapFilterAdapter.setCategories(categories);
+                });
+
+        filterViewModel.getMapSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), selectedCategories -> {
-                    if (selectedCategories.isEmpty() || selectedCategories.size() < categoriesSize) {
+                    List<Category> categories
+                            = getCategoriesFromCategoryTypesWithCategories(selectedCategories);
+                    if (categories.isEmpty() || categories.size() < categoriesSize) {
                         binding.cardViewSelectAll.setCardBackgroundColor(Color.WHITE);
                         binding.textViewSelectAllTitle.setText(R.string.select_all);
                         binding.imageViewCheckBox.setVisibility(View.GONE);
@@ -63,13 +119,29 @@ public class CategoryFilterFragment extends BaseFragment {
                         binding.imageViewCheckBox.setVisibility(View.VISIBLE);
                     }
                 });
-        binding.cardViewSelectAll.setOnClickListener(v -> adapter.selectAll());
+
+        filterViewModel.getMapSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
+                    List<Category> categories = new ArrayList<>();
+                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+                        if (categoryTypeWithCategories.getCategoryType()
+                                .getCategoryTypeId() == categoryTypeId) {
+                            categories.addAll(categoryTypeWithCategories.getCategories());
+                        }
+                        mapFilterAdapter.setSelectedCategories(categories);
+                    });
+                });
     }
 
-    private void initRecyclerView() {
-        adapter = new CategoryRecyclerViewAdapter(getContext(), filterViewModel);
-        binding.recyclerViewCategories.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerViewCategories.setAdapter(adapter);
+    private List<Category> getCategoriesFromCategoryTypesWithCategories(List<CategoryTypeWithCategories> selectedCategories) {
+        List<Category> categories = new ArrayList<>();
+        selectedCategories.forEach(categoryTypesWithCategories -> {
+            if (categoryTypesWithCategories.getCategoryType()
+                    .getCategoryTypeId() == categoryTypeId) {
+                categories.addAll(categoryTypesWithCategories.getCategories());
+            }
+        });
+        return categories;
     }
 
     @Override

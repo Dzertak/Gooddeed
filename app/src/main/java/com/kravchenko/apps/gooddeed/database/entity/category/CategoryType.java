@@ -8,9 +8,9 @@ import com.kravchenko.apps.gooddeed.util.Utils;
 
 @Entity(tableName = "category_type")
 public class CategoryType {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
-    private String categoryTypeId;
+    private long categoryTypeId;
     private long title;
     private long description;
 
@@ -23,11 +23,11 @@ public class CategoryType {
     }
 
     @NonNull
-    public String getCategoryTypeId() {
+    public long getCategoryTypeId() {
         return categoryTypeId;
     }
 
-    public void setCategoryTypeId(@NonNull String categoryTypeId) {
+    public void setCategoryTypeId(@NonNull long categoryTypeId) {
         this.categoryTypeId = categoryTypeId;
     }
 
@@ -49,6 +49,6 @@ public class CategoryType {
 
     @Override
     public String toString() {
-        return categoryTypeId +" "+ Utils.getString(title) +" "+ Utils.getString(description);
+        return categoryTypeId + " " + Utils.getString(title) + " " + Utils.getString(description);
     }
 }

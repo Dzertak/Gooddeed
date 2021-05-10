@@ -2,18 +2,13 @@ package com.kravchenko.apps.gooddeed.screen;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,21 +17,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -47,28 +36,21 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
+import com.kravchenko.apps.gooddeed.util.Utils;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
-import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
@@ -82,7 +64,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private ArrayList<String> markersTitle;
     private final static String titleName = "MARKER";
     private MapViewModel mapViewModel;
-    private FilterViewModel filterViewModel;
+    private AuthViewModel authViewModel;
     private GoogleMap mMap;
 
     @Override
@@ -104,11 +86,11 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         mMap = googleMap;
         LatLng latLngOdessa = AppConstants.ODESSA_COORDINATES;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
+
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(binding.rvInitiatives);
+        binding.rvInitiatives.setAdapter(new InitiativeMapAdapter(requireContext(), new ArrayList<>()));
     }
-
-
-
-
 
     @SuppressLint("NonConstantResourceId")
     private void buildDrawerToggle() {
@@ -156,20 +138,26 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
 
-    //TODO
-        filterViewModel.getAllSelectedCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), categories -> {
-                    //Todo
-                    // handle filtered categories
-                    categories.forEach(category -> Log.i("dev", category.getCategoryId()));
-                    Log.i("dev", "*************************");
-                });
+        //TODO
+//        authViewModel.getSelectedCategoriesLiveData()
+//                .observe(getViewLifecycleOwner(), selectedCategories -> {
+//                    //Todo
+//                    // handle filtered categories
+//                    selectedCategories.forEach(selectedCategory -> {
+//                        selectedCategory.getCategories().forEach(category -> {
+//                            Log.i("dev", Utils.getString(selectedCategory.getCategoryType().getTitle()) + ": " + Utils.getString(category.getTitle()));
+//                        });
+//                        Log.i("dev", "********************************");
+//                    });
+//                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+//                });
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         supportMapFragment.getMapAsync(this);
+
 
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();
@@ -197,9 +185,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 //            }
 //        });
 
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(binding.rvInitiatives);
-        binding.rvInitiatives.setAdapter(new InitiativeMapAdapter(requireContext(), new ArrayList<>()));
 
     }
 
@@ -246,7 +231,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroyView() {
-        if (mMap!=null) mMap.clear();
+        if (mMap != null) mMap.clear();
         if (supportMapFragment != null) supportMapFragment.onDestroy();
         supportMapFragment = null;
         binding = null;

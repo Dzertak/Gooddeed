@@ -9,10 +9,10 @@ import java.util.Objects;
 @Entity(tableName = "category")
 public class Category {
     @NonNull
-    @PrimaryKey
-    private String categoryId;
+    @PrimaryKey(autoGenerate = true)
+    private long categoryId;
 
-    private String categoryOwnerId;
+    private long categoryOwnerId;
     private long title;
     private long description;
 
@@ -25,19 +25,19 @@ public class Category {
     }
 
     @NonNull
-    public String getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(@NonNull String categoryId) {
+    public void setCategoryId(@NonNull long categoryId) {
         this.categoryId = categoryId;
     }
 
-    public String getCategoryOwnerId() {
+    public long getCategoryOwnerId() {
         return categoryOwnerId;
     }
 
-    public void setCategoryOwnerId(String categoryOwnerId) {
+    public void setCategoryOwnerId(long categoryOwnerId) {
         this.categoryOwnerId = categoryOwnerId;
     }
 
@@ -62,10 +62,10 @@ public class Category {
         if (this == o) return true;
         if (!(o instanceof Category)) return false;
         Category category = (Category) o;
-        return title == category.title &&
-                description == category.description &&
-                categoryId.equals(category.categoryId) &&
-                categoryOwnerId.equals(category.categoryOwnerId);
+        return categoryId == category.categoryId &&
+                categoryOwnerId == category.categoryOwnerId &&
+                title == category.title &&
+                description == category.description;
     }
 
     @Override

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@android:color/white"
     tools:context=".screen.initiative.EditInitiativeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -147,6 +148,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/tv_category"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/category"

@@ -15,9 +15,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.AppInstance;
 import com.kravchenko.apps.gooddeed.R;
@@ -26,15 +24,15 @@ import com.kravchenko.apps.gooddeed.database.dao.CategoryDao;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypesWithCategories;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class AuthRepository {
 
     public static final String COLLECTION_USERS = "users";
@@ -45,16 +43,7 @@ public class AuthRepository {
     private final MutableLiveData<Resource<FirebaseUser>> mUser;
     private final MutableLiveData<Resource<Object>> actionMarker;
 
-    //Room
-    private final CategoryDao categoryDao;
-    private final String CATEGORY_TYPES_COLLECTION_PATH = "category-types";
-    private final String CATEGORIES_COLLECTION_PATH = "categories";
-
-    private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
-    public static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     public AuthRepository() {
-        categoryDao = CategoryDatabase.getInstance().categoryDao();
         Context context = AppInstance.getAppContext();
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
@@ -101,7 +90,7 @@ public class AuthRepository {
                                         mAuth.getCurrentUser().getEmail(),
                                         "5.0",
                                         null,
-                                        null,null, null));
+                                        null, null, null));
                             } else {
                                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
                                 Log.w(TAG, "Registration failure: " + task.getException());
@@ -250,50 +239,5 @@ public class AuthRepository {
     private interface OnEmailCheckListener {
         void onResult(boolean isRegistered);
     }
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void cashCategoryTypesWithCategories(CategoryTypesWithCategories categoryTypesWithCategories) {
-        databaseWriteExecutor.execute(() ->
-                categoryDao.insertCategoryTypeWithCategories(categoryTypesWithCategories));
-    }
 
-    public LiveData<List<CategoryType>> getCategoryTypes() {
-        return categoryDao.findCategoryTypes();
-    }
-
-    public LiveData<List<CategoryTypesWithCategories>> getCategoryTypesWithCategoriesLiveData() {
-        return categoryDao.findCategoryTypesWithCategory();
-    }
-
-    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(String ownerId) {
-        return categoryDao.findCategoryTypesByCategoryOwnerId(ownerId);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void fetchCategoryTypeWithCategoriesFromFirestore() {
-        CollectionReference categoryTypesRef = FirebaseFirestore.getInstance().collection(CATEGORY_TYPES_COLLECTION_PATH);
-        categoryTypesRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            List<DocumentSnapshot> categoryTypesSnapshots = queryDocumentSnapshots.getDocuments();
-            for (DocumentSnapshot categoryTypesSnapshot : categoryTypesSnapshots) {
-                CategoryTypesWithCategories categoryTypesWithCategories = new CategoryTypesWithCategories();
-                CategoryType categoryType = categoryTypesSnapshot.toObject(CategoryType.class);
-                categoryType.setCategoryTypeId(categoryTypesSnapshot.getId());
-                categoryTypesWithCategories.setCategoryType(categoryType);
-                List<Category> categories = new ArrayList<>();
-                categoryTypesSnapshot.getReference().collection(CATEGORIES_COLLECTION_PATH).get()
-                        .addOnSuccessListener(queryDocumentSnapshots1 -> {
-                            List<DocumentSnapshot> categoriesSnapshots = queryDocumentSnapshots1.getDocuments();
-                            for (DocumentSnapshot categoriesSnapshot : categoriesSnapshots) {
-                                Category category = categoriesSnapshot.toObject(Category.class);
-                                category.setCategoryId(categoriesSnapshot.getId());
-                                categories.add(category);
-                            }
-                            categoryTypesWithCategories.setCategories(categories);
-                            cashCategoryTypesWithCategories(categoryTypesWithCategories);
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.i("dev", e.getLocalizedMessage());
-                        });
-            }
-        }).addOnFailureListener(e -> Log.i("dev", e.getLocalizedMessage()));
-    }
 }

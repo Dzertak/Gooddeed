@@ -11,7 +11,7 @@ import androidx.room.Transaction;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypesWithCategories;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 
 import java.util.List;
 
@@ -27,12 +27,12 @@ public abstract class CategoryDao {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Transaction
-    public void insertCategoryTypeWithCategories(CategoryTypesWithCategories categoryTypesWithCategories) {
-        CategoryType categoryType = categoryTypesWithCategories.getCategoryType();
-        List<Category> categories = categoryTypesWithCategories.getCategories();
-        insertCategoryType(categoryType);
+    public void insertCategoryTypeWithCategories(CategoryTypeWithCategories categoryTypeWithCategories) {
+        CategoryType categoryType = categoryTypeWithCategories.getCategoryType();
+        List<Category> categories = categoryTypeWithCategories.getCategories();
+        long categoryTypeId = insertCategoryType(categoryType);
         categories.forEach(category -> {
-            category.setCategoryOwnerId(categoryType.getCategoryTypeId());
+            category.setCategoryOwnerId(categoryTypeId);
             insertCategory(category);
         });
     }
@@ -41,19 +41,23 @@ public abstract class CategoryDao {
     public abstract LiveData<List<Category>> findCategories();
 
     @Query("SELECT * FROM category_type")
-    public abstract LiveData<List<CategoryType>> findCategoryTypes();
+    public abstract List<CategoryType> findCategoryTypes();
 
     @Query("SELECT * FROM category WHERE categoryOwnerId = :ownerId")
-    public abstract LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(String ownerId);
+    public abstract LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId);
 
     @Query("SELECT * FROM category_type WHERE categoryTypeId = :id")
-    public abstract LiveData<CategoryType> findCategoryTypeById(String id);
+    public abstract LiveData<CategoryType> findCategoryTypeById(long id);
 
     @Transaction
     @Query("SELECT * FROM category_type ")
-    public abstract LiveData<List<CategoryTypesWithCategories>> findCategoryTypesWithCategory();
+    public abstract LiveData<List<CategoryTypeWithCategories>> findCategoryTypesWithCategory();
+
+    @Transaction
+    @Query("SELECT * FROM category_type ")
+    public abstract List<CategoryTypeWithCategories> findCategoryTypesWithCategoryList();
 
     @Transaction
     @Query("SELECT * FROM category_type WHERE categoryTypeId = :id")
-    public abstract LiveData<List<CategoryTypesWithCategories>> findCategoryTypesWithCategoryByCategoryTypeId(String id);
+    public abstract LiveData<List<CategoryTypeWithCategories>> findCategoryTypesWithCategoryByCategoryTypeId(String id);
 }

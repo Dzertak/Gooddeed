@@ -7,7 +7,7 @@ import androidx.room.Relation;
 
 import java.util.List;
 
-public class CategoryTypesWithCategories {
+public class CategoryTypeWithCategories {
     @Embedded
     private CategoryType categoryType;
     @Relation(
@@ -16,12 +16,12 @@ public class CategoryTypesWithCategories {
     )
     private List<Category> categories;
 
-    public CategoryTypesWithCategories(CategoryType categoryType, List<Category> categories) {
+    public CategoryTypeWithCategories(CategoryType categoryType, List<Category> categories) {
         this.categoryType = categoryType;
         this.categories = categories;
     }
 
-    public CategoryTypesWithCategories() {
+    public CategoryTypeWithCategories() {
     }
 
     public CategoryType getCategoryType() {

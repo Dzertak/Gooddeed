@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceFragmentCompat;
@@ -18,6 +19,7 @@ public class SubscriptionsSettingsFragment extends PreferenceFragmentCompat {
     private static final String PREFERENCE_RADIUS_KEY = "radius_pref";
     private static final String PREFERENCE_CATEGORY_KEY = "category_pref";
     private NavController navController;
+    public final static String SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG = "SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +45,10 @@ public class SubscriptionsSettingsFragment extends PreferenceFragmentCompat {
         });
 
         findPreference(PREFERENCE_CATEGORY_KEY).setOnPreferenceClickListener(preference -> {
-            navController.navigate(R.id.action_subscriptionsSettingsFragment_to_categoryFilterFragment2);
+
+            NavDirections action
+                    = SubscriptionsSettingsFragmentDirections.actionSubscriptionsSettingsFragmentToCategoryNavGraph(SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG);
+            navController.navigate(action);
             return true;
         });
     }

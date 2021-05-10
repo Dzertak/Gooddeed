@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.screen.adapter.filter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
@@ -19,37 +21,39 @@ import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.ViewHolder> {
+@RequiresApi(api = Build.VERSION_CODES.N)
+public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilterRecyclerViewAdapter.ViewHolder> {
     private final Context context;
-    private FilterViewModel filterViewModel;
+    private final FilterViewModel filterViewModel;
     private List<Category> categories;
     private List<Category> selectedCategories;
-    boolean isSelectAll;
-    int check = -1;
+    private Category category;
+    private boolean isSelectAll;
+    private final int check;
 
-
-    public CategoryRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
+    public MapFilterRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
         this.context = context;
-        this.filterViewModel = filterViewModel;
         this.categories = new ArrayList<>();
         this.selectedCategories = new ArrayList<>();
+        this.filterViewModel = filterViewModel;
+        check = -1;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //TODO take out in base adapter
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_category, parent, false);
-        return new ViewHolder(view);
+        return new MapFilterRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Category category = categories.get(position);
+        category = categories.get(position);
         holder.textViewCategoryTitle.setText(Utils.getString(category.getTitle()));
         if (holder.getAdapterPosition() != check) {
             holder.itemView.setOnClickListener(v -> clickItem(holder));
-            if (isSelectAll) {
+            if (isSelectAll || selectedCategories.contains(category)) {
                 holder.imageViewCheck.setVisibility(View.VISIBLE);
                 holder.itemView.setBackgroundColor(Color.LTGRAY);
             } else {
@@ -69,24 +73,23 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         notifyDataSetChanged();
     }
 
+    public void setSelectedCategories(List<Category> selectedCategories) {
+        this.selectedCategories = selectedCategories;
+        notifyDataSetChanged();
+    }
+
+
     public void selectAll() {
         if (categories.size() == selectedCategories.size()) {
             isSelectAll = false;
-            selectedCategories.forEach(category ->
-                    filterViewModel.removeSelectedCategory(category)
-            );
             selectedCategories.clear();
 
         } else {
             isSelectAll = true;
             selectedCategories.clear();
             selectedCategories.addAll(categories);
-            selectedCategories.forEach(category ->
-                    filterViewModel.addSelectedCategory(category)
-            );
-
         }
-        filterViewModel.setSelectedCategories(selectedCategories);
+        filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
         notifyDataSetChanged();
     }
 
@@ -96,14 +99,12 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             holder.imageViewCheck.setVisibility(View.VISIBLE);
             holder.itemView.setBackgroundColor(Color.LTGRAY);
             selectedCategories.add(category);
-            filterViewModel.addSelectedCategory(category);
         } else {
             holder.imageViewCheck.setVisibility(View.GONE);
             holder.itemView.setBackgroundColor(Color.WHITE);
             selectedCategories.remove(category);
-            filterViewModel.removeSelectedCategory(category);
         }
-        filterViewModel.setSelectedCategories(selectedCategories);
+        filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -116,5 +117,4 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             imageViewCheck = itemView.findViewById(R.id.imageViewCheckBox);
         }
     }
-
 }
