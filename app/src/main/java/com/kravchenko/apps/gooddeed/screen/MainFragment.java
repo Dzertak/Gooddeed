@@ -86,6 +86,10 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         mMap = googleMap;
         LatLng latLngOdessa = AppConstants.ODESSA_COORDINATES;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
+
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(binding.rvInitiatives);
+        binding.rvInitiatives.setAdapter(new InitiativeMapAdapter(requireContext(), new ArrayList<>()));
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -154,6 +158,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         supportMapFragment.getMapAsync(this);
 
+
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();
 
@@ -180,9 +185,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 //            }
 //        });
 
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(binding.rvInitiatives);
-        binding.rvInitiatives.setAdapter(new InitiativeMapAdapter(requireContext(), new ArrayList<>()));
 
     }
 
