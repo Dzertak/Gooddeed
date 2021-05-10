@@ -19,18 +19,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.AppInstance;
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.database.CategoryDatabase;
-import com.kravchenko.apps.gooddeed.database.dao.CategoryDao;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
-import com.kravchenko.apps.gooddeed.database.entity.category.Category;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.Utils;
-
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AuthRepository {

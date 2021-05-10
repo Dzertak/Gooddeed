@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.kravchenko.apps.gooddeed.database.CategoryDatabase;
+import com.kravchenko.apps.gooddeed.database.AppDatabase;
 import com.kravchenko.apps.gooddeed.database.dao.CategoryDao;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
@@ -33,7 +33,7 @@ public class CategoryRepository {
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public CategoryRepository() {
-        this.categoryDao = CategoryDatabase.getInstance().categoryDao();
+        this.categoryDao = AppDatabase.getInstance().categoryDao();
         this.categoryTypesWithCategories = new MutableLiveData<>();
         this.mapSelectedCategoriesLiveData = initCategoryTypesWithCategory();
         ;
