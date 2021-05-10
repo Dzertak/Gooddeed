@@ -19,6 +19,7 @@
         <item name="preferenceTheme">@style/Theme.Gooddeed.PreferenceThemeOverlay</item>
 
         <item name="android:windowBackground">@drawable/splash_screen</item>
+
     </style>
 
     <style name="Theme.Gooddeed.PreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
