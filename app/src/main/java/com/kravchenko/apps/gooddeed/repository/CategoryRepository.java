@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.kravchenko.apps.gooddeed.database.AppDatabase;
 import com.kravchenko.apps.gooddeed.database.dao.CategoryDao;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class CategoryRepository {
 
     private MutableLiveData<List<CategoryTypeWithCategories>> mapSelectedCategoriesLiveData;
     private MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
-    private MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
+    private LiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
 
 
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
@@ -34,15 +33,26 @@ public class CategoryRepository {
 
     public CategoryRepository() {
         this.categoryDao = AppDatabase.getInstance().categoryDao();
-        this.categoryTypesWithCategories = new MutableLiveData<>();
-        this.mapSelectedCategoriesLiveData = initCategoryTypesWithCategory();
-        ;
-        this.initiativesSelectedCategoriesLiveData = new MutableLiveData<>();
-        initInitiativesSelectedCategoriesLiveData();
+
+        this.categoryTypesWithCategories = categoryDao.getCategoryTypesWithCategory();
+        this.mapSelectedCategoriesLiveData = new MutableLiveData<>(null);
+        this.initiativesSelectedCategoriesLiveData = new MutableLiveData<>(null);
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
+        return categoryDao.getCategoryTypesWithCategory();
+    }
+
+    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId) {
+        return categoryDao.getCategoryTypesByCategoryOwnerId(ownerId);
     }
 
     public LiveData<List<CategoryTypeWithCategories>> getMapSelectedCategoriesLiveData() {
         return mapSelectedCategoriesLiveData;
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getInitiativesSelectedCategoriesLiveData() {
+        return initiativesSelectedCategoriesLiveData;
     }
 
     public void setMapSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
@@ -53,39 +63,6 @@ public class CategoryRepository {
             }
         });
         mapSelectedCategoriesLiveData.setValue(mapSelectedCategoriesLiveData.getValue());
-    }
-
-    private MutableLiveData<List<CategoryTypeWithCategories>> initInitiativesSelectedCategoriesLiveData() {
-        databaseWriteExecutor.execute(() -> {
-            List<CategoryTypeWithCategories> initiativesSelectedCategories = new ArrayList<>();
-            List<CategoryType> categoryTypes = categoryDao.findCategoryTypes();
-            categoryTypes.forEach(categoryType -> {
-                CategoryTypeWithCategories categoryTypeWithCategories = new CategoryTypeWithCategories();
-                categoryTypeWithCategories.setCategoryType(categoryType);
-                categoryTypeWithCategories.setCategories(new ArrayList<>());
-                initiativesSelectedCategories.add(categoryTypeWithCategories);
-            });
-            this.initiativesSelectedCategoriesLiveData.postValue(initiativesSelectedCategories);
-        });
-
-        return initiativesSelectedCategoriesLiveData;
-    }
-
-    public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId) {
-        return categoryDao.findCategoryTypesByCategoryOwnerId(ownerId);
-    }
-
-
-    public MutableLiveData<List<CategoryTypeWithCategories>> initCategoryTypesWithCategory() {
-        MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
-        databaseWriteExecutor.execute(() ->
-                categoryTypesWithCategories.postValue(categoryDao.findCategoryTypesWithCategoryList()));
-        return categoryTypesWithCategories;
-    }
-
-
-    public LiveData<List<CategoryTypeWithCategories>> getInitiativesSelectedCategoriesLiveData() {
-        return initiativesSelectedCategoriesLiveData;
     }
 
     public void setInitiativesSelectedCategory(List<Category> selectedCategories, long categoryOwnerId) {
@@ -99,7 +76,52 @@ public class CategoryRepository {
         initiativesSelectedCategoriesLiveData.setValue(initiativesSelectedCategoriesLiveData.getValue());
     }
 
-    public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
-        return categoryDao.findCategoryTypesWithCategory();
+    public void initMapSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypeWithCategories) {
+        mapSelectedCategoriesLiveData.setValue(categoryTypeWithCategories);
+    }
+
+    public void initInitiativesSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
+        categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+            categoryTypeWithCategories.setCategories(new ArrayList<>());
+        });
+        this.initiativesSelectedCategoriesLiveData.setValue(categoryTypesWithCategories);
     }
 }
+
+
+//
+//
+//
+//
+//    private MutableLiveData<List<CategoryTypeWithCategories>> initInitiativesSelectedCategoriesLiveData() {
+//        databaseWriteExecutor.execute(() -> {
+//            List<CategoryTypeWithCategories> initiativesSelectedCategories = new ArrayList<>();
+//            List<CategoryType> categoryTypes = categoryDao.findCategoryTypes();
+//            categoryTypes.forEach(categoryType -> {
+//                CategoryTypeWithCategories categoryTypeWithCategories = new CategoryTypeWithCategories();
+//                categoryTypeWithCategories.setCategoryType(categoryType);
+//                categoryTypeWithCategories.setCategories(new ArrayList<>());
+//                initiativesSelectedCategories.add(categoryTypeWithCategories);
+//            });
+//            this.initiativesSelectedCategoriesLiveData.postValue(initiativesSelectedCategories);
+//        });
+//
+//        return initiativesSelectedCategoriesLiveData;
+//    }
+//
+//
+//
+//
+//    public MutableLiveData<List<CategoryTypeWithCategories>> initCategoryTypesWithCategory() {
+//        MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
+//        databaseWriteExecutor.execute(() ->
+//                categoryTypesWithCategories.postValue(categoryDao.findCategoryTypesWithCategoryList()));
+//        return categoryTypesWithCategories;
+//    }
+//
+//
+//
+//
+//
+//
+//

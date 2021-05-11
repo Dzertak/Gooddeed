@@ -8,16 +8,30 @@ import com.kravchenko.apps.gooddeed.R;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
+import java.util.Map;
 
 public class Utils {
     public final static long SEVEN_DAYS_IN_MILLISECONDS = 604_800_000L;
 
+    public static String getString(String code) {
+        String result = "";
+        Map<String, Integer> stringKeys = FillHelper.getStringKeys();
+        for (String key : stringKeys.keySet()) {
+            if (code.equals(key)) {
+                result = getString(stringKeys.get(key));
+            }
+        }
+        return result;
+    }
+
     public static String getString(int code) {
         return AppInstance.getAppContext().getString(code);
     }
+
     public static String getString(long code) {
         return AppInstance.getAppContext().getString((int) code);
     }
+
     public static MaterialDatePicker<Pair<Long, Long>> createMaterialDatePicker() {
 
         long today = MaterialDatePicker.todayInUtcMilliseconds();

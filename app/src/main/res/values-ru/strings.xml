@@ -131,6 +131,46 @@
     <string name="group">Группа людей</string>
     <string name="unlimited">Неограниченно количество людей</string>
     <string name="title_initiative_type">Тип Инициативы</string>
+    <string name="charity_title">Благотворительность</string>
+    <string name="cleaning_title">Уборка</string>
+    <string name="tutoring_and_training_title">Репетиторство и обучение</string>
+    <string name="beauty_and_health_title">"Красота и здоровье "</string>
+    <string name="photo_and_video_title">Фото и видео</string>
+    <string name="delivery_and_transportation_title">"Доставка и транспортировка  "</string>
+    <string name="repair_and_construction_title">"Ремонт и строительство  "</string>
+    <string name="donations_title">Пожертвования</string>
+    <string name="help_those_in_need_title">"Помогите нуждающимся  "</string>
+    <string name="house_cleaning_title">Уборка дома</string>
+    <string name="yard_cleaning_title">"Уборка двора  "</string>
+    <string name="cargo_transportation_title">"Грузоперевозки "</string>
+    <string name="courier_title">Курьер</string>
+    <string name="taxi_title">Такси</string>
+    <string name="art_title">Искусство</string>
+    <string name="foreign_languages_title">Иностранные языки</string>
+    <string name="programming_title">Программирование</string>
+    <string name="science_title">Наука</string>
+    <string name="sport_title">Спорт</string>
+    <string name="massage_title">Массаж</string>
+    <string name="cosmetologist_services_title">Услуги косметолога</string>
+    <string name="hairdressing_title">Парикмахерское дело</string>
+    <string name="psychologists_title">Психология</string>
+    <string name="filming_title">Съёмка видео</string>
+    <string name="photoshoot_title">Фотосъёмка</string>
+    <string name="electrical_title">Эдектричество</string>
+    <string name="building_title">Строительство</string>
+    <string name="handyman_for_hour_title">Муж на час</string>
+    <string name="plumbing_title">Сантехника</string>
+    <string name="repair_of_electrical_equipment_title">Ремонт электрооборудования</string>
+    <string name="vehicle_repair_title">Ремонт автомобилей</string>
+    <string name="timeline">График</string>
+    <string name="data_picker_title">Выберите диапазон дат</string>
+    <string name="filter_category_type">Типы категорий</string>
+    <string name="filter_category">Категории</string>
+    <string name="select_all">Выбрать все</string>
+    <string name="clear">Очистить</string>
+    <string name="all">Все</string>
+    <string name="type_category_filter">Типы категорий</string>
+    <string name="category_filter">Категории</string>
 
 </resources>
 

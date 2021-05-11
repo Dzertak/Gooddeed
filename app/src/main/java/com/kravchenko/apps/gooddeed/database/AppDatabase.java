@@ -27,24 +27,25 @@ import static com.kravchenko.apps.gooddeed.repository.CategoryRepository.databas
         version = 1
 )
 public abstract class AppDatabase extends RoomDatabase {
-    private static final String DB_NAME = "category_database";
+    private static final String DB_NAME = "app_database";
     private static volatile AppDatabase instance;
 
     public abstract CategoryDao categoryDao();
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static synchronized AppDatabase getInstance() {
         if (instance == null) {
             instance = Room.databaseBuilder(AppInstance.getAppContext(),
                     AppDatabase.class, DB_NAME)
                     .fallbackToDestructiveMigration()
-                    .addCallback(sRoomDatabaseCallback)
-                    .build();
+                    .addCallback(sRoomDatabaseCallback).build();
         }
         return instance;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
-        @RequiresApi(api = Build.VERSION_CODES.N)
+
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -54,7 +55,10 @@ public abstract class AppDatabase extends RoomDatabase {
                     databaseWriteExecutor.execute(() ->
                             instance.categoryDao()
                                     .insertCategoryTypeWithCategories(categoryTypeWithCategories))
+
             );
         }
+
+
     };
 }

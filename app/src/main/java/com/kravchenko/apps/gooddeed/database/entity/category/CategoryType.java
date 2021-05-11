@@ -11,10 +11,10 @@ public class CategoryType {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private long categoryTypeId;
-    private long title;
-    private long description;
+    private String title;
+    private String description;
 
-    public CategoryType(long title, long description) {
+    public CategoryType(String title, String description) {
         this.title = title;
         this.description = description;
     }
@@ -31,24 +31,24 @@ public class CategoryType {
         this.categoryTypeId = categoryTypeId;
     }
 
-    public long getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(long title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public long getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(long description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return categoryTypeId + " " + Utils.getString(title) + " " + Utils.getString(description);
-    }
+//    @Override
+//    public String toString() {
+//        return categoryTypeId + " " + Utils.getString(title) + " " + Utils.getString(description);
+//    }
 }

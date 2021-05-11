@@ -13,10 +13,10 @@ public class Category {
     private long categoryId;
 
     private long categoryOwnerId;
-    private long title;
-    private long description;
+    private String title;
+    private String description;
 
-    public Category(long title, long description) {
+    public Category(String title, String description) {
         this.title = title;
         this.description = description;
     }
@@ -41,21 +41,22 @@ public class Category {
         this.categoryOwnerId = categoryOwnerId;
     }
 
-    public long getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(long title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public long getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(long description) {
+    public void setDescription(String description) {
         this.description = description;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -64,8 +65,8 @@ public class Category {
         Category category = (Category) o;
         return categoryId == category.categoryId &&
                 categoryOwnerId == category.categoryOwnerId &&
-                title == category.title &&
-                description == category.description;
+                title.equals(category.title) &&
+                description.equals(category.description);
     }
 
     @Override

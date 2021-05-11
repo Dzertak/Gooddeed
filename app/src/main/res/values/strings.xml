@@ -205,7 +205,7 @@
 
     <string name="timeline">Timeline</string>
     <string name="data_picker_title">Select a date range</string>
-    <string name="arrow_symbol">⟩</string>
+    <string name="arrow_symbol" translatable="false">⟩</string>
     <string name="filter_category_type">Filter category type</string>
     <string name="filter_category">Filter category</string>
     <string name="select_all">Select all</string>

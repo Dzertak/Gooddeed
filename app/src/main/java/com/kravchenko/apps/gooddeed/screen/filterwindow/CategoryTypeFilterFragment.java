@@ -73,8 +73,16 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                     });
                     adapter.setCategorySizes(categorySizes);
                 });
-        filterViewModel.getInitiativesSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
-                adapter.setSelectedCategories(categoryTypesWithCategories));
+        filterViewModel.getInitiativesSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), selectedCategoryTypesWithCategories -> {
+                            if (selectedCategoryTypesWithCategories == null) {
+                                filterViewModel.getCategoryTypesWithCategoriesLiveData()
+                                        .observe(getViewLifecycleOwner(), filterViewModel::initInitiativesSelectedCategoriesLiveData);
+                            } else {
+                                adapter.setSelectedCategories(selectedCategoryTypesWithCategories);
+                            }
+                        }
+                );
     }
 
     private void initFilterPreset() {
@@ -89,9 +97,14 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                             adapter.setCategorySizes(categorySizes);
                         }
                 );
-        filterViewModel.getMapSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), categoryTypesWithCategories ->
-                adapter.setSelectedCategories(categoryTypesWithCategories)
-        );
+        filterViewModel.getMapSelectedCategoriesLiveData().observe(getViewLifecycleOwner(), selectedCategoryTypesWithCategories -> {
+            if (selectedCategoryTypesWithCategories == null) {
+                filterViewModel.getCategoryTypesWithCategoriesLiveData()
+                        .observe(getViewLifecycleOwner(), filterViewModel::initMapSelectedCategoriesLiveData);
+            } else {
+                adapter.setSelectedCategories(selectedCategoryTypesWithCategories);
+            }
+        });
     }
 
     private void initRecyclerView() {

@@ -4,7 +4,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
@@ -41,10 +40,15 @@ public class FilterViewModel extends ViewModel {
         return categoryRepository.getInitiativesSelectedCategoriesLiveData();
     }
 
-    public MutableLiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategory() {
-        return categoryRepository.initCategoryTypesWithCategory();
-    }
     public LiveData<List<Category>> findCategoryTypesByCategoryOwnerId(long ownerId) {
         return categoryRepository.findCategoryTypesByCategoryOwnerId(ownerId);
+    }
+
+    public void initMapSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypeWithCategories) {
+        categoryRepository.initMapSelectedCategoriesLiveData(categoryTypeWithCategories);
+    }
+
+    public void initInitiativesSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
+        categoryRepository.initInitiativesSelectedCategoriesLiveData(categoryTypesWithCategories);
     }
 }
