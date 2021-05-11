@@ -7,15 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.kravchenko.apps.gooddeed.databinding.FragmentChatsBinding;
+import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.ChatRoomAdapter;
 import com.kravchenko.apps.gooddeed.viewmodel.ChatViewModel;
 
-public class ChatsFragment extends Fragment {
+public class ChatsFragment extends BaseFragment {
     private FragmentChatsBinding binding;
     private ChatViewModel chatViewModel;
 
@@ -34,10 +36,12 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
+        NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         chatViewModel.getDataForChatRooms();
-        chatViewModel.getChatroomsOfCurrentUser().observe(getActivity(), chatroomsOfCurrentUser -> {
-            binding.recyclerChatRooms.setAdapter(new ChatRoomAdapter(chatViewModel,getContext(),chatroomsOfCurrentUser));
+        chatViewModel.getChatroomsOfCurrentUser().observe(requireActivity(), chatRoomsOfCurrentUser -> {
+            binding.recyclerChatRooms.setAdapter(new ChatRoomAdapter(chatViewModel, getContext(), chatRoomsOfCurrentUser));
             binding.recyclerChatRooms.setLayoutManager(new LinearLayoutManager(getContext()));
         });
     }
@@ -45,7 +49,7 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        chatViewModel.getChatroomsOfCurrentUser().removeObservers(getActivity());
+        chatViewModel.getChatroomsOfCurrentUser().removeObservers(requireActivity());
         binding = null;
         chatViewModel = null;
     }

@@ -8,17 +8,17 @@ import java.util.List;
 public class ChatRoom {
     private String chatRoomId;
     private String chatRoomName;
-    private ArrayList<String> chatRoomMembers;
+    private ArrayList<String> members;
     private List<MessageEntity> listOfMessages;
     private String imageUrl;
 
     ChatRoom() {
     }
 
-    public ChatRoom(String chatRoomId, String chatRoomName, ArrayList<String> chatRoomMembers, ArrayList<MessageEntity> listOfMessages, String imageUrl) {
+    public ChatRoom(String chatRoomId, String chatRoomName, ArrayList<String> members, ArrayList<MessageEntity> listOfMessages, String imageUrl) {
         this.chatRoomId = chatRoomId;
         this.chatRoomName = chatRoomName;
-        this.chatRoomMembers = chatRoomMembers;
+        this.members = members;
         this.listOfMessages = listOfMessages;
         this.imageUrl = imageUrl;
     }
@@ -53,16 +53,12 @@ public class ChatRoom {
         this.chatRoomName = chatRoomName;
     }
 
-    public ArrayList<String> getChatRoomMembers() {
-        return chatRoomMembers;
+    public ArrayList<String> getMembers() {
+        return members;
     }
 
-    public String getChatRoomMembersCount() {
-        return String.valueOf(chatRoomMembers.size());
-    }
-
-    public void setChatRoomMembers(ArrayList<String> chatRoomMembers) {
-        this.chatRoomMembers = chatRoomMembers;
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
     }
 
     public List<MessageEntity> getListOfMessages() {

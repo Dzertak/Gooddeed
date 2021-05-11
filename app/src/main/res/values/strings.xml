@@ -223,5 +223,17 @@
     <string name="group">Group people</string>
     <string name="unlimited">Unlimited people</string>
     <string name="title_initiative_type">Initiative Type</string>
+    <string name="chat_info">Chat info</string>
+    <string name="chat_title">Chat title</string>
+    <string name="executors">Executors:</string>
+    <string name="chat_members">Chat members:</string>
+    <string name="name">Name</string>
+    <string name="leave_chat">Leave chat</string>
+    <string name="go_to_initiative">Go to initiative:</string>
     <string name="all">All</string>
+    <string name="absent">absent</string>
+    <string name="rate">Rate</string>
+    <string name="appoint_as_executor">Appoint as executor</string>
+    <string name="write_a_comment">Write a comment…</string>
+    <string name="remove_executor">Remove executor</string>
 </resources>

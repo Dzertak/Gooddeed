@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:maxWidth="240dp"
             android:textColor="@color/black"
-            android:textSize="@dimen/textsize_standard"
+            android:textSize="@dimen/text_size_standard"
             android:layout_marginStart="@dimen/margin_little"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintStart_toStartOf="parent"

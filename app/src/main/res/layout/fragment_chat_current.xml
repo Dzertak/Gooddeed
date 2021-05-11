@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".screen.chat.CurrentChatFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -32,7 +33,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/gooddeed_logo" />
+                    android:src="@drawable/gooddeed_logo" />
 
                 <TextView
                     android:id="@+id/tv_chatroom_name"
@@ -40,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_standard"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/textsize_standard"
+                    android:textSize="@dimen/text_size_standard"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/tv_members"
                     app:layout_constraintStart_toEndOf="@id/current_chatroom_logo"
@@ -61,15 +62,41 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
+        android:id="@+id/linear_layout_go_to_initiative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_little"
+        android:background="@color/lightgreen"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout_mainFragment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/go_to_initiative" />
+
+        <TextView
+            android:id="@+id/tv_go_to_initiative_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_messages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="@dimen/margin_little"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout_go_to_initiative" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -88,15 +115,15 @@
             android:ems="10"
             android:hint="@string/type_a_message"
             android:inputType="textPersonName" />
-
-        <ImageButton
-            android:id="@+id/btn_add_file"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_middle"
-            android:background="@drawable/ic_add_file" />
-
+        <!--
+                <ImageButton
+                    android:id="@+id/btn_add_file"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_middle"
+                    android:background="@drawable/ic_add_file" />
+        -->
         <ImageButton
             android:id="@+id/btn_send_message"
             android:layout_width="32dp"

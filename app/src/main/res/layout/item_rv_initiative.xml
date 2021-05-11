@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_middle"
         android:textColor="@color/black"
-        android:textSize="@dimen/textsize_standard"
+        android:textSize="@dimen/text_size_standard"
         app:layout_constraintBottom_toTopOf="@id/tv_description"
         app:layout_constraintStart_toEndOf="@id/iv_image"
         app:layout_constraintTop_toTopOf="parent"

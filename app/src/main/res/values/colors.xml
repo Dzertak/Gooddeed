@@ -17,9 +17,11 @@
     <color name="lightgreen">#d5f199</color>
     <color name="darkergreen">#79C500</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="transparent_white_50">#80FFFFFF</color>
     <color name="black_alpha">#99000000</color>
     <color name="divider">#BDBDBD</color>
     <color name="ucrop_color_toolbar">@color/green</color>
     <color name="ucrop_color_statusbar">@color/darkgreen</color>
     <color name="ucrop_color_widget_active">@color/teal_700</color>
+    <color name="ic_launcher_background">#3DDC84</color>
 </resources>

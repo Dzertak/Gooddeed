@@ -57,7 +57,7 @@ public class CurrentInitiativeFragment extends Fragment {
         //TODO here we need to get id of current initiative from database and put it into Bundle
         Bundle args = new Bundle();
         String initiativeId = "TODO"; //TODO
-        args.putString("chatroom_id",initiativeId);
+        args.putString("initiative_id",initiativeId);
         binding.btnSendProposeHelp.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_currentChatFragment,args));
     }
 

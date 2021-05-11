@@ -1,16 +1,16 @@
 package com.kravchenko.apps.gooddeed.screen.adapter.message;
 
 public class MessageEntity {
-    private String dateAndTime;
+    private long timeInMillis;
     private String sender;
     private String textOfMessage;
 
-    public String getDateAndTime() {
-        return dateAndTime;
+    public long getTimeInMillis() {
+        return timeInMillis;
     }
 
-    public void setDateAndTime(String dateAndTime) {
-        this.dateAndTime = dateAndTime;
+    public void setTimeInMillis(long timeInMillis) {
+        this.timeInMillis = timeInMillis;
     }
 
     public MessageEntity() {}
