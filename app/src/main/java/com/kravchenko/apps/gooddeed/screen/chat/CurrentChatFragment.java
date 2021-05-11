@@ -5,16 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
@@ -35,13 +30,12 @@ import java.util.HashMap;
 
 public class CurrentChatFragment extends BaseFragment {
 
-    private String currentChatRoomId;
+    private String currentInitiativeId;
     private FragmentChatCurrentBinding currentChatBinding;
     private ChatViewModel chatViewModel;
     private MessageAdapter messageAdapter;
     private HashMap<String, String> fullNames;
     private HashMap<String, String> avatarUrls;
-    private static final String TAG = "gooddeed_tag";
     private ChatRoom currentChatRoom;
     private LinearLayoutManager linearLayoutManager;
 
@@ -65,26 +59,26 @@ public class CurrentChatFragment extends BaseFragment {
                         (R.id.action_currentChatFragment_to_currentInitiativeFragment, getArguments()));
         currentChatBinding.toolbarCurrentChat.setNavigationIcon(R.drawable.ic_back);
         currentChatBinding.toolbarCurrentChat.setNavigationOnClickListener(v ->
-                getActivity().onBackPressed());
+                requireActivity().onBackPressed());
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        chatViewModel.getFullNames().observe(getActivity(), fullnamesMap -> fullNames = fullnamesMap);
-        chatViewModel.getAvatarUrls().observe(getActivity(), avatarUrlsMap -> avatarUrls = avatarUrlsMap);
+        chatViewModel.getFullNames().observe(requireActivity(), fullNamesMap -> fullNames = fullNamesMap);
+        chatViewModel.getAvatarUrls().observe(requireActivity(), avatarUrlsMap -> avatarUrls = avatarUrlsMap);
         if (getArguments() != null) {
-            currentChatRoomId = getArguments().getString("chatroom_id");
+            currentInitiativeId = getArguments().getString("initiative_id");
             currentChatBinding.toolbarCurrentChat.setOnClickListener(v ->
                     Navigation.findNavController(v).navigate
                             (R.id.action_currentChatFragment_to_chatInfoFragment, getArguments()));
         }
-        chatViewModel.initComponentsForCurrentChat(currentChatRoomId);
-        FirebaseDatabase.getInstance().getReference("Chats").child(currentChatRoomId).
-                addValueEventListener(new ValueEventListener() {
+        chatViewModel.initComponentsForCurrentChat(currentInitiativeId);
+        FirebaseDatabase.getInstance().getReference("Initiatives").child(currentInitiativeId)
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (getActivity() == null) {
                             return;
                         }
                         ArrayList<MessageEntity> listOfMessages = new ArrayList<>();
-                        for (DataSnapshot message : snapshot.child("messages").getChildren()) {
+                        for (DataSnapshot message : snapshot.child("chat").child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
                             messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
                             messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
@@ -92,14 +86,15 @@ public class CurrentChatFragment extends BaseFragment {
                             listOfMessages.add(messageEntity);
                         }
 
-                        currentChatRoom = snapshot.getValue(ChatRoom.class);
+                        currentChatRoom = snapshot.child("chat").getValue(ChatRoom.class);
                         if (currentChatRoom != null) {
-                            currentChatBinding.tvGoToInitiativeName.setText(currentChatRoom.getChatRoomName());
-                            currentChatBinding.tvChatroomName.setText(currentChatRoom.getChatRoomName());
-                            if (!currentChatRoom.getImageUrl().equals("default")) {
-                                Glide.with(getActivity()).load(Uri.parse(currentChatRoom.getImageUrl())).circleCrop().into(currentChatBinding.currentChatroomLogo);
+                            currentChatBinding.tvGoToInitiativeName.setText(String.valueOf(snapshot.child("title").getValue()));
+                            currentChatBinding.tvChatroomName.setText(String.valueOf(snapshot.child("title").getValue()));
+                            if (!String.valueOf(snapshot.child("imageUrl").getValue()).equals("default")) {
+                                Glide.with(getActivity()).load(Uri.parse(String.valueOf(snapshot.child("imageUrl")
+                                        .getValue()))).circleCrop().into(currentChatBinding.currentChatroomLogo);
                             }
-                            String text = getString(R.string.people_in_chat) + " " + currentChatRoom.getChatRoomMembersCount();
+                            String text = getString(R.string.people_in_chat) + " " + currentChatRoom.getMembers().size();
                             currentChatBinding.tvMembers.setText(text);
                             currentChatRoom.setListOfMessages(listOfMessages);
                             currentChatBinding.recyclerMessages.setHasFixedSize(true);
@@ -108,16 +103,13 @@ public class CurrentChatFragment extends BaseFragment {
                             currentChatBinding.recyclerMessages.setAdapter(messageAdapter);
                             linearLayoutManager.setStackFromEnd(false);
                             currentChatBinding.recyclerMessages.setLayoutManager(linearLayoutManager);
-                            //TODO scroll to last item which was read by user
+                            linearLayoutManager.scrollToPosition(messageAdapter.getItemCount() - 1);
                         }
-                        linearLayoutManager.scrollToPosition(messageAdapter.getItemCount() - 1);
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
-
 
         currentChatBinding.btnSendMessage.setOnClickListener(v -> {
             if (!currentChatBinding.etTypeMessage.getText().toString().trim().equals("")) {

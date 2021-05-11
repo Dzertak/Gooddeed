@@ -133,11 +133,16 @@
     <string name="title_initiative_type">Тип Инициативы</string>
     <string name="chat_info">О чате</string>
     <string name="chat_title">Название чата</string>
-    <string name="executors">Исполнители</string>
+    <string name="executors">Исполнители:</string>
     <string name="chat_members">Участники чата:</string>
     <string name="name">Имя</string>
     <string name="leave_chat">Покинуть чат</string>
     <string name="go_to_initiative">Перейти к инициативе:</string>
+    <string name="absent">отсутствуют</string>
+    <string name="rate">Поставить оценку</string>
+    <string name="appoint_as_executor">Назначить исполнителем</string>
+    <string name="write_a_comment">Напишите комментарий…</string>
+    <string name="remove_executor">Убрать исполнителя</string>
 
 </resources>
 

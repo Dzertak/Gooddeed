@@ -124,7 +124,7 @@
                     android:text="@string/title_rating"
                     android:layout_marginStart="@dimen/margin_middle"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/textsize_standard"
+                    android:textSize="@dimen/text_size_standard"
                     tools:text="Rating: 4,3" />
             </LinearLayout>
 
@@ -137,7 +137,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/subscriptions"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsize_standard"
+                android:textSize="@dimen/text_size_standard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearlayout_profile_rating" />
 
@@ -223,7 +223,7 @@
                 android:layout_marginTop="@dimen/margin_standard"
                 android:text="@string/about"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsize_standard"
+                android:textSize="@dimen/text_size_standard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recycler_view_subscriptions" />
 
@@ -248,7 +248,7 @@
                 android:layout_marginTop="@dimen/margin_standard"
                 android:text="@string/reviews"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsize_standard"
+                android:textSize="@dimen/text_size_standard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_about" />
 

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screen.chat.ChatInfoFragment">
+    tools:context=".screen.chat.ChatInfoFragment"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -44,7 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circleImageView"
+                    android:id="@+id/circleImageView_avatar"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_marginStart="16dp"
@@ -60,12 +62,12 @@
                     android:layout_marginStart="@dimen/margin_middle"
                     android:text="@string/chat_title"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/textsize_standard"
-                    app:layout_constraintStart_toEndOf="@+id/circleImageView"
-                    app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+                    android:textSize="@dimen/text_size_standard"
+                    app:layout_constraintStart_toEndOf="@+id/circleImageView_avatar"
+                    app:layout_constraintTop_toTopOf="@+id/circleImageView_avatar" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/tv_people_in_chat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_middle"
@@ -74,13 +76,13 @@
                     android:text="@string/people_in_chat"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/circleImageView"
+                    app:layout_constraintStart_toEndOf="@+id/circleImageView_avatar"
                     app:layout_constraintTop_toBottomOf="@+id/tv_chat_title" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tv_executors_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
@@ -91,7 +93,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout_header" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/recycler_executors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
@@ -99,14 +101,14 @@
                 android:layout_marginEnd="@dimen/margin_standard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_executors_title"
                 tools:itemCount="10"
-                tools:listitem="@layout/person_item">
+                tools:listitem="@layout/item_person">
 
             </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tv_chat_members_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
@@ -114,9 +116,10 @@
                 android:text="@string/chat_members"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_executors" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_chat_members"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_standard"
@@ -124,17 +127,20 @@
                 android:layout_marginEnd="@dimen/margin_standard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/tv_chat_members_title"
                 tools:itemCount="10"
-                tools:listitem="@layout/person_item" />
+                tools:listitem="@layout/item_person"
+                android:layout_marginBottom="50dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/leave_chat"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/button_leave_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/leave_chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

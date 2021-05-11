@@ -33,7 +33,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/gooddeed_logo" />
+                    android:src="@drawable/gooddeed_logo" />
 
                 <TextView
                     android:id="@+id/tv_chatroom_name"
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_standard"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/textsize_standard"
+                    android:textSize="@dimen/text_size_standard"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/tv_members"
                     app:layout_constraintStart_toEndOf="@id/current_chatroom_logo"
@@ -96,7 +96,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout_go_to_initiative" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,8 +40,8 @@ public class ChatsFragment extends BaseFragment {
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         chatViewModel.getDataForChatRooms();
-        chatViewModel.getChatroomsOfCurrentUser().observe(getActivity(), chatroomsOfCurrentUser -> {
-            binding.recyclerChatRooms.setAdapter(new ChatRoomAdapter(chatViewModel,getContext(),chatroomsOfCurrentUser));
+        chatViewModel.getChatroomsOfCurrentUser().observe(requireActivity(), chatRoomsOfCurrentUser -> {
+            binding.recyclerChatRooms.setAdapter(new ChatRoomAdapter(chatViewModel, getContext(), chatRoomsOfCurrentUser));
             binding.recyclerChatRooms.setLayoutManager(new LinearLayoutManager(getContext()));
         });
     }
@@ -50,7 +49,7 @@ public class ChatsFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        chatViewModel.getChatroomsOfCurrentUser().removeObservers(getActivity());
+        chatViewModel.getChatroomsOfCurrentUser().removeObservers(requireActivity());
         binding = null;
         chatViewModel = null;
     }

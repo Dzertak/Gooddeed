@@ -17,8 +17,8 @@ public class ChatViewModel extends ViewModel {
         chatRepository = new ChatRepository();
     }
 
-    public void initComponentsForCurrentChat(String currentChatRoomId) {
-        chatRepository.initComponentsForCurrentChat(currentChatRoomId);
+    public void initComponentsForCurrentChat(String currentInitiativeId) {
+        chatRepository.initComponentsForCurrentChat(currentInitiativeId);
     }
 
     public void sendMessage(String message) {
@@ -38,6 +38,6 @@ public class ChatViewModel extends ViewModel {
     }
 
     public LiveData<List<ChatRoom>> getChatroomsOfCurrentUser() {
-        return chatRepository.getChatroomsOfCurrentUser();
+        return chatRepository.getChatRoomsOfCurrentUser();
     }
 }

@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:layout_marginStart="@dimen/margin_little"
-        android:textSize="@dimen/textsize_standard"
+        android:textSize="@dimen/text_size_standard"
         app:layout_constraintStart_toEndOf="@+id/imageview_reviewer_photo"
         app:layout_constraintTop_toTopOf="@+id/imageview_reviewer_photo"
         tools:text="Имя Фамилия" />

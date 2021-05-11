@@ -25,14 +25,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
 
     private final ChatViewModel chatViewModel;
     private final Context context;
-    private final List<ChatRoom> chatroomsOfCurrentUser;
-    private final String TAG = "gooddeed_tag";
+    private final List<ChatRoom> chatRoomsOfCurrentUser;
 
-    public ChatRoomAdapter(ChatViewModel chatViewModel, Context context, List<ChatRoom> chatroomsOfCurrentUser) {
-        this.chatroomsOfCurrentUser = chatroomsOfCurrentUser;
+    public ChatRoomAdapter(ChatViewModel chatViewModel, Context context, List<ChatRoom> chatRoomsOfCurrentUser) {
+        this.chatRoomsOfCurrentUser = chatRoomsOfCurrentUser;
         this.chatViewModel = chatViewModel;
         this.context = context;
-        //before it was hashmaps with names and last messages here
     }
 
     @NonNull
@@ -44,17 +42,15 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ChatRoom chatroomEntity = chatroomsOfCurrentUser.get(position);
-        if (chatroomEntity.getImageUrl().equals("default"))
-            Glide.with(context).load(R.drawable.gooddeed_logo).circleCrop().into(holder.icon);
-        else if (chatroomEntity.getImageUrl() != null)
+        ChatRoom chatroomEntity = chatRoomsOfCurrentUser.get(position);
+        if (!chatroomEntity.getImageUrl().equals("default"))
             Glide.with(context).load(Uri.parse(chatroomEntity.getImageUrl())).circleCrop().into(holder.icon);
         holder.textViewTitle.setText(chatroomEntity.getChatRoomName());
         if (chatroomEntity.getLastMessage() != null)
             holder.textViewLastMessage.setText(chatroomEntity.getLastMessage().getTextOfMessage());
         holder.chatroomItemRoot.setOnClickListener(v -> {
             Bundle args = new Bundle();
-            args.putString("chatroom_id", chatroomEntity.getChatRoomId());
+            args.putString("initiative_id", chatroomEntity.getChatRoomId());
             Navigation.findNavController(v).navigate(R.id.action_chatsFragment_to_currentChatFragment, args);
         });
     }
@@ -76,6 +72,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return chatroomsOfCurrentUser.size();
+        return chatRoomsOfCurrentUser.size();
     }
 }

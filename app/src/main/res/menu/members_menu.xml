@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_appoint_as_executor"
+        android:title="@string/appoint_as_executor"/>
+</menu>

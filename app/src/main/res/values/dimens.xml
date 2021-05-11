@@ -5,7 +5,7 @@
     <dimen name="margin_little">4dp</dimen>
     <dimen name="textsize_little">14sp</dimen>
     <dimen name="reviewers_avatar_size">16dp</dimen>
-    <dimen name="textsize_standard">16sp</dimen>
+    <dimen name="text_size_standard">16sp</dimen>
     <dimen name="profile_avatar_size">125dp</dimen>
     <dimen name="margin_middle">8dp</dimen>
     <dimen name="margin_10dp">10dp</dimen>
@@ -15,4 +15,5 @@
     <dimen name="padding_5dp">5dp</dimen>
     <dimen name="padding_3dp">3dp</dimen>
     <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="text_size_big">20sp</dimen>
 </resources>

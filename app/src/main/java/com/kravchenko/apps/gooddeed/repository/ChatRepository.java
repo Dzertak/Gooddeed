@@ -16,64 +16,67 @@ import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ChatRepository {
-    private DatabaseReference myRefCurrentChatroom;
+    private DatabaseReference myRefCurrentInitiative;
     private String userId;
-    private String currentChatRoomId;
+    private String currentInitiativeId;
     private ArrayList<String> chatRoomMembersIds;
     private HashMap<String, String> fullNames;
     private HashMap<String, String> avatarUrls;
     private MutableLiveData<HashMap<String, String>> fullNamesLiveData;
     private MutableLiveData<HashMap<String, String>> avatarUrlsLiveData;
-    private MutableLiveData<List<ChatRoom>> chatroomsOfCurrentUserLiveData;
-    private static final String TAG = "gooddeed_tag";
+    private MutableLiveData<List<ChatRoom>> chatRoomsOfCurrentUserLiveData;
     private final MutableLiveData<ChatRoom> currentChatRoomLiveData;
-    private List<String> listOfchatIds;
+    private List<String> listOfChatIds;
 
     public ChatRepository() {
         initializeComponents();
         currentChatRoomLiveData = new MutableLiveData<>();
     }
 
-    public void initComponentsForCurrentChat(String currentChatRoomId) {
-        this.currentChatRoomId = currentChatRoomId;
-        String initiativeTitle = "Initiative title"; //TODO get name of Initiative
+    public void initComponentsForCurrentChat(String currentInitiativeId) {
+        this.currentInitiativeId = currentInitiativeId;
+        //TODO get name of Initiative
         //For correct work, it must be created and instance of initiative and set into database,
         //and also it must be created a chat with same id and name and photo in database.
         //and then we just get it here by chat room id.
 
         //For now I will check here if the chat exists or not
-        myRefCurrentChatroom = FirebaseDatabase.getInstance().getReference("Chats").child(currentChatRoomId);
-        myRefCurrentChatroom.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRefCurrentInitiative = FirebaseDatabase.getInstance().getReference("Initiatives").child(currentInitiativeId);
+        myRefCurrentInitiative.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ChatRoom currentChatRoom = null;
+                ChatRoom chatRoom;
                 if (snapshot.getValue() == null) {
                     //There's no such chat room in DB and we must create it. It must be when we create initiative
                     ArrayList<String> chatRoomMembersIds = new ArrayList<>();
                     chatRoomMembersIds.add(userId);
-                    currentChatRoom = new ChatRoom(currentChatRoomId, initiativeTitle, chatRoomMembersIds, new ArrayList<>(), "default");
-                    myRefCurrentChatroom.setValue(currentChatRoom);
+                    chatRoom = new ChatRoom(currentInitiativeId, String.valueOf(snapshot.child("title").getValue()),
+                            chatRoomMembersIds, new ArrayList<>(), "default");
+                    myRefCurrentInitiative.child("chat").setValue(chatRoom);
                 } else {
                     //Chat room exists
                     //Adding current user to this chat if it's needed
-                    currentChatRoom = snapshot.getValue(ChatRoom.class);
-                    ArrayList<String> chatRoomMembers = currentChatRoom.getChatRoomMembers();
-                    if (!chatRoomMembers.contains(userId)) {
+                    chatRoom = snapshot.child("chat").getValue(ChatRoom.class);
+                    ArrayList<String> chatRoomMembers = null;
+                    if (chatRoom != null) {
+                        chatRoomMembers = chatRoom.getMembers();
+                    }
+                    if (chatRoomMembers != null && !chatRoomMembers.contains(userId)) {
                         chatRoomMembers.add(userId);
-                        currentChatRoom.setChatRoomMembers(chatRoomMembers);
-                        myRefCurrentChatroom.child("chatRoomMembers").setValue(chatRoomMembers);
+                        chatRoom.setMembers(chatRoomMembers);
+                        myRefCurrentInitiative.child("chat").child("members").setValue(chatRoomMembers);
                     }
                 }
-                currentChatRoomLiveData.setValue(currentChatRoom);
-                chatRoomMembersIds = currentChatRoom.getChatRoomMembers();
+                currentChatRoomLiveData.setValue(chatRoom);
+                if (chatRoom != null) {
+                    chatRoomMembersIds = chatRoom.getMembers();
+                }
                 for (String memberId : chatRoomMembersIds) {
                     FirebaseFirestore.getInstance().collection("users").document(memberId)
                             .get().addOnSuccessListener(documentSnapshot -> {
@@ -103,8 +106,8 @@ public class ChatRepository {
             if (firestoreUser != null && firestoreUser.getChats() != null) {
                 chats = firestoreUser.getChats();
             }
-            if (!chats.contains(currentChatRoomId)) {
-                chats.add(currentChatRoomId);
+            if (!chats.contains(currentInitiativeId)) {
+                chats.add(currentInitiativeId);
                 Map<String, Object> map = new HashMap<>();
                 map.put("chats", chats);
                 userRef.update(map);
@@ -116,9 +119,9 @@ public class ChatRepository {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", userId);
         hashMap.put("textOfMessage", message);
-        hashMap.put("timeInMillis",System.currentTimeMillis());
-        FirebaseDatabase.getInstance().getReference().child("Chats").child(currentChatRoomId)
-                .child("messages").push().setValue(hashMap);
+        hashMap.put("timeInMillis", System.currentTimeMillis());
+        FirebaseDatabase.getInstance().getReference().child("Initiatives").child(currentInitiativeId)
+                .child("chat").child("messages").push().setValue(hashMap);
     }
 
     public LiveData<HashMap<String, String>> getFullNames() {
@@ -130,34 +133,31 @@ public class ChatRepository {
     }
 
     public void getDataForChatRooms() {
-        List<ChatRoom> chatroomsOfCurrentUser = new ArrayList<>();
+        List<ChatRoom> chatRoomsOfCurrentUser = new ArrayList<>();
         DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(userId);
         userRef.get().addOnSuccessListener(documentSnapshot -> {
             FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
             if (firestoreUser != null && firestoreUser.getChats() != null) {
-                listOfchatIds = firestoreUser.getChats();
+                listOfChatIds = firestoreUser.getChats();
             }
-            for (String roomId : listOfchatIds) {
-                DatabaseReference chatRefFromList = FirebaseDatabase.getInstance().getReference("Chats").child(roomId);
-                chatRefFromList.addValueEventListener(new ValueEventListener() {
+            for (String roomId : listOfChatIds) {
+                DatabaseReference initiativeRefFromList = FirebaseDatabase.getInstance().getReference("Initiatives").child(roomId);
+                initiativeRefFromList.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         ArrayList<MessageEntity> arrayListOfMessageEntities = new ArrayList<>();
-                        for (DataSnapshot message : snapshot.child("messages").getChildren()) {
+                        for (DataSnapshot message : snapshot.child("chat").child("messages").getChildren()) {
                             MessageEntity messageEntity = new MessageEntity();
                             messageEntity.setSender(String.valueOf(message.child("sender").getValue()));
                             messageEntity.setTimeInMillis((Long) message.child("timeInMillis").getValue());
                             messageEntity.setTextOfMessage(String.valueOf(message.child("textOfMessage").getValue()));
                             arrayListOfMessageEntities.add(messageEntity);
                         }
-                        ChatRoom chatroom = new ChatRoom(
-                                roomId,
-                                snapshot.child("chatRoomName").getValue().toString(),
-                                (ArrayList<String>) snapshot.child("chatRoomMembers").getValue(),
-                                arrayListOfMessageEntities,
-                                snapshot.child("imageUrl").getValue().toString());
-                        chatroomsOfCurrentUser.add(chatroom);
-                        chatroomsOfCurrentUserLiveData.setValue(chatroomsOfCurrentUser);
+                        ChatRoom chatroom = new ChatRoom(roomId, String.valueOf(snapshot.child("title").getValue()),
+                                (ArrayList<String>) snapshot.child("chat").child("members").getValue(),
+                                arrayListOfMessageEntities, String.valueOf(snapshot.child("imageUrl").getValue()));
+                        chatRoomsOfCurrentUser.add(chatroom);
+                        chatRoomsOfCurrentUserLiveData.setValue(chatRoomsOfCurrentUser);
                     }
 
                     @Override
@@ -168,19 +168,19 @@ public class ChatRepository {
         });
     }
 
-    public LiveData<List<ChatRoom>> getChatroomsOfCurrentUser() {
-        return chatroomsOfCurrentUserLiveData;
+    public LiveData<List<ChatRoom>> getChatRoomsOfCurrentUser() {
+        return chatRoomsOfCurrentUserLiveData;
     }
 
     private void initializeComponents() {
-        listOfchatIds = new ArrayList<>();
+        listOfChatIds = new ArrayList<>();
         chatRoomMembersIds = new ArrayList<>();
         chatRoomMembersIds = new ArrayList<>();
         fullNamesLiveData = new MutableLiveData<>();
         avatarUrlsLiveData = new MutableLiveData<>();
         fullNames = new HashMap<>();
         avatarUrls = new HashMap<>();
-        chatroomsOfCurrentUserLiveData = new MutableLiveData<>();
+        chatRoomsOfCurrentUserLiveData = new MutableLiveData<>();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 }
