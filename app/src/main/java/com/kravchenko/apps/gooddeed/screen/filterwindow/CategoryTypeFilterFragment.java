@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +12,7 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryTypeFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
@@ -32,7 +31,6 @@ public class CategoryTypeFilterFragment extends BaseFragment {
     private CategoryTypeRecyclerViewAdapter adapter;
     private FilterViewModel filterViewModel;
     private String rootDirection;
-
 
 
     @Override
@@ -57,6 +55,10 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                     break;
                 case EDIT_INITIATIVE_FRAGMENT_TAG:
                     initInitiativePreset();
+                    binding.btnSearch.setText(R.string.confirm);
+                    binding.btnSearch.setOnClickListener(v -> {
+                        getNavController().popBackStack();
+                    });
                     break;
                 case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
                     break;

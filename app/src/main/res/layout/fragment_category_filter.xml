@@ -58,7 +58,7 @@
         tools:listitem="@layout/item_category" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

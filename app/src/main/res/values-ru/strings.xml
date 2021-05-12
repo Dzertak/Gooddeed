@@ -102,7 +102,7 @@
     <string name="change_synchronization">Изменить синхронизацию</string>
     <string name="change_subscriptions">Изменить подписки</string>
     <string name="password_changed_successfully">Пароль успешно изменён!</string>
-    <string name="confirm">подтверждить</string>
+    <string name="confirm">подтвердить</string>
     <string name="change_password_explanation">"Чтобы изменить пароль, вам необходимо ввести действующий пароль. "</string>
     <string name="change_email_explanation">"Чтобы сменить электронную почту, вам необходимо ввести действующий пароль. "</string>
     <string name="loading">"Загружается..."</string>

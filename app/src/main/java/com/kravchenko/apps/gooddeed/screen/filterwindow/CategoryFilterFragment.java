@@ -67,6 +67,10 @@ public class CategoryFilterFragment extends BaseFragment {
                     binding.cardViewSelectAll.setVisibility(View.GONE);
                     initiativeFilterAdapter = new InitiativeFilterRecyclerViewAdapter(getContext(), filterViewModel);
                     binding.recyclerViewCategories.setAdapter(initiativeFilterAdapter);
+                    binding.btnSearch.setText(R.string.confirm);
+                    binding.btnSearch.setOnClickListener(v -> {
+                        getNavController().popBackStack(R.id.categoryTypeFilterFragment2, true);
+                    });
                     initInitiativePreset();
                     break;
                 case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
@@ -121,7 +125,6 @@ public class CategoryFilterFragment extends BaseFragment {
         filterViewModel.getMapSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
                     List<Category> categories = new ArrayList<>();
-
                     for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
                         if (categoryTypeWithCategories.getCategoryType()
                                 .getCategoryTypeId() == categoryTypeId) {
