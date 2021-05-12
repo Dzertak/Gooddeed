@@ -63,7 +63,7 @@ public class CategoryFilterFragment extends BaseFragment {
                     binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
                     initFilterPreset();
                     break;
-                case EDIT_INITIATIVE_FRAGMENT_TAG:
+                case  EDIT_INITIATIVE_FRAGMENT_TAG:
                     binding.cardViewSelectAll.setVisibility(View.GONE);
                     initiativeFilterAdapter = new InitiativeFilterRecyclerViewAdapter(getContext(), filterViewModel);
                     binding.recyclerViewCategories.setAdapter(initiativeFilterAdapter);

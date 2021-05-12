@@ -21,12 +21,20 @@ public class CategoryRepository {
     private MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
     private LiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
 
+    private static CategoryRepository instance;
 
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public CategoryRepository() {
+    public static CategoryRepository getInstance() {
+        if (instance == null) {
+            instance = new CategoryRepository();
+        }
+        return new CategoryRepository();
+    }
+
+    private CategoryRepository() {
         this.categoryDao = AppDatabase.getInstance().categoryDao();
 
         this.categoryTypesWithCategories = categoryDao.getCategoryTypesWithCategory();

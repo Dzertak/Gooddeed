@@ -1,7 +1,6 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
@@ -16,9 +15,8 @@ public class FilterViewModel extends ViewModel {
 
 
     public FilterViewModel() {
-        this.categoryRepository = new CategoryRepository();
+        this.categoryRepository = CategoryRepository.getInstance();
     }
-
 
 
     public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
