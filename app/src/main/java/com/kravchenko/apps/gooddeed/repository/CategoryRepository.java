@@ -31,7 +31,7 @@ public class CategoryRepository {
         if (instance == null) {
             instance = new CategoryRepository();
         }
-        return new CategoryRepository();
+        return instance;
     }
 
     private CategoryRepository() {
