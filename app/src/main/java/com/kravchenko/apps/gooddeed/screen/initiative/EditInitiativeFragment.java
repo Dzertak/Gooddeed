@@ -1,19 +1,19 @@
 package com.kravchenko.apps.gooddeed.screen.initiative;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -48,8 +48,6 @@ import static android.app.Activity.RESULT_OK;
 public class EditInitiativeFragment extends BaseFragment {
 
     public static final String EDIT_INITIATIVE_FRAGMENT_TAG = "EDIT_INITIATIVE_FRAGMENT_TAG";
-    private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
-    private final String[] categoryName = {"Help", "Work", "Volunteer", "Meeting"};
     private FragmentInitiativeEditBinding binding;
     private Initiative initiativeCur;
     private InitiativeViewModel initiativeViewModel;
@@ -75,7 +73,6 @@ public class EditInitiativeFragment extends BaseFragment {
 
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
-//        initDropDownCategory();
 
         calendar = Calendar.getInstance();
         binding.cvCategoryChoice.setOnClickListener(v -> {
@@ -86,6 +83,10 @@ public class EditInitiativeFragment extends BaseFragment {
         initiativeViewModel = new ViewModelProvider(requireActivity()).get(InitiativeViewModel.class);
         initiativeViewModel.getInitiative().observe(getViewLifecycleOwner(), initiative -> {
             initiativeCur = initiative != null ? initiative : new Initiative();
+            if (initiativeCur.getTitle() != null)
+                binding.etInitiativeTitle.setText(initiativeCur.getTitle());
+            if (initiativeCur.getDescription() != null)
+                binding.etDescription.setText(initiativeCur.getDescription());
             if (initiativeCur.getLocation() != null)
                 binding.tvLocation.setText(initiativeCur.getLocation());
             if (initiativeCur.getTimestamp() > 0)
@@ -105,6 +106,11 @@ public class EditInitiativeFragment extends BaseFragment {
             }
             if (initiativeCur.getCategory() != null)
                 binding.tvCategory.setText(initiativeCur.getCategory());
+            if (initiativeCur.getImgUri() != null)
+                Glide.with(this)
+                        .load(initiativeCur.getImgUri())
+                        .fallback(R.drawable.no_photo)
+                        .into(binding.ivInitiativeImage);
         });
 
         initiativeViewModel.getSavingInitiative().observe(getViewLifecycleOwner(), initiativeResource -> {
@@ -118,14 +124,7 @@ public class EditInitiativeFragment extends BaseFragment {
             }
         });
 
-        // get selected category
         initiativeViewModel.getSelectedCategory().observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
-//            Log.d(TAG, "Category LiveData updated; Category: " + categoryTypeWithCategories);
-//            if (categoryTypeWithCategories != null) {
-//                Log.d(TAG, "Category not null: " + categoryTypeWithCategories.toString());
-//                initiativeCur.setCategory(categoryTypeWithCategories.get(0).getCategoryType().getTitle());
-//                initiativeViewModel.updateInitiative(initiativeCur);
-//            }
             Category category = null;
             if (categoryTypesWithCategories != null) {
                 for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
@@ -136,10 +135,10 @@ public class EditInitiativeFragment extends BaseFragment {
                 }
             }
             if (category != null) {
-                //TODO
-                // handle category
-                // use Utils.getString() to get title or desc from category
-                Log.i("dev", Utils.getString(category.getTitle()));
+                String categoryTitle = Utils.getString(category.getTitle());
+                if (initiativeCur == null) initiativeCur = new Initiative();
+                initiativeCur.setCategory(categoryTitle);
+                initiativeViewModel.updateInitiative(initiativeCur);
             }
         });
 
@@ -180,30 +179,13 @@ public class EditInitiativeFragment extends BaseFragment {
         binding.cvTypeChoice.setOnClickListener(t -> getNavController().navigate(R.id.action_editInitiativeFragment_to_initiativeTypeFragment));
     }
 
-//    private void initDropDownCategory() {
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, categoryName);
-//        binding.cvCategoryChoice.setOnClickListener(t -> {
-//            Toast.makeText(requireContext(), "Choice category", Toast.LENGTH_SHORT).show();
-//        });
-//    }
-
-    private void pickImage() {
-        ImagePicker.Companion.with(this)
-                .galleryMimeTypes(new String[]{"image/png", "image/jpg", "image/jpeg"})
-                .start();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == ImagePicker.REQUEST_CODE) {
-
-                Glide.with(this)
-                        .load(data.getData())
-                        .fallback(R.drawable.no_photo)
-                        .into(binding.ivInitiativeImage);
+                if (initiativeCur == null) initiativeCur = new Initiative();
                 initiativeCur.setImgUri(data.getData().toString());
                 initiativeViewModel.updateInitiative(initiativeCur);
             }
@@ -218,21 +200,21 @@ public class EditInitiativeFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            if (verifyInitiativeForm()) {
+            if (isFormValid()) {
                 if (!initiativeViewModel.getAuthUserId().isEmpty())
                     initiativeCur.setInitiativeUserId(initiativeViewModel.getAuthUserId());
                 initiativeViewModel.saveInitiative(initiativeCur);
-                Log.d(TAG, "Initiative: " + initiativeCur);
+                initiativeViewModel.updateInitiative(initiativeCur);
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean verifyInitiativeForm() {
+    private boolean isFormValid() {
+        hideKeyboard();
         if (binding.etInitiativeTitle.getText() == null
                 || TextUtils.isEmpty(binding.etInitiativeTitle.getText())) {
             binding.tilInitiativeTitle.setError(getString(R.string.error_invalid_initiative_title));
@@ -247,15 +229,41 @@ public class EditInitiativeFragment extends BaseFragment {
         }
         if (binding.tilInitiativeDescription.getError() != null)
             binding.tilInitiativeDescription.setError(null);
+        if (binding.tvCategory.getText().equals(getString(R.string.choose_category))) {
+            binding.cvCategoryChoice.setCardBackgroundColor(getResources().getColor(R.color.error));
+            return false;
+        }
         if (binding.tvType.getText().equals(getString(R.string.choose_type_initiative))) {
-            binding.tvType.setText("Select initiative type");
             binding.cvTypeChoice.setCardBackgroundColor(getResources().getColor(R.color.error));
+            return false;
+        }
+        if (binding.tvTime.getText().equals(getString(R.string.choose_date_and_time))) {
+            binding.cvTimeChoice.setCardBackgroundColor(getResources().getColor(R.color.error));
+            return false;
+        }
+        if (binding.tvLocation.getText().equals(getString(R.string.choose_location))) {
+            binding.cvLocationChoice.setCardBackgroundColor(getResources().getColor(R.color.error));
             return false;
         }
         initiativeCur.setTitle(binding.etInitiativeTitle.getText().toString());
         initiativeCur.setDescription(binding.etDescription.getText().toString());
-        initiativeViewModel.updateInitiative(initiativeCur);
         return true;
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) requireContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (!imm.isActive()) {
+            return;
+        }
+        imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0);
+    }
+
+    private void pickImage() {
+        ImagePicker.Companion.with(this)
+                .galleryMimeTypes(new String[]{"image/png", "image/jpg", "image/jpeg"})
+                .compress(2024)
+                .start();
     }
 
     @Override

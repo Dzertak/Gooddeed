@@ -1,14 +1,10 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
@@ -30,7 +26,7 @@ public class InitiativeViewModel extends ViewModel {
         mCategoryRepository = CategoryRepository.getInstance();
     }
 
-    public MutableLiveData<Initiative> getInitiative() {
+    public LiveData<Initiative> getInitiative() {
         return initiativeMutableLiveData;
     }
 
@@ -46,7 +42,6 @@ public class InitiativeViewModel extends ViewModel {
         mInitiativeRepository.saveInitiative(initiative);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public LiveData<List<CategoryTypeWithCategories>> getSelectedCategory() {
         return mCategoryRepository.getInitiativesSelectedCategoriesLiveData();
     }

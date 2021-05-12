@@ -23,7 +23,6 @@ import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class AuthRepository {
 
     public static final String COLLECTION_USERS = "users";

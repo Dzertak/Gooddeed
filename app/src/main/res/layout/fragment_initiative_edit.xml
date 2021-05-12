@@ -150,7 +150,7 @@
                         android:id="@+id/tv_category"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/category"
+                        android:text="@string/choose_category"
                         android:textSize="16sp"
                         android:layout_weight="1"
                         android:layout_margin="16dp"/>
