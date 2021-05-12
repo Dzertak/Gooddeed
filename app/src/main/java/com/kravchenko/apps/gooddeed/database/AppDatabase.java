@@ -29,7 +29,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();
 
-
     public static synchronized AppDatabase getInstance() {
         if (instance == null) {
             instance = Room.databaseBuilder(AppInstance.getAppContext(),
@@ -39,7 +38,6 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return instance;
     }
-
 
     private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
 
@@ -53,11 +51,6 @@ public abstract class AppDatabase extends RoomDatabase {
                         instance.categoryDao()
                                 .insertCategoryTypeWithCategories(categoryTypeWithCategories));
             }
-//            categoryTypesWithCategories.forEach(categoryTypeWithCategories ->
-//                    databaseWriteExecutor.execute(() ->
-//                            instance.categoryDao()
-//                                    .insertCategoryTypeWithCategories(categoryTypeWithCategories))
-//            );
         }
 
 

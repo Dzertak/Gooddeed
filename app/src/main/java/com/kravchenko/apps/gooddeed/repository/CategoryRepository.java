@@ -51,40 +51,24 @@ public class CategoryRepository {
     }
 
     public void setMapSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
-
-        for (CategoryTypeWithCategories categoryTypeWithCategories : mapSelectedCategoriesLiveData.getValue()) {
+        for (CategoryTypeWithCategories categoryTypeWithCategories
+                : mapSelectedCategoriesLiveData.getValue()) {
             if (categoryOwnerId
                     == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
                 categoryTypeWithCategories.setCategories(selectedCategories);
             }
         }
-
-//        mapSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
-//            if (categoryOwnerId
-//                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
-//                categoryTypesWithCategories.setCategories(selectedCategories);
-//            }
-//        });
         mapSelectedCategoriesLiveData.setValue(mapSelectedCategoriesLiveData.getValue());
     }
 
     public void setInitiativesSelectedCategory(List<Category> selectedCategories, long categoryOwnerId) {
-
-        for (CategoryTypeWithCategories categoryTypeWithCategories : initiativesSelectedCategoriesLiveData.getValue()) {
+        for (CategoryTypeWithCategories categoryTypeWithCategories
+                : initiativesSelectedCategoriesLiveData.getValue()) {
             if (categoryOwnerId
                     == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
                 categoryTypeWithCategories.setCategories(selectedCategories);
             }
         }
-
-
-//        initiativesSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
-//            categoryTypesWithCategories.setCategories(new ArrayList<>());
-//            if (categoryOwnerId
-//                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
-//                categoryTypesWithCategories.setCategories(selectedCategories);
-//            }
-//        });
         initiativesSelectedCategoriesLiveData.setValue(initiativesSelectedCategoriesLiveData.getValue());
     }
 
@@ -97,49 +81,7 @@ public class CategoryRepository {
         for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
             categoryTypeWithCategories.setCategories(new ArrayList<>());
         }
-
-
-//        categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
-//            categoryTypeWithCategories.setCategories(new ArrayList<>());
-//        });
         this.initiativesSelectedCategoriesLiveData.setValue(categoryTypesWithCategories);
     }
 }
 
-
-//
-//
-//
-//
-//    private MutableLiveData<List<CategoryTypeWithCategories>> initInitiativesSelectedCategoriesLiveData() {
-//        databaseWriteExecutor.execute(() -> {
-//            List<CategoryTypeWithCategories> initiativesSelectedCategories = new ArrayList<>();
-//            List<CategoryType> categoryTypes = categoryDao.findCategoryTypes();
-//            categoryTypes.forEach(categoryType -> {
-//                CategoryTypeWithCategories categoryTypeWithCategories = new CategoryTypeWithCategories();
-//                categoryTypeWithCategories.setCategoryType(categoryType);
-//                categoryTypeWithCategories.setCategories(new ArrayList<>());
-//                initiativesSelectedCategories.add(categoryTypeWithCategories);
-//            });
-//            this.initiativesSelectedCategoriesLiveData.postValue(initiativesSelectedCategories);
-//        });
-//
-//        return initiativesSelectedCategoriesLiveData;
-//    }
-//
-//
-//
-//
-//    public MutableLiveData<List<CategoryTypeWithCategories>> initCategoryTypesWithCategory() {
-//        MutableLiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories = new MutableLiveData<>();
-//        databaseWriteExecutor.execute(() ->
-//                categoryTypesWithCategories.postValue(categoryDao.findCategoryTypesWithCategoryList()));
-//        return categoryTypesWithCategories;
-//    }
-//
-//
-//
-//
-//
-//
-//

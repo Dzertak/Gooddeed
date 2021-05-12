@@ -70,15 +70,6 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                         int categoriesSize = categoryTypeWithCategories.getCategories().size();
                         categorySizes.put(categoryTypeId, categoriesSize);
                     }
-
-
-//                    categoryTypeWithCategories.forEach(categoryTypesWithCategories -> {
-//                        long categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
-//                        int categoriesSize = categoryTypesWithCategories.getCategories().size();
-//                        categorySizes.put(categoryTypeId, categoriesSize);
-//                    });
-
-
                     adapter.setCategorySizes(categorySizes);
                 });
         filterViewModel.getInitiativesSelectedCategoriesLiveData()
@@ -103,13 +94,6 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                                 int categoriesSize = categoryTypeWithCategories.getCategories().size();
                                 categorySizes.put(categoryTypeId, categoriesSize);
                             }
-//                            categoryTypesWithCategories.forEach(categoryTypesWithCategories -> {
-//                                long categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
-//                                int categoriesSize = categoryTypesWithCategories.getCategories().size();
-//                                categorySizes.put(categoryTypeId, categoriesSize);
-//                            });
-
-
                             adapter.setCategorySizes(categorySizes);
                         }
                 );

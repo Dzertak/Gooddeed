@@ -91,16 +91,6 @@ public class CategoryFilterFragment extends BaseFragment {
                         }
                         initiativeFilterAdapter.setSelectedCategories(categories);
                     }
-
-
-//                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
-//                        if (categoryTypeWithCategories.getCategoryType()
-//                                .getCategoryTypeId() == categoryTypeId) {
-//                            categories.addAll(categoryTypeWithCategories.getCategories());
-//                        }
-//                        initiativeFilterAdapter.setSelectedCategories(categories);
-//                    });
-
                 });
     }
 
@@ -139,34 +129,17 @@ public class CategoryFilterFragment extends BaseFragment {
                         }
                         mapFilterAdapter.setSelectedCategories(categories);
                     }
-
-//                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
-//                        if (categoryTypeWithCategories.getCategoryType()
-//                                .getCategoryTypeId() == categoryTypeId) {
-//                            categories.addAll(categoryTypeWithCategories.getCategories());
-//                        }
-//                        mapFilterAdapter.setSelectedCategories(categories);
-//                    });
-
-
                 });
     }
 
     private List<Category> getCategoriesFromCategoryTypesWithCategories(List<CategoryTypeWithCategories> selectedCategories) {
         List<Category> categories = new ArrayList<>();
-
         for (CategoryTypeWithCategories categoryTypeWithCategories : selectedCategories) {
             if (categoryTypeWithCategories.getCategoryType()
                     .getCategoryTypeId() == categoryTypeId) {
                 categories.addAll(categoryTypeWithCategories.getCategories());
             }
         }
-//        selectedCategories.forEach(categoryTypesWithCategories -> {
-//            if (categoryTypesWithCategories.getCategoryType()
-//                    .getCategoryTypeId() == categoryTypeId) {
-//                categories.addAll(categoryTypesWithCategories.getCategories());
-//            }
-//        });
         return categories;
     }
 
