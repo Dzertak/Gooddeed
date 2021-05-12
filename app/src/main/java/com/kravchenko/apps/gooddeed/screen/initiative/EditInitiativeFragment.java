@@ -99,6 +99,8 @@ public class EditInitiativeFragment extends BaseFragment {
                         break;
                 }
             }
+            if (initiativeCur.getCategory() != null)
+                binding.tvCategory.setText(initiativeCur.getCategory());
         });
 
         initiativeViewModel.getSavingInitiative().observe(getViewLifecycleOwner(), initiativeResource -> {
@@ -106,7 +108,7 @@ public class EditInitiativeFragment extends BaseFragment {
                 Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show();
             } else if (initiativeResource.status.equals(Resource.Status.SUCCESS)) {
                 Toast.makeText(requireContext(), "Initiative saved", Toast.LENGTH_SHORT).show();
-//            getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment);
+//                getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment);
             } else if (initiativeResource.status.equals(Resource.Status.ERROR)) {
                 Toast.makeText(requireContext(), "Error" + initiativeResource.message, Toast.LENGTH_SHORT).show();
             }
@@ -114,12 +116,12 @@ public class EditInitiativeFragment extends BaseFragment {
 
         // get selected category
         initiativeViewModel.getSelectedCategory().observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
-            Log.d(TAG, "Category LiveData updated; Category: " + categoryTypeWithCategories);
-            if (categoryTypeWithCategories != null) {
-                Log.d(TAG, "Category not null: " + categoryTypeWithCategories.toString());
+//            Log.d(TAG, "Category LiveData updated; Category: " + categoryTypeWithCategories);
+//            if (categoryTypeWithCategories != null) {
+//                Log.d(TAG, "Category not null: " + categoryTypeWithCategories.toString());
 //                initiativeCur.setCategory(categoryTypeWithCategories.get(0).getCategoryType().getTitle());
 //                initiativeViewModel.updateInitiative(initiativeCur);
-            }
+//            }
         });
 
         TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
@@ -214,14 +216,21 @@ public class EditInitiativeFragment extends BaseFragment {
     private boolean verifyInitiativeForm() {
         if (binding.etInitiativeTitle.getText() == null
                 || TextUtils.isEmpty(binding.etInitiativeTitle.getText())) {
-            binding.tilInitiativeDescription.setError(null);
             binding.tilInitiativeTitle.setError(getString(R.string.error_invalid_initiative_title));
             return false;
         }
+        if (binding.tilInitiativeTitle.getError() != null)
+            binding.tilInitiativeTitle.setError(null);
         if (binding.etDescription.getText() == null
                 || TextUtils.isEmpty(binding.etDescription.getText())) {
-            binding.tilInitiativeTitle.setError(null);
             binding.tilInitiativeDescription.setError(getString(R.string.error_invalid_initiative_description));
+            return false;
+        }
+        if (binding.tilInitiativeDescription.getError() != null)
+            binding.tilInitiativeDescription.setError(null);
+        if (binding.tvType.getText().equals(getString(R.string.choose_type_initiative))) {
+            binding.tvType.setText("Select initiative type");
+            binding.cvTypeChoice.setCardBackgroundColor(getResources().getColor(R.color.error));
             return false;
         }
         initiativeCur.setTitle(binding.etInitiativeTitle.getText().toString());
