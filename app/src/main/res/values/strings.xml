@@ -236,4 +236,6 @@
     <string name="appoint_as_executor">Appoint as executor</string>
     <string name="write_a_comment">Write a comment…</string>
     <string name="remove_executor">Remove executor</string>
+    <string name="error_invalid_initiative_title">Specify the title of your initiative</string>
+    <string name="error_invalid_initiative_description">Add a description for your initiative</string>
 </resources>

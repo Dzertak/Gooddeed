@@ -1,8 +1,11 @@
 package com.kravchenko.apps.gooddeed.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.List;
 
 @Entity
 public class Initiative {
@@ -19,8 +22,10 @@ public class Initiative {
     private String lng;
     private long timestamp;
     private String type;
+    private String category;
+    private List<Integer> executors;
 
-    public Initiative(){
+    public Initiative() {
 
     }
 
@@ -30,40 +35,70 @@ public class Initiative {
         this.imgUri = imgUri;
     }
 
-    public void setInitiativeId(long initiativeId) {
-        this.initiativeId = initiativeId;
+    public Initiative(String initiativeUserId, String title, String description, String imgUri,
+                      String location, String lat, String lng, long timestamp, String type, String category) {
+        this.initiativeUserId = initiativeUserId;
+        this.title = title;
+        this.description = description;
+        this.imgUri = imgUri;
+        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
+        this.timestamp = timestamp;
+        this.type = type;
+        this.category = category;
+    }
+
+    public Initiative(String initiativeUserId, String title, String description, String imgUri,
+                      String location, String lat, String lng, long timestamp, String type, String category,
+                      List<Integer> executors) {
+        this.initiativeUserId = initiativeUserId;
+        this.title = title;
+        this.description = description;
+        this.imgUri = imgUri;
+        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
+        this.timestamp = timestamp;
+        this.type = type;
+        this.category = category;
+        this.executors = executors;
     }
 
     public long getInitiativeId() {
         return initiativeId;
     }
 
+    public void setInitiativeId(long initiativeId) {
+        this.initiativeId = initiativeId;
+    }
+
     public String getInitiativeUserId() {
         return initiativeUserId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getImgUri() {
-        return imgUri;
     }
 
     public void setInitiativeUserId(String initiativeUserId) {
         this.initiativeUserId = initiativeUserId;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImgUri() {
+        return imgUri;
     }
 
     public void setImgUri(String imgUri) {
@@ -108,5 +143,40 @@ public class Initiative {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public List<Integer> getExecutors() {
+        return executors;
+    }
+
+    public void setExecutors(List<Integer> executors) {
+        this.executors = executors;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Initiative{" +
+                "initiativeId=" + initiativeId +
+                ", initiativeUserId='" + initiativeUserId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", imgUri='" + imgUri + '\'' +
+                ", location='" + location + '\'' +
+                ", lat='" + lat + '\'' +
+                ", lng='" + lng + '\'' +
+                ", timestamp=" + timestamp +
+                ", type='" + type + '\'' +
+                ", category='" + category + '\'' +
+                ", executors=" + executors +
+                '}';
     }
 }
