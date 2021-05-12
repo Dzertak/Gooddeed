@@ -68,7 +68,7 @@ public class CategoryFilterFragment extends BaseFragment {
                     OnBackPressedCallback callback = new OnBackPressedCallback(true) {
                         @Override
                         public void handleOnBackPressed() {
-                            getNavController().popBackStack(R.id.categoryTypeFilterFragment2, true);
+                            getNavController().popBackStack();
                         }
                     };
                     requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
