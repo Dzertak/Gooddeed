@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -63,7 +64,15 @@ public class CategoryFilterFragment extends BaseFragment {
                     binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
                     initFilterPreset();
                     break;
-                case  EDIT_INITIATIVE_FRAGMENT_TAG:
+                case EDIT_INITIATIVE_FRAGMENT_TAG:
+                    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                        @Override
+                        public void handleOnBackPressed() {
+                            getNavController().popBackStack(R.id.categoryTypeFilterFragment2, true);
+                        }
+                    };
+                    requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
                     binding.cardViewSelectAll.setVisibility(View.GONE);
                     initiativeFilterAdapter = new InitiativeFilterRecyclerViewAdapter(getContext(), filterViewModel);
                     binding.recyclerViewCategories.setAdapter(initiativeFilterAdapter);
