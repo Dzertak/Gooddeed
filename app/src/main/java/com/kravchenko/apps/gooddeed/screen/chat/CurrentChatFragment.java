@@ -61,8 +61,12 @@ public class CurrentChatFragment extends BaseFragment {
         currentChatBinding.toolbarCurrentChat.setNavigationOnClickListener(v ->
                 requireActivity().onBackPressed());
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        chatViewModel.getFullNames().observe(requireActivity(), fullNamesMap -> fullNames = fullNamesMap);
-        chatViewModel.getAvatarUrls().observe(requireActivity(), avatarUrlsMap -> avatarUrls = avatarUrlsMap);
+        chatViewModel.getFullNames().observe(requireActivity(), fullNamesMap -> {
+            fullNames = fullNamesMap;
+        });
+        chatViewModel.getAvatarUrls().observe(requireActivity(), avatarUrlsMap -> {
+            avatarUrls = avatarUrlsMap;
+        });
         if (getArguments() != null) {
             currentInitiativeId = getArguments().getString("initiative_id");
             currentChatBinding.toolbarCurrentChat.setOnClickListener(v ->

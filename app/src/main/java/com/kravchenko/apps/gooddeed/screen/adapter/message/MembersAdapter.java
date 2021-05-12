@@ -30,12 +30,17 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     private final boolean isUserAnOwner;
     private final Context context;
     private final String currentInitiativeId;
+    private final int executorsCount;
+    private String type;
 
-    public MembersAdapter(ArrayList<PersonWrapper> executors, boolean isUserAnOwner, Context context, String currentInitiativeId) {
+    public MembersAdapter(ArrayList<PersonWrapper> executors, boolean isUserAnOwner, Context context,
+                          String currentInitiativeId, int executorsCount, String type) {
         this.executors = executors;
         this.isUserAnOwner = isUserAnOwner;
         this.context = context;
         this.currentInitiativeId = currentInitiativeId;
+        this.executorsCount = executorsCount;
+        this.type = type;
     }
 
     @NonNull
@@ -52,7 +57,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
                 Glide.with(holder.itemView).load(Uri.parse(executors.get(position).getImageUrl())).into(holder.personAvatar);
             if (executors.get(position).getPersonName() != null)
                 holder.personName.setText(executors.get(position).getPersonName());
-            if (isUserAnOwner) {
+            if (!type.equals("SINGLE") & isUserAnOwner | type.equals("SINGLE") & isUserAnOwner & executorsCount == 0) {
                 holder.itemView.setOnClickListener(v -> {
                     PopupMenu popupMenu = new PopupMenu(context, holder.itemView);
                     popupMenu.getMenuInflater().inflate(R.menu.members_menu, popupMenu.getMenu());
