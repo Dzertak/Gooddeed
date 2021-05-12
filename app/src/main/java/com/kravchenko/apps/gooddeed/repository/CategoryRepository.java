@@ -75,6 +75,8 @@ public class CategoryRepository {
             if (categoryOwnerId
                     == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
                 categoryTypeWithCategories.setCategories(selectedCategories);
+            } else {
+                categoryTypeWithCategories.setCategories(new ArrayList<>());
             }
         }
         initiativesSelectedCategoriesLiveData.setValue(initiativesSelectedCategoriesLiveData.getValue());
