@@ -30,14 +30,18 @@ import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.TimeUtil;
+import com.kravchenko.apps.gooddeed.util.Utils;
 import com.kravchenko.apps.gooddeed.util.annotation.InitiativeType;
 import com.kravchenko.apps.gooddeed.viewmodel.InitiativeViewModel;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -115,13 +119,28 @@ public class EditInitiativeFragment extends BaseFragment {
         });
 
         // get selected category
-        initiativeViewModel.getSelectedCategory().observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
+        initiativeViewModel.getSelectedCategory().observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
 //            Log.d(TAG, "Category LiveData updated; Category: " + categoryTypeWithCategories);
 //            if (categoryTypeWithCategories != null) {
 //                Log.d(TAG, "Category not null: " + categoryTypeWithCategories.toString());
 //                initiativeCur.setCategory(categoryTypeWithCategories.get(0).getCategoryType().getTitle());
 //                initiativeViewModel.updateInitiative(initiativeCur);
 //            }
+            Category category = null;
+            if (categoryTypesWithCategories != null) {
+                for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+                    List<Category> selectedCategories = categoryTypeWithCategories.getCategories();
+                    if (selectedCategories != null && !selectedCategories.isEmpty()) {
+                        category = selectedCategories.get(0);
+                    }
+                }
+            }
+            if (category != null) {
+                //TODO
+                // handle category
+                // use Utils.getString() to get title or desc from category
+                Log.i("dev", Utils.getString(category.getTitle()));
+            }
         });
 
         TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
