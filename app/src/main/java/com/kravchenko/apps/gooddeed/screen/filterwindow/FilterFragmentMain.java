@@ -1,6 +1,5 @@
 package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,10 +8,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.util.Pair;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.ui.NavigationUI;
 
@@ -21,6 +21,7 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentFilterMainBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.util.Utils;
+import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 
 public class FilterFragmentMain extends BaseFragment {
@@ -29,13 +30,25 @@ public class FilterFragmentMain extends BaseFragment {
     private final String DATA_PICKER_TAG = "DATA_PICKER";
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        MapViewModel mapViewModel
+                = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                mapViewModel.setIsBackPressed(true);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFilterMainBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

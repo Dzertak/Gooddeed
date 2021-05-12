@@ -46,14 +46,12 @@ import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
-import com.kravchenko.apps.gooddeed.util.Utils;
-import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
-
+    private DrawerLayout drawerLayout;
     private static final String TAG = "MainFragment";
     private static final int REQUEST_SWITCH_ON_GPS = 3331;
     private FragmentMainBinding binding;
@@ -64,7 +62,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private ArrayList<String> markersTitle;
     private final static String titleName = "MARKER";
     private MapViewModel mapViewModel;
-    private AuthViewModel authViewModel;
     private GoogleMap mMap;
 
     @Override
@@ -94,7 +91,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     @SuppressLint("NonConstantResourceId")
     private void buildDrawerToggle() {
-        DrawerLayout drawerLayout = (DrawerLayout) binding.getRoot();
+        drawerLayout = (DrawerLayout) binding.getRoot();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(),
                 drawerLayout,
                 binding.toolbar,
@@ -132,28 +129,11 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         hideKeyboard();
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
-        mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
-
-        //TODO
-//        authViewModel.getSelectedCategoriesLiveData()
-//                .observe(getViewLifecycleOwner(), selectedCategories -> {
-//                    //Todo
-//                    // handle filtered categories
-//                    selectedCategories.forEach(selectedCategory -> {
-//                        selectedCategory.getCategories().forEach(category -> {
-//                            Log.i("dev", Utils.getString(selectedCategory.getCategoryType().getTitle()) + ": " + Utils.getString(category.getTitle()));
-//                        });
-//                        Log.i("dev", "********************************");
-//                    });
-//                    Log.i("dev", "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-//                });
+        mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         supportMapFragment.getMapAsync(this);
@@ -172,6 +152,13 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         buildDrawerToggle();
+        mapViewModel.getIsBackPressed()
+                .observe(getViewLifecycleOwner(), isBackPressed -> {
+                    if (isBackPressed) {
+                        drawerLayout.closeDrawer(GravityCompat.END);
+                        mapViewModel.setIsBackPressed(false);
+                    }
+                });
 
 //        binding.placeInfo.setOnClickListener(v -> {
 //            try {
@@ -188,7 +175,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     }
 
-
     private void hideKeyboard() {
         try {
 //            final InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -199,7 +185,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 //            FirebaseCrashlytics.getInstance().recordException(e);
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -244,7 +229,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 //        if (mMap!=null) mMap.clear();
 //        if (supportMapFragment != null) supportMapFragment.onDestroy();
 //    }
-
 
     private void initMapWithInitiatives() {
         if (markersLatLng != null && markersTitle != null) {
@@ -291,7 +275,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 //                return false;
 //            }
 //        });
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -353,5 +336,4 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         }
     }
-
 }
