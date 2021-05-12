@@ -13,11 +13,17 @@ import java.util.List;
 public class FilterViewModel extends ViewModel {
     private final CategoryRepository categoryRepository;
 
-
     public FilterViewModel() {
         this.categoryRepository = CategoryRepository.getInstance();
     }
 
+    public LiveData<Boolean> getIsBackPressed() {
+        return categoryRepository.getIsBackPressed();
+    }
+
+    public void setIsBackPressed(boolean isBackPressed) {
+        this.categoryRepository.setIsBackPressed(isBackPressed);
+    }
 
     public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
         return categoryRepository.getCategoryTypesWithCategoriesLiveData();

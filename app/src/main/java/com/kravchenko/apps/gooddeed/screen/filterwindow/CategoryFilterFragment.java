@@ -62,6 +62,10 @@ public class CategoryFilterFragment extends BaseFragment {
                 case FILTER_FRAGMENT_MAIN_KEY:
                     mapFilterAdapter = new MapFilterRecyclerViewAdapter(getContext(), filterViewModel);
                     binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
+                    binding.btnSearch.setOnClickListener(v -> {
+                        getNavController().popBackStack(R.id.categoryTypeFilterFragment2, true);
+                        filterViewModel.setIsBackPressed(true);
+                    });
                     initFilterPreset();
                     break;
                 case EDIT_INITIATIVE_FRAGMENT_TAG:

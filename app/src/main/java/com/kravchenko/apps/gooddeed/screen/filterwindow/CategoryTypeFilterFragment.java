@@ -52,6 +52,10 @@ public class CategoryTypeFilterFragment extends BaseFragment {
             rootDirection = CategoryTypeFilterFragmentArgs.fromBundle(getArguments()).getRootDirection();
             switch (rootDirection) {
                 case FILTER_FRAGMENT_MAIN_KEY:
+                    binding.btnSearch.setOnClickListener(v -> {
+                        getNavController().popBackStack(R.id.categoryTypeFilterFragment2, true);
+                        filterViewModel.setIsBackPressed(true);
+                    });
                     initFilterPreset();
                     break;
                 case EDIT_INITIATIVE_FRAGMENT_TAG:

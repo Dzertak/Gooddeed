@@ -20,7 +20,7 @@ public class CategoryRepository {
     private MutableLiveData<List<CategoryTypeWithCategories>> mapSelectedCategoriesLiveData;
     private MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
     private LiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
-
+    private MutableLiveData<Boolean> isBackPressed;
     private static CategoryRepository instance;
 
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
@@ -36,10 +36,18 @@ public class CategoryRepository {
 
     private CategoryRepository() {
         this.categoryDao = AppDatabase.getInstance().categoryDao();
-
+        this.isBackPressed = new MutableLiveData<>(false);
         this.categoryTypesWithCategories = categoryDao.getCategoryTypesWithCategory();
         this.mapSelectedCategoriesLiveData = new MutableLiveData<>(null);
         this.initiativesSelectedCategoriesLiveData = new MutableLiveData<>(null);
+    }
+
+    public LiveData<Boolean> getIsBackPressed() {
+        return isBackPressed;
+    }
+
+    public void setIsBackPressed(boolean isBackPressed) {
+        this.isBackPressed.setValue(isBackPressed);
     }
 
     public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {

@@ -21,23 +21,23 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentFilterMainBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.util.Utils;
-import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
+import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
 
 public class FilterFragmentMain extends BaseFragment {
     private FragmentFilterMainBinding binding;
     public static final String FILTER_FRAGMENT_MAIN_KEY = "FILTER_FRAGMENT_MAIN_KEY";
     private final String DATA_PICKER_TAG = "DATA_PICKER";
+    private FilterViewModel filterViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MapViewModel mapViewModel
-                = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                mapViewModel.setIsBackPressed(true);
+                filterViewModel.setIsBackPressed(true);
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -72,6 +72,9 @@ public class FilterFragmentMain extends BaseFragment {
             NavDirections action
                     = FilterFragmentMainDirections.actionFilterFragmentToCategoryNavGraph(FILTER_FRAGMENT_MAIN_KEY);
             getNavController().navigate(action);
+        });
+        binding.btnSearch.setOnClickListener(v -> {
+            filterViewModel.setIsBackPressed(true);
         });
     }
 

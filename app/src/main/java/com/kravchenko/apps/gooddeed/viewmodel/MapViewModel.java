@@ -5,9 +5,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
 import com.kravchenko.apps.gooddeed.repository.MapRepository;
 
 import java.util.ArrayList;
@@ -15,20 +15,20 @@ import java.util.ArrayList;
 public class MapViewModel extends AndroidViewModel {
 
     private final MapRepository mMapRepository;
-    private MutableLiveData<Boolean> isBackPressed;
+    private final CategoryRepository categoryRepository;
 
     public MapViewModel(@NonNull Application application) {
         super(application);
         mMapRepository = new MapRepository(application);
-        this.isBackPressed = new MutableLiveData<>(false);
+        categoryRepository = CategoryRepository.getInstance();
     }
 
     public LiveData<Boolean> getIsBackPressed() {
-        return isBackPressed;
+        return categoryRepository.getIsBackPressed();
     }
 
     public void setIsBackPressed(boolean isBackPressed) {
-        this.isBackPressed.setValue(isBackPressed);
+        this.categoryRepository.setIsBackPressed(isBackPressed);
     }
 
     public void searchFunction(String searchRequest) {
