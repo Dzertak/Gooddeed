@@ -12,7 +12,7 @@ import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
 
 import java.util.List;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class FilterViewModel extends ViewModel {
     private final CategoryRepository categoryRepository;
 

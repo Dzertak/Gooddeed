@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class InitiativeFilterRecyclerViewAdapter extends RecyclerView.Adapter<InitiativeFilterRecyclerViewAdapter.ViewHolder> {
     private final Context context;
     private FilterViewModel filterViewModel;

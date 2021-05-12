@@ -21,7 +21,7 @@ import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilterRecyclerViewAdapter.ViewHolder> {
     private final Context context;
     private final FilterViewModel filterViewModel;
@@ -77,7 +77,6 @@ public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilter
         this.selectedCategories = selectedCategories;
         notifyDataSetChanged();
     }
-
 
     public void selectAll() {
         if (categories.size() == selectedCategories.size()) {

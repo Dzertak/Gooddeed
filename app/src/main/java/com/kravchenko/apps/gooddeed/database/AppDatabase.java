@@ -1,9 +1,6 @@
 package com.kravchenko.apps.gooddeed.database;
 
-import android.os.Build;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -32,7 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public static synchronized AppDatabase getInstance() {
         if (instance == null) {
             instance = Room.databaseBuilder(AppInstance.getAppContext(),
@@ -43,7 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return instance;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
 
         @Override
@@ -51,12 +48,16 @@ public abstract class AppDatabase extends RoomDatabase {
             super.onCreate(db);
             List<CategoryTypeWithCategories> categoryTypesWithCategories
                     = FillHelper.getCategoryTypeWithCategories();
-            categoryTypesWithCategories.forEach(categoryTypeWithCategories ->
-                    databaseWriteExecutor.execute(() ->
-                            instance.categoryDao()
-                                    .insertCategoryTypeWithCategories(categoryTypeWithCategories))
-
-            );
+            for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+                databaseWriteExecutor.execute(() ->
+                        instance.categoryDao()
+                                .insertCategoryTypeWithCategories(categoryTypeWithCategories));
+            }
+//            categoryTypesWithCategories.forEach(categoryTypeWithCategories ->
+//                    databaseWriteExecutor.execute(() ->
+//                            instance.categoryDao()
+//                                    .insertCategoryTypeWithCategories(categoryTypeWithCategories))
+//            );
         }
 
 

@@ -1,8 +1,5 @@
 package com.kravchenko.apps.gooddeed.repository;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -16,11 +13,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class CategoryRepository {
     private final CategoryDao categoryDao;
-    private final String CATEGORY_TYPES_COLLECTION_PATH = "category-types";
-    private final String CATEGORIES_COLLECTION_PATH = "categories";
 
     private MutableLiveData<List<CategoryTypeWithCategories>> mapSelectedCategoriesLiveData;
     private MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
@@ -56,23 +51,40 @@ public class CategoryRepository {
     }
 
     public void setMapSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
-        mapSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
+
+        for (CategoryTypeWithCategories categoryTypeWithCategories : mapSelectedCategoriesLiveData.getValue()) {
             if (categoryOwnerId
-                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
-                categoryTypesWithCategories.setCategories(selectedCategories);
+                    == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
+                categoryTypeWithCategories.setCategories(selectedCategories);
             }
-        });
+        }
+
+//        mapSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
+//            if (categoryOwnerId
+//                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
+//                categoryTypesWithCategories.setCategories(selectedCategories);
+//            }
+//        });
         mapSelectedCategoriesLiveData.setValue(mapSelectedCategoriesLiveData.getValue());
     }
 
     public void setInitiativesSelectedCategory(List<Category> selectedCategories, long categoryOwnerId) {
-        initiativesSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
-            categoryTypesWithCategories.setCategories(new ArrayList<>());
+
+        for (CategoryTypeWithCategories categoryTypeWithCategories : initiativesSelectedCategoriesLiveData.getValue()) {
             if (categoryOwnerId
-                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
-                categoryTypesWithCategories.setCategories(selectedCategories);
+                    == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
+                categoryTypeWithCategories.setCategories(selectedCategories);
             }
-        });
+        }
+
+
+//        initiativesSelectedCategoriesLiveData.getValue().forEach(categoryTypesWithCategories -> {
+//            categoryTypesWithCategories.setCategories(new ArrayList<>());
+//            if (categoryOwnerId
+//                    == (categoryTypesWithCategories.getCategoryType().getCategoryTypeId())) {
+//                categoryTypesWithCategories.setCategories(selectedCategories);
+//            }
+//        });
         initiativesSelectedCategoriesLiveData.setValue(initiativesSelectedCategoriesLiveData.getValue());
     }
 
@@ -81,9 +93,15 @@ public class CategoryRepository {
     }
 
     public void initInitiativesSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
-        categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+
+        for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
             categoryTypeWithCategories.setCategories(new ArrayList<>());
-        });
+        }
+
+
+//        categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+//            categoryTypeWithCategories.setCategories(new ArrayList<>());
+//        });
         this.initiativesSelectedCategoriesLiveData.setValue(categoryTypesWithCategories);
     }
 }

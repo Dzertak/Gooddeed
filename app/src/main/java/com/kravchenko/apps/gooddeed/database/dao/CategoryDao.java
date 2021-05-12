@@ -1,8 +1,5 @@
 package com.kravchenko.apps.gooddeed.database.dao;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -25,16 +22,21 @@ public abstract class CategoryDao {
     @Insert(onConflict = REPLACE)
     public abstract long insertCategory(Category category);
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Transaction
     public void insertCategoryTypeWithCategories(CategoryTypeWithCategories categoryTypeWithCategories) {
         CategoryType categoryType = categoryTypeWithCategories.getCategoryType();
         List<Category> categories = categoryTypeWithCategories.getCategories();
         long categoryTypeId = insertCategoryType(categoryType);
-        categories.forEach(category -> {
+        for (Category category : categories) {
             category.setCategoryOwnerId(categoryTypeId);
             insertCategory(category);
-        });
+        }
+
+
+//        categories.forEach(category -> {
+//            category.setCategoryOwnerId(categoryTypeId);
+//            insertCategory(category);
+//        });
     }
 
     @Query("SELECT * FROM category")

@@ -1,7 +1,6 @@
 package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,7 +28,7 @@ import static com.kravchenko.apps.gooddeed.screen.filterwindow.FilterFragmentMai
 import static com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment.EDIT_INITIATIVE_FRAGMENT_TAG;
 import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class CategoryFilterFragment extends BaseFragment {
     private FragmentCategoryFilterBinding binding;
     private long categoryTypeId;
@@ -47,7 +45,7 @@ public class CategoryFilterFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -86,13 +84,23 @@ public class CategoryFilterFragment extends BaseFragment {
         filterViewModel.getInitiativesSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
                     List<Category> categories = new ArrayList<>();
-                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
                         if (categoryTypeWithCategories.getCategoryType()
                                 .getCategoryTypeId() == categoryTypeId) {
                             categories.addAll(categoryTypeWithCategories.getCategories());
                         }
                         initiativeFilterAdapter.setSelectedCategories(categories);
-                    });
+                    }
+
+
+//                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+//                        if (categoryTypeWithCategories.getCategoryType()
+//                                .getCategoryTypeId() == categoryTypeId) {
+//                            categories.addAll(categoryTypeWithCategories.getCategories());
+//                        }
+//                        initiativeFilterAdapter.setSelectedCategories(categories);
+//                    });
+
                 });
     }
 
@@ -123,24 +131,42 @@ public class CategoryFilterFragment extends BaseFragment {
         filterViewModel.getMapSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
                     List<Category> categories = new ArrayList<>();
-                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+
+                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
                         if (categoryTypeWithCategories.getCategoryType()
                                 .getCategoryTypeId() == categoryTypeId) {
                             categories.addAll(categoryTypeWithCategories.getCategories());
                         }
                         mapFilterAdapter.setSelectedCategories(categories);
-                    });
+                    }
+
+//                    categoryTypesWithCategories.forEach(categoryTypeWithCategories -> {
+//                        if (categoryTypeWithCategories.getCategoryType()
+//                                .getCategoryTypeId() == categoryTypeId) {
+//                            categories.addAll(categoryTypeWithCategories.getCategories());
+//                        }
+//                        mapFilterAdapter.setSelectedCategories(categories);
+//                    });
+
+
                 });
     }
 
     private List<Category> getCategoriesFromCategoryTypesWithCategories(List<CategoryTypeWithCategories> selectedCategories) {
         List<Category> categories = new ArrayList<>();
-        selectedCategories.forEach(categoryTypesWithCategories -> {
-            if (categoryTypesWithCategories.getCategoryType()
+
+        for (CategoryTypeWithCategories categoryTypeWithCategories : selectedCategories) {
+            if (categoryTypeWithCategories.getCategoryType()
                     .getCategoryTypeId() == categoryTypeId) {
-                categories.addAll(categoryTypesWithCategories.getCategories());
+                categories.addAll(categoryTypeWithCategories.getCategories());
             }
-        });
+        }
+//        selectedCategories.forEach(categoryTypesWithCategories -> {
+//            if (categoryTypesWithCategories.getCategoryType()
+//                    .getCategoryTypeId() == categoryTypeId) {
+//                categories.addAll(categoryTypesWithCategories.getCategories());
+//            }
+//        });
         return categories;
     }
 

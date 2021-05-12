@@ -1,6 +1,5 @@
 package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryTypeFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.CategoryTypeRecyclerViewAdapter;
@@ -26,7 +25,6 @@ import static com.kravchenko.apps.gooddeed.screen.filterwindow.FilterFragmentMai
 import static com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment.EDIT_INITIATIVE_FRAGMENT_TAG;
 import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class CategoryTypeFilterFragment extends BaseFragment {
     private FragmentCategoryTypeFilterBinding binding;
     private CategoryTypeRecyclerViewAdapter adapter;
@@ -64,13 +62,23 @@ public class CategoryTypeFilterFragment extends BaseFragment {
 
     private void initInitiativePreset() {
         filterViewModel.getCategoryTypesWithCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
+                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
                     Map<Long, Integer> categorySizes = new HashMap<>();
-                    categoryTypeWithCategories.forEach(categoryTypesWithCategories -> {
-                        long categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
-                        int categoriesSize = categoryTypesWithCategories.getCategories().size();
+
+                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+                        long categoryTypeId = categoryTypeWithCategories.getCategoryType().getCategoryTypeId();
+                        int categoriesSize = categoryTypeWithCategories.getCategories().size();
                         categorySizes.put(categoryTypeId, categoriesSize);
-                    });
+                    }
+
+
+//                    categoryTypeWithCategories.forEach(categoryTypesWithCategories -> {
+//                        long categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
+//                        int categoriesSize = categoryTypesWithCategories.getCategories().size();
+//                        categorySizes.put(categoryTypeId, categoriesSize);
+//                    });
+
+
                     adapter.setCategorySizes(categorySizes);
                 });
         filterViewModel.getInitiativesSelectedCategoriesLiveData()
@@ -87,13 +95,21 @@ public class CategoryTypeFilterFragment extends BaseFragment {
 
     private void initFilterPreset() {
         filterViewModel.getCategoryTypesWithCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), categoryTypes -> {
+                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
                             Map<Long, Integer> categorySizes = new HashMap<>();
-                            categoryTypes.forEach(categoryTypesWithCategories -> {
-                                long categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
-                                int categoriesSize = categoryTypesWithCategories.getCategories().size();
+
+                            for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+                                long categoryTypeId = categoryTypeWithCategories.getCategoryType().getCategoryTypeId();
+                                int categoriesSize = categoryTypeWithCategories.getCategories().size();
                                 categorySizes.put(categoryTypeId, categoriesSize);
-                            });
+                            }
+//                            categoryTypesWithCategories.forEach(categoryTypesWithCategories -> {
+//                                long categoryTypeId = categoryTypesWithCategories.getCategoryType().getCategoryTypeId();
+//                                int categoriesSize = categoryTypesWithCategories.getCategories().size();
+//                                categorySizes.put(categoryTypeId, categoriesSize);
+//                            });
+
+
                             adapter.setCategorySizes(categorySizes);
                         }
                 );
