@@ -32,11 +32,11 @@ public class MapViewModel extends AndroidViewModel {
         this.categoryRepository.setIsBackPressed(isBackPressed);
     }
     public MutableLiveData<Boolean> getIsDrawerOpen() {
-        return categoryRepository.getIsDrawerOpen();
+        return categoryRepository.getIsNavDrawerOpen();
     }
 
-    public void setIsDrawerOpen(boolean isDrawerOpen) {
-        categoryRepository.setIsDrawerOpen(isDrawerOpen);
+    public void setIsNavDrawerOpen(boolean isDrawerOpen) {
+        categoryRepository.setIsNavDrawerOpen(isDrawerOpen);
     }
     public void searchFunction(String searchRequest) {
         mMapRepository.search(searchRequest);

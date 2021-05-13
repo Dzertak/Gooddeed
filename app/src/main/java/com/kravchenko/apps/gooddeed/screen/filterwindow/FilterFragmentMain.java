@@ -50,7 +50,6 @@ public class FilterFragmentMain extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbarFilterFragment);
         NavigationUI.setupWithNavController(binding.toolbarFilterFragment, getNavController());
         filterViewModel

@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.database.entity.category;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
@@ -15,7 +16,7 @@ public class Category {
     private long categoryOwnerId;
     private String title;
     private String description;
-
+    @Ignore
     public Category(String title, String description) {
         this.title = title;
         this.description = description;

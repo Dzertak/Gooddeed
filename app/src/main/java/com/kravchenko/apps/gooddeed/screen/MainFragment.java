@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -93,6 +94,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @SuppressLint("NonConstantResourceId")
     private void buildDrawerToggle() {
         drawerLayout = (DrawerLayout) binding.getRoot();
+
         drawerLayout.addDrawerListener(new FilterDrawerListener(mapViewModel));
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(),
                 drawerLayout,
@@ -135,21 +137,10 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                Toast.makeText(getContext(),"Sdasd",Toast.LENGTH_SHORT).show();
-//               // requireActivity().finishAffinity();
-//            }
-//        };
-//
-//        requireActivity().getOnBackPressedDispatcher().addCallback( callback);
         mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         supportMapFragment.getMapAsync(this);
-
 
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();

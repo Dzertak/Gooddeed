@@ -23,11 +23,11 @@ public class FilterViewModel extends ViewModel {
     }
 
     public MutableLiveData<Boolean> getIsDrawerOpen() {
-        return categoryRepository.getIsDrawerOpen();
+        return categoryRepository.getIsNavDrawerOpen();
     }
 
     public void setIsDrawerOpen(boolean isDrawerOpen) {
-        categoryRepository.setIsDrawerOpen(isDrawerOpen);
+        categoryRepository.setIsNavDrawerOpen(isDrawerOpen);
     }
 
     public void setIsBackPressed(boolean isBackPressed) {

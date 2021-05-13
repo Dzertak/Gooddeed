@@ -3,6 +3,7 @@ package com.kravchenko.apps.gooddeed.database.entity.category;
 
 
 import androidx.room.Embedded;
+import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class CategoryTypeWithCategories {
             entityColumn = "categoryOwnerId"
     )
     private List<Category> categories;
-
+    @Ignore
     public CategoryTypeWithCategories(CategoryType categoryType, List<Category> categories) {
         this.categoryType = categoryType;
         this.categories = categories;

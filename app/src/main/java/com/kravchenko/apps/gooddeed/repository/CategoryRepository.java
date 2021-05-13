@@ -21,7 +21,7 @@ public class CategoryRepository {
     private final MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
     private final LiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
     private final MutableLiveData<Boolean> isBackPressed;
-    private final MutableLiveData<Boolean> isDrawerOpen;
+    private final MutableLiveData<Boolean> isNavDrawerOpen;
     private static CategoryRepository instance;
 
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
@@ -38,7 +38,7 @@ public class CategoryRepository {
     private CategoryRepository() {
         this.categoryDao = AppDatabase.getInstance().categoryDao();
         this.isBackPressed = new MutableLiveData<>(false);
-        this.isDrawerOpen =  new MutableLiveData<>(false);
+        this.isNavDrawerOpen =  new MutableLiveData<>(false);
         this.categoryTypesWithCategories = categoryDao.getCategoryTypesWithCategory();
         this.mapSelectedCategoriesLiveData = new MutableLiveData<>(null);
         this.initiativesSelectedCategoriesLiveData = new MutableLiveData<>(null);
@@ -48,11 +48,11 @@ public class CategoryRepository {
         return isBackPressed;
     }
 
-    public MutableLiveData<Boolean> getIsDrawerOpen() {
-        return isDrawerOpen;
+    public MutableLiveData<Boolean> getIsNavDrawerOpen() {
+        return isNavDrawerOpen;
     }
-    public void setIsDrawerOpen(boolean isDrawerOpen) {
-        this.isDrawerOpen.setValue(isDrawerOpen);
+    public void setIsNavDrawerOpen(boolean isNavDrawerOpen) {
+        this.isNavDrawerOpen.setValue(isNavDrawerOpen);
     }
     public void setIsBackPressed(boolean isBackPressed) {
         this.isBackPressed.setValue(isBackPressed);

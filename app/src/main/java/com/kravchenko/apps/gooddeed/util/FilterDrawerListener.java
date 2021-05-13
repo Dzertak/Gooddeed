@@ -1,13 +1,16 @@
 package com.kravchenko.apps.gooddeed.util;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
-public class FilterDrawerListener implements DrawerLayout.DrawerListener {
+public class FilterDrawerListener extends DrawerLayout.SimpleDrawerListener {
 
     private final MapViewModel mapViewModel;
 
@@ -15,24 +18,18 @@ public class FilterDrawerListener implements DrawerLayout.DrawerListener {
         this.mapViewModel = mapViewModel;
     }
 
-
-    @Override
-    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-    }
-
+    @SuppressLint("ResourceType")
     @Override
     public void onDrawerOpened(@NonNull View drawerView) {
-        mapViewModel.setIsDrawerOpen(true);
+        Log.i("dev", drawerView.getId() + "drawerView");
+        if (R.id.filter_nav_host == drawerView.getId()) {
+            mapViewModel.setIsNavDrawerOpen(true);
+        }
     }
 
     @Override
     public void onDrawerClosed(@NonNull View drawerView) {
-        mapViewModel.setIsDrawerOpen(false);
+        mapViewModel.setIsNavDrawerOpen(false);
     }
 
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
-    }
 }
