@@ -131,7 +131,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         hideKeyboard();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -234,6 +234,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         binding = null;
         super.onDestroyView();
     }
+
 
 //    @Override
 //    public void onDestroy() {

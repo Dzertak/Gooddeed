@@ -66,7 +66,6 @@ public class EditInitiativeFragment extends BaseFragment {
         setHasOptionsMenu(true);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -178,6 +177,7 @@ public class EditInitiativeFragment extends BaseFragment {
         binding.cvImageChoice.setOnClickListener(v -> pickImage());
         binding.cvTypeChoice.setOnClickListener(t -> getNavController().navigate(R.id.action_editInitiativeFragment_to_initiativeTypeFragment));
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
