@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +44,7 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
+import com.kravchenko.apps.gooddeed.util.FilterDrawerListener;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
@@ -71,6 +71,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         setHasOptionsMenu(true);
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @SuppressLint("NonConstantResourceId")
     private void buildDrawerToggle() {
         drawerLayout = (DrawerLayout) binding.getRoot();
+        drawerLayout.addDrawerListener(new FilterDrawerListener(mapViewModel));
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(),
                 drawerLayout,
                 binding.toolbar,
@@ -133,6 +135,16 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                Toast.makeText(getContext(),"Sdasd",Toast.LENGTH_SHORT).show();
+//               // requireActivity().finishAffinity();
+//            }
+//        };
+//
+//        requireActivity().getOnBackPressedDispatcher().addCallback( callback);
         mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);

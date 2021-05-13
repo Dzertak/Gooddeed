@@ -29,24 +29,21 @@ public class FilterFragmentMain extends BaseFragment {
     public static final String FILTER_FRAGMENT_MAIN_KEY = "FILTER_FRAGMENT_MAIN_KEY";
     private final String DATA_PICKER_TAG = "DATA_PICKER";
     private FilterViewModel filterViewModel;
+    private OnBackPressedCallback callback;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                filterViewModel.setIsBackPressed(true);
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFilterMainBinding.inflate(inflater, container, false);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        callback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                filterViewModel.setIsBackPressed(true);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
         return binding.getRoot();
     }
 
@@ -56,7 +53,11 @@ public class FilterFragmentMain extends BaseFragment {
 
         // ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbarFilterFragment);
         NavigationUI.setupWithNavController(binding.toolbarFilterFragment, getNavController());
-
+        filterViewModel
+                .getIsDrawerOpen()
+                .observe(getViewLifecycleOwner(), isDrawerOpen -> {
+                    callback.setEnabled(isDrawerOpen);
+                });
 
         MaterialDatePicker<Pair<Long, Long>> materialDatePicker = Utils.createMaterialDatePicker();
         binding.textViewDataRange.setText(Utils.getDateRange());

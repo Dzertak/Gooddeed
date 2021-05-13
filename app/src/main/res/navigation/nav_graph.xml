@@ -45,6 +45,9 @@
             android:id="@+id/action_mainFragment_to_editInitiativeFragment"
             app:destination="@id/editInitiativeFragment"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_mainFragment_to_filter_nav_graph"
+            app:destination="@id/filter_nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -245,4 +248,5 @@
         android:label="fragment_rating"
         tools:layout="@layout/fragment_rating" />
     <include app:graph="@navigation/category_nav_graph" />
+    <include app:graph="@navigation/filter_nav_graph" />
 </navigation>

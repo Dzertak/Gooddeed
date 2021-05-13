@@ -17,10 +17,11 @@ import java.util.concurrent.Executors;
 public class CategoryRepository {
     private final CategoryDao categoryDao;
 
-    private MutableLiveData<List<CategoryTypeWithCategories>> mapSelectedCategoriesLiveData;
-    private MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
-    private LiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
-    private MutableLiveData<Boolean> isBackPressed;
+    private final MutableLiveData<List<CategoryTypeWithCategories>> mapSelectedCategoriesLiveData;
+    private final MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
+    private final LiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
+    private final MutableLiveData<Boolean> isBackPressed;
+    private final MutableLiveData<Boolean> isDrawerOpen;
     private static CategoryRepository instance;
 
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
@@ -37,6 +38,7 @@ public class CategoryRepository {
     private CategoryRepository() {
         this.categoryDao = AppDatabase.getInstance().categoryDao();
         this.isBackPressed = new MutableLiveData<>(false);
+        this.isDrawerOpen =  new MutableLiveData<>(false);
         this.categoryTypesWithCategories = categoryDao.getCategoryTypesWithCategory();
         this.mapSelectedCategoriesLiveData = new MutableLiveData<>(null);
         this.initiativesSelectedCategoriesLiveData = new MutableLiveData<>(null);
@@ -46,6 +48,12 @@ public class CategoryRepository {
         return isBackPressed;
     }
 
+    public MutableLiveData<Boolean> getIsDrawerOpen() {
+        return isDrawerOpen;
+    }
+    public void setIsDrawerOpen(boolean isDrawerOpen) {
+        this.isDrawerOpen.setValue(isDrawerOpen);
+    }
     public void setIsBackPressed(boolean isBackPressed) {
         this.isBackPressed.setValue(isBackPressed);
     }

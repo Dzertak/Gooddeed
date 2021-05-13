@@ -78,12 +78,15 @@ public class ProfileFragment extends BaseFragment {
                         && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
                     String nameAndSurname = firestoreUser.data.getFirstName() + " " + firestoreUser.data.getLastName();
                     binding.toolbar.setTitle(nameAndSurname);
-                } else if (firestoreUser.data.getFirstName() != null && !TextUtils.isEmpty(firestoreUser.data.getFirstName())) {
+
+                } else if (firestoreUser.data.getFirstName() != null
+                        && !TextUtils.isEmpty(firestoreUser.data.getFirstName())) {
                     binding.toolbar.setTitle(firestoreUser.data.getFirstName());
-                } else if (firestoreUser.data.getLastName() != null && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
+
+                } else if (firestoreUser.data.getLastName() != null
+                        && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
                     binding.toolbar.setTitle(firestoreUser.data.getLastName());
                 }
-
                 if (firestoreUser.data.getDescription() != null) {
                     binding.tvAbout.setText(firestoreUser.data.getDescription());
                 }

@@ -1,6 +1,7 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
@@ -19,6 +20,14 @@ public class FilterViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsBackPressed() {
         return categoryRepository.getIsBackPressed();
+    }
+
+    public MutableLiveData<Boolean> getIsDrawerOpen() {
+        return categoryRepository.getIsDrawerOpen();
+    }
+
+    public void setIsDrawerOpen(boolean isDrawerOpen) {
+        categoryRepository.setIsDrawerOpen(isDrawerOpen);
     }
 
     public void setIsBackPressed(boolean isBackPressed) {

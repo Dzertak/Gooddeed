@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
@@ -30,7 +31,13 @@ public class MapViewModel extends AndroidViewModel {
     public void setIsBackPressed(boolean isBackPressed) {
         this.categoryRepository.setIsBackPressed(isBackPressed);
     }
+    public MutableLiveData<Boolean> getIsDrawerOpen() {
+        return categoryRepository.getIsDrawerOpen();
+    }
 
+    public void setIsDrawerOpen(boolean isDrawerOpen) {
+        categoryRepository.setIsDrawerOpen(isDrawerOpen);
+    }
     public void searchFunction(String searchRequest) {
         mMapRepository.search(searchRequest);
     }
