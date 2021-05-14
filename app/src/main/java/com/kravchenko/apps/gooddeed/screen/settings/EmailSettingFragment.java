@@ -50,16 +50,16 @@ public class EmailSettingFragment extends BaseFragment {
         authViewModel.getActionMarker().observe(getViewLifecycleOwner(), resource -> {
             switch (resource.status) {
                 case SUCCESS:
-                    hideNetworkProgressDialog();
+                    hideProgressDialog();
                     Toast.makeText(getContext(), R.string.email_changed_successfully, Toast.LENGTH_SHORT).show();
                     getNavController().navigate(R.id.action_emailSettingFragment_to_settingsFragment);
                     break;
                 case ERROR:
-                    hideNetworkProgressDialog();
+                    hideProgressDialog();
                     Toast.makeText(getContext(), resource.getMessage(getContext()), Toast.LENGTH_LONG).show();
                     break;
                 case LOADING:
-                    showNetworkProgressDialog();
+                    showProgressDialog();
                     break;
             }
         });

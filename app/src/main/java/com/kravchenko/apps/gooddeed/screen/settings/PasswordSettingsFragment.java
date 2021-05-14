@@ -51,16 +51,16 @@ public class PasswordSettingsFragment extends BaseFragment {
         mAuthViewModel.getActionMarker().observe(getViewLifecycleOwner(), resource -> {
             switch (resource.status) {
                 case SUCCESS:
-                    hideNetworkProgressDialog();
+                    hideProgressDialog();
                     Toast.makeText(getContext(), R.string.password_changed_successfully, Toast.LENGTH_SHORT).show();
                     getNavController().navigate(R.id.action_passwordSettingsFragment_to_settingsFragment);
                     break;
                 case ERROR:
-                    hideNetworkProgressDialog();
+                    hideProgressDialog();
                     Toast.makeText(getContext(), resource.getMessage(getContext()), Toast.LENGTH_LONG).show();
                     break;
                 case LOADING:
-                    showNetworkProgressDialog();
+                    showProgressDialog();
                     break;
             }
         });

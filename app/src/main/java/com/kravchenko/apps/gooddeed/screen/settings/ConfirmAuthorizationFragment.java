@@ -59,7 +59,7 @@ public class ConfirmAuthorizationFragment extends BaseFragment {
         authViewModel.getActionMarker().observe(getViewLifecycleOwner(), resource -> {
             switch (resource.status) {
                 case SUCCESS:
-                    hideNetworkProgressDialog();
+                    hideProgressDialog();
                     switch (args) {
                         case SettingsFragment.NAV_ARG_EMAIL:
                             getNavController().navigate(R.id.action_confirmAuthorizationFragment_to_emailSettingFragment);
@@ -70,11 +70,11 @@ public class ConfirmAuthorizationFragment extends BaseFragment {
                     }
                     break;
                 case ERROR:
-                    hideNetworkProgressDialog();
+                    hideProgressDialog();
                     Toast.makeText(getContext(), resource.getMessage(getContext()), Toast.LENGTH_LONG).show();
                     break;
                 case LOADING:
-                    showNetworkProgressDialog();
+                    showProgressDialog();
                     break;
             }
         });

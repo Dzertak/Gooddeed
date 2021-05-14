@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen;
+package com.kravchenko.apps.gooddeed.screen.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

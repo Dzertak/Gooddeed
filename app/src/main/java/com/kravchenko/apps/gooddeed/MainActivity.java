@@ -1,14 +1,16 @@
 package com.kravchenko.apps.gooddeed;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import com.kravchenko.apps.gooddeed.screen.DisconnectWarningFragment;
+import com.kravchenko.apps.gooddeed.screen.dialog.DisconnectWarningFragment;
+import com.kravchenko.apps.gooddeed.screen.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.util.ConnectionLiveData;
 
-import static com.kravchenko.apps.gooddeed.screen.DisconnectWarningFragment.FRAGMENT_TEG;
+import static com.kravchenko.apps.gooddeed.screen.dialog.DisconnectWarningFragment.FRAGMENT_TEG;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -16,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DialogFragment dialogFragment = new DisconnectWarningFragment();
+
         ConnectionLiveData connectionLiveData = new ConnectionLiveData(this);
         connectionLiveData.observe(this, isNetAvailable -> {
             if (!isNetAvailable) {

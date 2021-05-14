@@ -64,14 +64,14 @@ public class LoginFragment extends BaseFragment {
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
+                    hideProgressDialog();
                     if (!isSignedOut) {
-                        //   FillHelper.fillDB();
-                        //  mAuthViewModel.fetchCategoryTypeWithCategoriesFromFirestore();
                         getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
                     }
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
-                    Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
+                    showProgressDialog();
                 } else if (firebaseUser.status.equals(Resource.Status.ERROR)) {
+                    hideProgressDialog();
                     Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -81,7 +81,6 @@ public class LoginFragment extends BaseFragment {
         });
 
     }
-
 
     @Override
     public void onDestroyView() {

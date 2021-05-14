@@ -97,7 +97,7 @@
     <string name="change_synchronization">Change synchronization</string>
     <string name="category_explanation">Set the categories for which you would like to receive notifications.</string>
     <string name="password_changed_successfully">The password changed successfully!</string>
-    <string name="updating_data">The data is updating</string>
+    <string name="updating_data">The data is updating…</string>
     <string name="email_changed_successfully">E-mail changes successfully</string>
     <string name="tasks_created">Tasks\ncreated</string>
     <string name="tasks_completed">Tasks\ncompleted</string>

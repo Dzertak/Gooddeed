@@ -105,8 +105,8 @@
     <string name="confirm">подтвердить</string>
     <string name="change_password_explanation">"Чтобы изменить пароль, вам необходимо ввести действующий пароль. "</string>
     <string name="change_email_explanation">"Чтобы сменить электронную почту, вам необходимо ввести действующий пароль. "</string>
-    <string name="loading">"Загружается..."</string>
-    <string name="updating_data">"Данные обновляются  "</string>
+    <string name="loading">"Загружается…"</string>
+    <string name="updating_data">"Данные обновляются…"</string>
     <string name="email_changed_successfully">"Электронная почта успешно изменена  "</string>
     <string name="hint_about_me">О себе</string>
 
@@ -184,7 +184,7 @@
     <string name="type_category_filter">Типы категорий</string>
     <string name="category_filter">Категории</string>
     <string name="no_internet_access">Нет доступа к интернету</string>
-    <string name="disconnect_explanation">Для корректной работы приложения нужно включить доступ к интернету.</string>
+    <string name="disconnect_explanation">Для корректной работы приложения, нужно включить доступ к интернету.</string>
     <string name="refresh">Обновить</string>
 
 </resources>

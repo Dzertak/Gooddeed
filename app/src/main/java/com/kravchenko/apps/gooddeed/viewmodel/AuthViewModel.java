@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.kravchenko.apps.gooddeed.repository.AuthRepository;
 import com.kravchenko.apps.gooddeed.util.Resource;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+
 public class AuthViewModel extends ViewModel {
 
     private final AuthRepository mAuthRepository;
