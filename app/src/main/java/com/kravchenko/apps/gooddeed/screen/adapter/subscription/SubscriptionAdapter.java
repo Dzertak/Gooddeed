@@ -14,7 +14,9 @@ import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragmentDirections;
+import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,39 +26,42 @@ import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.ED
 public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
-    private List<String> subscriptions = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
     private boolean isEditable = false;
     private NavController navController;
 
 
-    public SubscriptionAdapter(Context context, List<String> subscriptions, boolean isEditable, NavController navController) {
+    public SubscriptionAdapter(Context context,
+                               List<Category> categories,
+                               boolean isEditable,
+                               NavController navController) {
         this.context = context;
         this.navController = navController;
-        this.subscriptions = subscriptions;
+        this.categories = categories;
         this.isEditable = isEditable;
         if (isEditable) {
             //it's for make last item for adding new category
-            subscriptions.add("");
+            categories.add(new Category());
         }
     }
 
-    public SubscriptionAdapter(Context context, List<String> subscriptions, boolean isEditable) {
+    public SubscriptionAdapter(Context context, List<Category> categories, boolean isEditable) {
         this.context = context;
-        this.subscriptions = subscriptions;
+        this.categories = categories;
         this.isEditable = isEditable;
         if (isEditable) {
             //it's for make last item for adding new category
-            subscriptions.add("");
+            categories.add(new Category());
         }
     }
 
-    public void setSubscriptions(List<String> subscriptions) {
-        this.subscriptions = subscriptions;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
         if (isEditable) {
             //it's for make last item for adding new category
-            subscriptions.add("");
+            categories.add(new Category());
         }
         notifyDataSetChanged();
     }
@@ -73,7 +78,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        return position == subscriptions.size() - 1 && isEditable ? SUBSCRIPTION_ADD_TYPE : SUBSCRIPTION_TYPE;
+        return position == categories.size() - 1 && isEditable ? SUBSCRIPTION_ADD_TYPE : SUBSCRIPTION_TYPE;
     }
 
     @Override
@@ -81,7 +86,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int viewType = getItemViewType(position);
         if (viewType == SUBSCRIPTION_TYPE) {
             SubViewHolder viewHolderSub = (SubViewHolder) holder;
-            viewHolderSub.textViewTitle.setText(subscriptions.get(position));
+            viewHolderSub.textViewTitle.setText(Utils.getString(categories.get(position).getTitle()));
             if (!isEditable) {
                 viewHolderSub.imageViewRemove.setVisibility(View.GONE);
             } else {
@@ -103,7 +108,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return subscriptions.size();
+        return categories.size();
     }
 
     private static class SubViewHolder extends RecyclerView.ViewHolder {

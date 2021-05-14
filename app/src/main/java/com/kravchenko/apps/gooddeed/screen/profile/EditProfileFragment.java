@@ -24,6 +24,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
@@ -70,7 +71,7 @@ public class EditProfileFragment extends BaseFragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
         //for test
-        List<String> subscriptions = new ArrayList<>();
+        List<Category> subscriptions = new ArrayList<>();
 //        subscriptions.add("Уборка територий");
 //        subscriptions.add("Массаж");
 //        subscriptions.add("Ремонт техники");

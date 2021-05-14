@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Review;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.profile.ReviewAdapter;
@@ -68,13 +69,13 @@ public class ProfileFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         //for test
-        List<String> subscriptions = new ArrayList<>();
-        subscriptions.add("Уборка територий");
-        subscriptions.add("Массаж");
-        subscriptions.add("Ремонт техники");
-        subscriptions.add("Иностранные языки");
-        subscriptions.add("Услуги психолога или психотерапевта");
-        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), subscriptions, false);
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category("photoshoot_title", "art_desc"));
+        categories.add(new Category("building_title", "art_desc"));
+        categories.add(new Category("vehicle_repair_title", "art_desc"));
+        categories.add(new Category("sport_title", "art_desc"));
+        categories.add(new Category("art_title", "art_desc"));
+        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), categories, false);
         //
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
@@ -82,37 +83,42 @@ public class ProfileFragment extends BaseFragment {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         binding.recyclerViewSubscriptions.setLayoutManager(layoutManager);
 
-        mViewModel.getUser().observe(getViewLifecycleOwner(), firestoreUser -> {
-            if (firestoreUser.status.equals(Resource.Status.SUCCESS)) {
-                if (firestoreUser.data.getFirstName() != null
-                        && firestoreUser.data.getLastName() != null
-                        && !TextUtils.isEmpty(firestoreUser.data.getFirstName())
-                        && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
-                    String nameAndSurname = firestoreUser.data.getFirstName() + " " + firestoreUser.data.getLastName();
+        mViewModel.getUser().observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status.equals(Resource.Status.SUCCESS)) {
+                hideProgressDialog();
+                if (resource.data.getFirstName() != null
+                        && resource.data.getLastName() != null
+                        && !TextUtils.isEmpty(resource.data.getFirstName())
+                        && !TextUtils.isEmpty(resource.data.getLastName())) {
+                    String nameAndSurname = resource.data.getFirstName() + " " + resource.data.getLastName();
                     binding.toolbar.setTitle(nameAndSurname);
 
-                } else if (firestoreUser.data.getFirstName() != null
-                        && !TextUtils.isEmpty(firestoreUser.data.getFirstName())) {
-                    binding.toolbar.setTitle(firestoreUser.data.getFirstName());
+                } else if (resource.data.getFirstName() != null
+                        && !TextUtils.isEmpty(resource.data.getFirstName())) {
+                    binding.toolbar.setTitle(resource.data.getFirstName());
 
-                } else if (firestoreUser.data.getLastName() != null
-                        && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
-                    binding.toolbar.setTitle(firestoreUser.data.getLastName());
+                } else if (resource.data.getLastName() != null
+                        && !TextUtils.isEmpty(resource.data.getLastName())) {
+                    binding.toolbar.setTitle(resource.data.getLastName());
                 }
-                if (firestoreUser.data.getDescription() != null) {
-                    binding.tvAbout.setText(firestoreUser.data.getDescription());
+                if (resource.data.getDescription() != null) {
+                    binding.tvAbout.setText(resource.data.getDescription());
                 }
-
+                if (resource.data.getSubscriptions() != null) {
+                //TODO ADD categories
+                }
                 Glide.with(this)
-                        .load(firestoreUser.data.getImageUrl())
+                        .load(resource.data.getImageUrl())
                         .fallback(R.drawable.no_photo)
                         .into(binding.imageViewProfileAvatar);
-                binding.reviewRatingBar.setRating(Float.parseFloat(firestoreUser.data.getRate()));
-                binding.tvProfileRating.setText(getString(R.string.title_rating, Float.parseFloat(firestoreUser.data.getRate())));
-            } else if (firestoreUser.status.equals(Resource.Status.LOADING)) {
-                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
-            } else if (firestoreUser.status.equals(Resource.Status.ERROR)) {
-                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
+                binding.reviewRatingBar.setRating(Float.parseFloat(resource.data.getRate()));
+                binding.tvProfileRating.setText(getString(R.string.title_rating, Float.parseFloat(resource.data.getRate())));
+            } else if (resource.status.equals(Resource.Status.LOADING)) {
+
+                showProgressDialog();
+            } else if (resource.status.equals(Resource.Status.ERROR)) {
+                hideProgressDialog();
+                Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -120,14 +126,14 @@ public class ProfileFragment extends BaseFragment {
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             FirebaseFirestore.getInstance().collection("users").document(userId)
                     .collection("ratings").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                        ArrayList<Review> reviewArrayList = new ArrayList<Review>();
-                        for (DocumentSnapshot reviewDoc: queryDocumentSnapshots.getDocuments()){
-                            Review review = reviewDoc.toObject(Review.class);
-                            reviewArrayList.add(review);
-                        }
+                ArrayList<Review> reviewArrayList = new ArrayList<Review>();
+                for (DocumentSnapshot reviewDoc : queryDocumentSnapshots.getDocuments()) {
+                    Review review = reviewDoc.toObject(Review.class);
+                    reviewArrayList.add(review);
+                }
                 binding.recyclerReviews.setLayoutManager(new LinearLayoutManager(getContext()));
                 binding.recyclerReviews.setAdapter(new ReviewAdapter(reviewArrayList));
-                    });
+            });
         }
     }
 
