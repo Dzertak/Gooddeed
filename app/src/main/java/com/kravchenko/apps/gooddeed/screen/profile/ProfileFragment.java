@@ -51,7 +51,7 @@ public class ProfileFragment extends BaseFragment {
 
     @Override
     public void clear() {
-
+        requireActivity().getViewModelStore().clear();
     }
 
     @Override
@@ -67,6 +67,11 @@ public class ProfileFragment extends BaseFragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
+        binding.toolbar.setNavigationOnClickListener(t -> {
+            clear();
+            getNavController().navigateUp();
+        });
+
         //for test
         List<String> subscriptions = new ArrayList<>();
         subscriptions.add("Уборка територий");

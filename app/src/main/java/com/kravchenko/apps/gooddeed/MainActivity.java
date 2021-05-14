@@ -44,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
             if (fragment != null){
                 List<Fragment> fragments =  fragment.getChildFragmentManager().getFragments();
                 if (fragments != null && !fragments.isEmpty()){
-                    if (fragments.get(0) instanceof EditInitiativeFragment){
-                        ((BaseFragment) fragments.get(0)).clear();
-                    }
+                    ((BaseFragment) fragments.get(0)).clear();
+//                    if (fragments.get(0) instanceof EditInitiativeFragment){
+//                        ((BaseFragment) fragments.get(0)).clear();
+//                    }
                 }
             }
         }
