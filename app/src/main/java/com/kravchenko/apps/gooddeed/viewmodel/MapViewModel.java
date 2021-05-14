@@ -8,19 +8,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
+import com.kravchenko.apps.gooddeed.repository.InitiativeRepository;
 import com.kravchenko.apps.gooddeed.repository.MapRepository;
+import com.kravchenko.apps.gooddeed.util.Resource;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapViewModel extends AndroidViewModel {
 
     private final MapRepository mMapRepository;
     private final CategoryRepository categoryRepository;
+    private final InitiativeRepository mInitiativeRepository;
 
     public MapViewModel(@NonNull Application application) {
         super(application);
         mMapRepository = new MapRepository(application);
+        mInitiativeRepository = new InitiativeRepository();
         categoryRepository = CategoryRepository.getInstance();
     }
 
@@ -51,6 +57,7 @@ public class MapViewModel extends AndroidViewModel {
     }
 
     public void signOutUser() {
+        mInitiativeRepository.clearInitiativesInDatabase();
         mMapRepository.signOutUser();
     }
 
@@ -62,4 +69,7 @@ public class MapViewModel extends AndroidViewModel {
         return mMapRepository.getTitle();
     }
 
+    public LiveData<Resource<List<Initiative>>> getAllInitiatives() {
+        return mInitiativeRepository.getSavedInitiativesLiveData();
+    }
 }

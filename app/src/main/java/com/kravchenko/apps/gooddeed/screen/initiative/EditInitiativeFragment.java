@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -31,6 +29,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
@@ -113,8 +112,9 @@ public class EditInitiativeFragment extends BaseFragment {
                         break;
                 }
             }
-            if (initiativeCur.getCategory() != null)
-                binding.tvCategory.setText(initiativeCur.getCategory());
+            if (initiativeCur.getCategoryId() != 0)
+                initiativeViewModel.getCategoryById(initiativeCur.getCategoryId())
+                        .observe(getViewLifecycleOwner(), category -> binding.tvCategory.setText(Utils.getString(category.getTitle())));
             if (initiativeCur.getImgUri() != null)
                 Glide.with(this)
                         .load(initiativeCur.getImgUri())
@@ -124,7 +124,7 @@ public class EditInitiativeFragment extends BaseFragment {
 
         initiativeViewModel.getSavingInitiative().observe(getViewLifecycleOwner(), initiativeResource -> {
             if (initiativeResource.status.equals(Resource.Status.LOADING)) {
-                Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
             } else if (initiativeResource.status.equals(Resource.Status.SUCCESS)) {
                 Toast.makeText(requireContext(), "Initiative saved", Toast.LENGTH_SHORT).show();
 //                getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment);
@@ -144,9 +144,8 @@ public class EditInitiativeFragment extends BaseFragment {
                 }
             }
             if (category != null) {
-                String categoryTitle = Utils.getString(category.getTitle());
                 if (initiativeCur == null) initiativeCur = new Initiative();
-                initiativeCur.setCategory(categoryTitle);
+                initiativeCur.setCategoryId(category.getCategoryId());
                 initiativeViewModel.updateInitiative(initiativeCur);
             }
         });

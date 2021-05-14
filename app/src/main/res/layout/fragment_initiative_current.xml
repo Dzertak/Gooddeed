@@ -135,7 +135,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="здесь у нас тип"
+                        android:text="@string/choose_type_initiative"
                         android:textSize="16sp"
                         android:layout_margin="16dp"/>
 

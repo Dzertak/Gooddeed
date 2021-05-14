@@ -45,6 +45,10 @@ public class Resource<T> {
         return new Resource<>(Status.SUCCESS, data, null);
     }
 
+    public static <T> Resource<T> success(T data, String msg) {
+        return new Resource<>(Status.SUCCESS, data, msg);
+    }
+
     public static <T> Resource<T> error(String msg, @Nullable T data) {
         return new Resource<>(Status.ERROR, data, msg);
     }

@@ -1,7 +1,6 @@
 package com.kravchenko.apps.gooddeed.screen;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavGraph;
 import androidx.navigation.NavOptions;
@@ -28,6 +26,7 @@ import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
 import static android.app.Activity.RESULT_OK;
+import static com.kravchenko.apps.gooddeed.repository.AuthRepository.FLAG_NEW_LOGIN;
 
 public class LoginFragment extends BaseFragment {
 
@@ -46,16 +45,11 @@ public class LoginFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.tilEmailHolder.getEditText().addTextChangedListener(new TextErrorRemover(binding.tilEmailHolder));
         binding.tilPasswordHolder.getEditText().addTextChangedListener(new TextErrorRemover(binding.tilPasswordHolder));
-
-        //for test
-        //mBinding.buttonLoginFragmentLogIn.setOnClickListener(v -> navController.navigate(R.id.action_loginFragment_to_mainFragment));
-        //navController.navigate(R.id.action_loginFragment_to_mainFragment);
 
         if (getArguments() != null) {
             isSignedOut = getArguments().getBoolean(SIGNED_OUT_FLAG);
@@ -66,7 +60,17 @@ public class LoginFragment extends BaseFragment {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
                     hideProgressDialog();
                     if (!isSignedOut) {
-                        getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
+                        if (firebaseUser.message != null && firebaseUser.message.equals(FLAG_NEW_LOGIN)) {
+                            mAuthViewModel.getInitiativesFromFirestore().observe(getViewLifecycleOwner(), listResource -> {
+                                if (listResource.status.equals(Resource.Status.SUCCESS)) {
+                                    getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
+                                } else if (listResource.status.equals(Resource.Status.LOADING)) {
+                                    // loading data from Firestore to local database
+                                }
+                            });
+                        } else {
+                            getNavController().navigate(R.id.action_loginFragment_to_mainFragment);
+                        }
                     }
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
                     showProgressDialog();
@@ -79,7 +83,6 @@ public class LoginFragment extends BaseFragment {
                 Toast.makeText(getContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override

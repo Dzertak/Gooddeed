@@ -8,6 +8,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.kravchenko.apps.gooddeed.AppInstance;
 import com.kravchenko.apps.gooddeed.database.dao.CategoryDao;
+import com.kravchenko.apps.gooddeed.database.dao.InitiativeDao;
+import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
@@ -20,14 +22,18 @@ import static com.kravchenko.apps.gooddeed.repository.CategoryRepository.databas
 
 @Database(entities = {
         Category.class,
-        CategoryType.class},
-        version = 1
+        CategoryType.class,
+        Initiative.class},
+        version = 1,
+        exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "app_database";
     private static volatile AppDatabase instance;
 
     public abstract CategoryDao categoryDao();
+
+    public abstract InitiativeDao initiativeDao();
 
     public static synchronized AppDatabase getInstance() {
         if (instance == null) {

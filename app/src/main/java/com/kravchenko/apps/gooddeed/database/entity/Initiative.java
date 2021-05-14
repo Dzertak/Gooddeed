@@ -5,15 +5,12 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
-
-@Entity
+@Entity(tableName = "initiative")
 public class Initiative {
-    @PrimaryKey(autoGenerate = true)
-    private long initiativeId;
-    @Ignore
+    @PrimaryKey
+    @NonNull
+    private String initiativeId;
     private String initiativeUserId;
-
     private String title;
     private String description;
     private String imgUri;
@@ -22,21 +19,24 @@ public class Initiative {
     private String lng;
     private long timestamp;
     private String type;
-    private String category;
-    private List<Integer> executors;
+    private long categoryId;
+    private long executors;
 
     public Initiative() {
-
+        initiativeId = "";
     }
 
+    @Ignore
     public Initiative(String title, String description, String imgUri) {
         this.title = title;
         this.description = description;
         this.imgUri = imgUri;
+        initiativeId = "";
     }
 
+    @Ignore
     public Initiative(String initiativeUserId, String title, String description, String imgUri,
-                      String location, String lat, String lng, long timestamp, String type, String category) {
+                      String location, String lat, String lng, long timestamp, String type, long categoryId) {
         this.initiativeUserId = initiativeUserId;
         this.title = title;
         this.description = description;
@@ -46,12 +46,14 @@ public class Initiative {
         this.lng = lng;
         this.timestamp = timestamp;
         this.type = type;
-        this.category = category;
+        this.categoryId = categoryId;
+        initiativeId = "";
     }
 
+    @Ignore
     public Initiative(String initiativeUserId, String title, String description, String imgUri,
-                      String location, String lat, String lng, long timestamp, String type, String category,
-                      List<Integer> executors) {
+                      String location, String lat, String lng, long timestamp, String type, long categoryId,
+                      long executors) {
         this.initiativeUserId = initiativeUserId;
         this.title = title;
         this.description = description;
@@ -61,15 +63,17 @@ public class Initiative {
         this.lng = lng;
         this.timestamp = timestamp;
         this.type = type;
-        this.category = category;
+        this.categoryId = categoryId;
         this.executors = executors;
+        initiativeId = "";
     }
 
-    public long getInitiativeId() {
+    @NonNull
+    public String getInitiativeId() {
         return initiativeId;
     }
 
-    public void setInitiativeId(long initiativeId) {
+    public void setInitiativeId(@NonNull String initiativeId) {
         this.initiativeId = initiativeId;
     }
 
@@ -145,19 +149,19 @@ public class Initiative {
         this.type = type;
     }
 
-    public String getCategory() {
-        return category;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public List<Integer> getExecutors() {
+    public long getExecutors() {
         return executors;
     }
 
-    public void setExecutors(List<Integer> executors) {
+    public void setExecutors(long executors) {
         this.executors = executors;
     }
 
@@ -165,7 +169,7 @@ public class Initiative {
     @Override
     public String toString() {
         return "Initiative{" +
-                "initiativeId=" + initiativeId +
+                "initiativeId='" + initiativeId + '\'' +
                 ", initiativeUserId='" + initiativeUserId + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -175,7 +179,7 @@ public class Initiative {
                 ", lng='" + lng + '\'' +
                 ", timestamp=" + timestamp +
                 ", type='" + type + '\'' +
-                ", category='" + category + '\'' +
+                ", category='" + categoryId + '\'' +
                 ", executors=" + executors +
                 '}';
     }

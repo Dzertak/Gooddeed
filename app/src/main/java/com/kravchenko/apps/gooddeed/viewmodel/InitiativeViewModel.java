@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
 import com.kravchenko.apps.gooddeed.repository.InitiativeRepository;
@@ -44,6 +45,10 @@ public class InitiativeViewModel extends ViewModel {
 
     public LiveData<List<CategoryTypeWithCategories>> getSelectedCategory() {
         return mCategoryRepository.getInitiativesSelectedCategoriesLiveData();
+    }
+
+    public LiveData<Category> getCategoryById(long id) {
+        return mCategoryRepository.getCategoryById(id);
     }
 
     public String getAuthUserId() {

@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,7 @@ public class PickInitiativeLocationFragment extends BaseFragment implements OnMa
             } else {
                 if (initiativeCur == null) initiativeCur = new Initiative();
                 initiativeCur.setLocation(locationName);
-                initiativeCur.setLat(String.valueOf(latLngCurrent.longitude));
+                initiativeCur.setLat(String.valueOf(latLngCurrent.latitude));
                 initiativeCur.setLng(String.valueOf(latLngCurrent.longitude));
                 initiativeViewModel.updateInitiative(initiativeCur);
                 getNavController().navigateUp();

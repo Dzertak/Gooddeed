@@ -1,10 +1,7 @@
 package com.kravchenko.apps.gooddeed.repository;
 
 import android.content.Context;
-import android.os.Build;
-import android.util.Log;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -26,7 +23,7 @@ import com.kravchenko.apps.gooddeed.util.Utils;
 public class AuthRepository {
 
     public static final String COLLECTION_USERS = "users";
-    private final String TAG = "TAG_DEBUG_" + getClass().getSimpleName();
+    public static final String FLAG_NEW_LOGIN = "com.kravchenko.apps.gooddeed.NEW_LOGIN";
     private final FirebaseAuth mAuth;
     private final FirebaseFirestore mFirestore;
     private final GoogleSignInClient mGoogleSignIn;
@@ -60,19 +57,16 @@ public class AuthRepository {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 // Login successful
-                                mUser.setValue(Resource.success(mAuth.getCurrentUser()));
-                                Log.d(TAG, "User logged in successfully");
+                                mUser.setValue(Resource.success(mAuth.getCurrentUser(), FLAG_NEW_LOGIN));
                             } else {
                                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
-                                Log.w(TAG, "Sign in failure: " + task.getException());
                             }
                         });
             } else {
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Log.d(TAG, "New user created successfully");
-                                mUser.setValue(Resource.success(mAuth.getCurrentUser()));
+                                mUser.setValue(Resource.success(mAuth.getCurrentUser(), FLAG_NEW_LOGIN));
                                 addUserToFirebase(new FirestoreUser(
                                         mAuth.getCurrentUser().getUid(),
                                         null,
@@ -83,7 +77,6 @@ public class AuthRepository {
                                         null, null, null));
                             } else {
                                 mUser.setValue(Resource.error(task.getException().getMessage(), null));
-                                Log.w(TAG, "Registration failure: " + task.getException());
                             }
                         });
             }
@@ -97,7 +90,7 @@ public class AuthRepository {
                 .addOnCompleteListener(authResultTask -> {
                     if (authResultTask.isSuccessful() && mAuth.getCurrentUser() != null) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        mUser.setValue(Resource.success(user));
+                        mUser.setValue(Resource.success(user, FLAG_NEW_LOGIN));
                         String lastName = "";
                         if (user.getDisplayName() != null && user.getDisplayName().contains(" ")) {
                             String displayName = user.getDisplayName();
@@ -115,7 +108,6 @@ public class AuthRepository {
                                 null, null));
                     } else {
                         mUser.setValue(Resource.error(authResultTask.getException().getMessage(), null));
-                        Log.w(TAG, "Sign in with credential: failure" + authResultTask.getException());
                     }
                 });
     }
@@ -128,25 +120,12 @@ public class AuthRepository {
     // Adds user document if user doesn't exist in Firebase.
     private void addUserToFirebase(FirestoreUser user) {
         DocumentReference userDocRef = mFirestore.collection(COLLECTION_USERS).document(user.getUserId());
-        Log.d(TAG, "Google user: " + user);
         userDocRef.get()
                 .addOnCompleteListener(snapshotTask -> {
                     if (snapshotTask.isSuccessful()) {
-                        if (snapshotTask.getResult().exists()) {
-                            // User exists in Firebase
-                            // mUser.setValue(Resource.success(snapshotTask.getResult().toObject(User.class)));
-                            Log.d(TAG, "DocumentSnapshot data: " + snapshotTask.getResult().getData());
-                        } else {
-                            userDocRef.set(user).addOnCompleteListener(setUserTask -> {
-                                if (setUserTask.isSuccessful()) {
-                                    Log.d(TAG, "Document added successfully");
-                                } else {
-                                    Log.w(TAG, "Error adding document" + setUserTask.getException());
-                                }
-                            });
+                        if (!snapshotTask.getResult().exists()) {
+                            userDocRef.set(user);
                         }
-                    } else {
-                        Log.d(TAG, "Get doc failed with " + snapshotTask.getException());
                     }
                 });
     }

@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.repository;
 
 import android.net.Uri;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -11,8 +12,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.AppDatabase;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.util.Resource;
+import com.kravchenko.apps.gooddeed.util.Utils;
+
+import java.util.List;
+
+import static com.kravchenko.apps.gooddeed.repository.CategoryRepository.databaseWriteExecutor;
 
 public class InitiativeRepository {
 
@@ -23,6 +30,8 @@ public class InitiativeRepository {
     private final FirebaseStorage mStorage;
     private final FirebaseAuth mAuth;
     private final MutableLiveData<Resource<Initiative>> initiativeSave;
+    private MutableLiveData<Resource<List<Initiative>>> firestoreInitiatives;
+    private MutableLiveData<Resource<List<Initiative>>> savedInitiatives;
 
     public InitiativeRepository() {
         initiativeSave = new MutableLiveData<>();
@@ -31,7 +40,7 @@ public class InitiativeRepository {
         mFirestore = FirebaseFirestore.getInstance();
     }
 
-    public MutableLiveData<Resource<Initiative>> savingInitiative() {
+    public LiveData<Resource<Initiative>> savingInitiative() {
         return initiativeSave;
     }
 
@@ -71,6 +80,49 @@ public class InitiativeRepository {
                         })
                         .addOnFailureListener(e -> initiativeSave.setValue(Resource.error(e.getMessage(), null))))
                 .addOnFailureListener(e -> initiativeSave.setValue(Resource.error(e.getMessage(), null)));
+    }
+
+    private void loadInitiativesFromFirestore() {
+        firestoreInitiatives.setValue(Resource.loading(Utils.getString(R.string.loading), null));
+        mFirestore.collection(COLLECTION_INITIATIVES)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Initiative> initiativeList = task.getResult().toObjects(Initiative.class);
+                        databaseWriteExecutor.execute(() ->
+                                AppDatabase.getInstance().initiativeDao().insertAllInitiatives(initiativeList));
+                        firestoreInitiatives.setValue(Resource.success(initiativeList));
+                    } else {
+                        firestoreInitiatives.setValue(Resource.error(task.getException().getMessage(), null));
+                    }
+                });
+    }
+
+    private void loadInitiativesFromLocalDb() {
+        savedInitiatives.setValue(Resource.loading(Utils.getString(R.string.loading), null));
+        databaseWriteExecutor.execute(() ->
+                savedInitiatives.postValue(Resource.success(AppDatabase.getInstance().initiativeDao().getAllInitiatives())));;
+    }
+
+    public void clearInitiativesInDatabase() {
+        databaseWriteExecutor.execute(() ->
+                AppDatabase.getInstance().initiativeDao().clearInitiativesTable());
+    }
+
+    public LiveData<Resource<List<Initiative>>> getSavedInitiativesLiveData() {
+        if (savedInitiatives == null) {
+            savedInitiatives = new MutableLiveData<>();
+            loadInitiativesFromLocalDb();
+        }
+        return savedInitiatives;
+    }
+
+    public LiveData<Resource<List<Initiative>>> getInitiativesFromFirestoreLiveData() {
+        if (firestoreInitiatives == null) {
+            firestoreInitiatives = new MutableLiveData<>();
+            loadInitiativesFromFirestore();
+        }
+        return firestoreInitiatives;
     }
 
     public FirebaseUser getAuthUser() {

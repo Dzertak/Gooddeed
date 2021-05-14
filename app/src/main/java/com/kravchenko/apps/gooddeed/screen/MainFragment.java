@@ -5,6 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -15,12 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,32 +41,38 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.FilterDrawerListener;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
+import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
-    private DrawerLayout drawerLayout;
     private static final String TAG = "MainFragment";
     private static final int REQUEST_SWITCH_ON_GPS = 3331;
+    private final static int REQUEST_CODE = 101;
+    private final static String titleName = "MARKER";
+    private DrawerLayout drawerLayout;
     private FragmentMainBinding binding;
     private SupportMapFragment supportMapFragment;
     private FusedLocationProviderClient fusedLocation;
-    private final static int REQUEST_CODE = 101;
     private ArrayList<LatLng> markersLatLng;
     private ArrayList<String> markersTitle;
-    private final static String titleName = "MARKER";
     private MapViewModel mapViewModel;
     private GoogleMap mMap;
+    private List<Initiative> mSavedInitiatives;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +99,21 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         mMap = googleMap;
         LatLng latLngOdessa = AppConstants.ODESSA_COORDINATES;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
+
+        mapViewModel.getAllInitiatives().observe(getViewLifecycleOwner(), listResource -> {
+            if (listResource.status.equals(Resource.Status.SUCCESS)) {
+                mSavedInitiatives = listResource.data != null ? listResource.data : new ArrayList<>();
+                for (Initiative initiative : mSavedInitiatives) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(Double.parseDouble(initiative.getLat()), Double.parseDouble(initiative.getLng())))
+                            .title(initiative.getTitle())
+                            .icon(getIconByCategoryId(initiative.getCategoryId())));
+                }
+            } else if (listResource.status.equals(Resource.Status.LOADING)) {
+                // Loading initiatives from database
+                Toast.makeText(requireContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.rvInitiatives);
@@ -340,5 +367,42 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         } else {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         }
+    }
+
+    private BitmapDescriptor getIconByCategoryId(long id) {
+        if (id > 0 && id < 5)
+                return bitmapDescriptorFromVector(R.drawable.ic_category_beauty_and_health);
+        if (id > 4 && id < 11)
+            return bitmapDescriptorFromVector(R.drawable.ic_category_repair_and_construction);
+        if (id == 11 || id == 13)
+                return bitmapDescriptorFromVector(R.drawable.ic_category_cleaning);
+        if (id > 12 && id < 18)
+                return bitmapDescriptorFromVector(R.drawable.ic_category_tutoring_and_training);
+        if (id > 17 && id < 20)
+                return bitmapDescriptorFromVector(R.drawable.ic_category_charity);
+        if (id > 19 && id < 23)
+                return bitmapDescriptorFromVector(R.drawable.ic_category_delivery_and_transportation);
+        if (id > 22 && id < 25)
+                return bitmapDescriptorFromVector(R.drawable.ic_category_photo_and_video);
+        // default icon
+        return bitmapDescriptorFromVector(R.drawable.ic_check_black);
+    }
+
+    // For converting vector to bitmap for map marker icon
+    // NOTE: Use different bounding for your vectors
+    @NonNull
+    private BitmapDescriptor bitmapDescriptorFromVector(@DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_marker);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(requireContext(), vectorDrawableResourceId);
+        int boundLeft = (background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth()) / 2;
+        int boundTop = (background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) / 3;
+        vectorDrawable.setBounds(boundLeft, boundTop, boundLeft + vectorDrawable.getIntrinsicWidth(),
+                boundTop + vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
