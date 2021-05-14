@@ -9,10 +9,9 @@ import android.net.NetworkRequest;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+
 import androidx.lifecycle.LiveData;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ConnectionLiveData extends LiveData<Boolean> {
     private final Context context;
     private ConnectivityManager connectivityManager;
