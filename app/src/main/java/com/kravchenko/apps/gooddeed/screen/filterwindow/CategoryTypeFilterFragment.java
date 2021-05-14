@@ -32,7 +32,7 @@ public class CategoryTypeFilterFragment extends BaseFragment {
     private CategoryTypeRecyclerViewAdapter adapter;
     private FilterViewModel filterViewModel;
     private String rootDirection;
-
+    private OnBackPressedCallback callback;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

@@ -38,6 +38,7 @@ public class CategoryFilterFragment extends BaseFragment {
     private FilterViewModel filterViewModel;
     private int categoriesSize;
     private String rootDirection;
+    private OnBackPressedCallback callback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +70,7 @@ public class CategoryFilterFragment extends BaseFragment {
                     initFilterPreset();
                     break;
                 case EDIT_INITIATIVE_FRAGMENT_TAG:
-                    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                     callback = new OnBackPressedCallback(true) {
                         @Override
                         public void handleOnBackPressed() {
                             getNavController().popBackStack();
@@ -164,5 +165,4 @@ public class CategoryFilterFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
-
 }

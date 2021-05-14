@@ -91,4 +91,5 @@ public class FilterFragmentMain extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
 }
