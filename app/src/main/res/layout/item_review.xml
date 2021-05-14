@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_reviewer_photo"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -25,12 +25,8 @@
         app:layout_constraintTop_toTopOf="@+id/imageview_reviewer_photo"
         tools:text="Имя Фамилия" />
 
-
-
-
-
     <RatingBar
-        android:id="@+id/rating_bar"
+        android:id="@+id/review_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         style="?android:attr/ratingBarStyleSmall"

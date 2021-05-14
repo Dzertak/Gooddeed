@@ -62,6 +62,7 @@ public class ChatInfoFragment extends Fragment {
         String type = "SINGLE";
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_back);
+        //why it doesn't work?
         binding.toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
         if (getArguments() != null) {
             currentInitiativeId = getArguments().getString("initiative_id");

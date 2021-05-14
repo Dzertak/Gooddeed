@@ -16,14 +16,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.Review;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
+import com.kravchenko.apps.gooddeed.screen.adapter.profile.ReviewAdapter;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
@@ -35,6 +41,7 @@ public class ProfileFragment extends BaseFragment {
 
     private FragmentProfileBinding binding;
     private ProfileViewModel mViewModel;
+    private static final String TAG = "gooddeed_tag";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +102,7 @@ public class ProfileFragment extends BaseFragment {
                         .load(firestoreUser.data.getImageUrl())
                         .fallback(R.drawable.no_photo)
                         .into(binding.imageViewProfileAvatar);
-                binding.ratingBar.setRating(Float.parseFloat(firestoreUser.data.getRate()));
+                binding.reviewRatingBar.setRating(Float.parseFloat(firestoreUser.data.getRate()));
                 binding.tvProfileRating.setText(getString(R.string.title_rating, Float.parseFloat(firestoreUser.data.getRate())));
             } else if (firestoreUser.status.equals(Resource.Status.LOADING)) {
                 Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
@@ -103,6 +110,20 @@ public class ProfileFragment extends BaseFragment {
                 Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
             }
         });
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseFirestore.getInstance().collection("users").document(userId)
+                    .collection("ratings").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                        ArrayList<Review> reviewArrayList = new ArrayList<Review>();
+                        for (DocumentSnapshot reviewDoc: queryDocumentSnapshots.getDocuments()){
+                            Review review = reviewDoc.toObject(Review.class);
+                            reviewArrayList.add(review);
+                        }
+                binding.recyclerReviews.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.recyclerReviews.setAdapter(new ReviewAdapter(reviewArrayList));
+                    });
+        }
     }
 
     @Override

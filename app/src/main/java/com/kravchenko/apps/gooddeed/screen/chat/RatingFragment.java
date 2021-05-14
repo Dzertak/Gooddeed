@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
@@ -18,6 +19,7 @@ import com.kravchenko.apps.gooddeed.databinding.FragmentRatingBinding;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RatingFragment extends Fragment {
 
@@ -61,6 +63,7 @@ public class RatingFragment extends Fragment {
             binding.btnRate.setOnClickListener(v -> {
                 if (ratingIsTouched) {
                     Map<String, Object> rating = new HashMap<>();
+                    rating.put("reviewerId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                     rating.put("rate", binding.ratingBar.getRating());
                     rating.put("initiativeId", initiativeId);
                     rating.put("comment", binding.etComment.getText().toString());
