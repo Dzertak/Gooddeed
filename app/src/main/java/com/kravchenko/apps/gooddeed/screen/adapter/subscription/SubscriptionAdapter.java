@@ -9,27 +9,44 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragmentDirections;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.EDIT_PROFILE_KEY;
+
+public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
     private List<String> subscriptions = new ArrayList<>();
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
     private boolean isEditable = false;
+    private NavController navController;
 
+
+    public SubscriptionAdapter(Context context, List<String> subscriptions, boolean isEditable, NavController navController) {
+        this.context = context;
+        this.navController = navController;
+        this.subscriptions = subscriptions;
+        this.isEditable = isEditable;
+        if (isEditable) {
+            //it's for make last item for adding new category
+            subscriptions.add("");
+        }
+    }
 
     public SubscriptionAdapter(Context context, List<String> subscriptions, boolean isEditable) {
         this.context = context;
         this.subscriptions = subscriptions;
         this.isEditable = isEditable;
-        if (isEditable){
+        if (isEditable) {
             //it's for make last item for adding new category
             subscriptions.add("");
         }
@@ -37,7 +54,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setSubscriptions(List<String> subscriptions) {
         this.subscriptions = subscriptions;
-        if (isEditable){
+        if (isEditable) {
             //it's for make last item for adding new category
             subscriptions.add("");
         }
@@ -48,23 +65,24 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        if (viewType == SUBSCRIPTION_TYPE){
+        if (viewType == SUBSCRIPTION_TYPE) {
             return new SubscriptionAdapter.SubViewHolder(inflater.inflate(R.layout.item_subscription, parent, false));
-        } else return new SubscriptionAdapter.SubAddViewHolder(inflater.inflate(R.layout.item_subscription_add, parent, false));
+        } else
+            return new SubscriptionAdapter.SubAddViewHolder(inflater.inflate(R.layout.item_subscription_add, parent, false));
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position == subscriptions.size()-1 && isEditable ? SUBSCRIPTION_ADD_TYPE : SUBSCRIPTION_TYPE;
+        return position == subscriptions.size() - 1 && isEditable ? SUBSCRIPTION_ADD_TYPE : SUBSCRIPTION_TYPE;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
-        if (viewType == SUBSCRIPTION_TYPE){
+        if (viewType == SUBSCRIPTION_TYPE) {
             SubViewHolder viewHolderSub = (SubViewHolder) holder;
             viewHolderSub.textViewTitle.setText(subscriptions.get(position));
-            if (!isEditable){
+            if (!isEditable) {
                 viewHolderSub.imageViewRemove.setVisibility(View.GONE);
             } else {
                 viewHolderSub.imageViewRemove.setOnClickListener(t -> {
@@ -73,7 +91,13 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         } else {
             SubAddViewHolder viewHolderSub = (SubAddViewHolder) holder;
-            viewHolderSub.textViewAdd.setOnClickListener(t -> Toast.makeText(context, "Add Category", Toast.LENGTH_SHORT).show());
+            viewHolderSub.textViewAdd.setOnClickListener(t -> {
+                        NavDirections action
+                                = EditProfileFragmentDirections.actionEditAccountFragmentToCategoryNavGraph(EDIT_PROFILE_KEY);
+                        navController.navigate(action);
+                    }
+
+            );
         }
     }
 

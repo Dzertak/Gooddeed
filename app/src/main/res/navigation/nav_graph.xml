@@ -65,7 +65,15 @@
         android:id="@+id/editAccountFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment"
         android:label="@string/edit_profile"
-        tools:layout="@layout/fragment_profile_edit" />
+        tools:layout="@layout/fragment_profile_edit" >
+        <action
+            android:id="@+id/action_editAccountFragment_to_category_nav_graph"
+            app:destination="@id/category_nav_graph" >
+            <argument
+                android:name="root_direction"
+                app:argType="string" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.chat.ChatsFragment"

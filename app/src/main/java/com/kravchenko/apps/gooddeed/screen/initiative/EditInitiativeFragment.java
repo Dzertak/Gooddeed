@@ -124,11 +124,13 @@ public class EditInitiativeFragment extends BaseFragment {
 
         initiativeViewModel.getSavingInitiative().observe(getViewLifecycleOwner(), initiativeResource -> {
             if (initiativeResource.status.equals(Resource.Status.LOADING)) {
-                Toast.makeText(requireContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                showProgressDialog();
             } else if (initiativeResource.status.equals(Resource.Status.SUCCESS)) {
+                hideProgressDialog();
                 Toast.makeText(requireContext(), "Initiative saved", Toast.LENGTH_SHORT).show();
 //                getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment);
             } else if (initiativeResource.status.equals(Resource.Status.ERROR)) {
+                hideProgressDialog();
                 Toast.makeText(requireContext(), "Error" + initiativeResource.message, Toast.LENGTH_SHORT).show();
             }
         });

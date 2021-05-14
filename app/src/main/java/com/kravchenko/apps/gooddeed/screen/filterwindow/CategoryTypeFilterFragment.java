@@ -20,11 +20,13 @@ import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.CategoryTypeRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.kravchenko.apps.gooddeed.screen.filterwindow.FilterFragmentMain.FILTER_FRAGMENT_MAIN_KEY;
 import static com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment.EDIT_INITIATIVE_FRAGMENT_TAG;
+import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.EDIT_PROFILE_KEY;
 import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG;
 
 public class CategoryTypeFilterFragment extends BaseFragment {
@@ -78,8 +80,21 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                     break;
                 case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
                     break;
+                case EDIT_PROFILE_KEY:
+                    initProfilePreset();
+                    binding.btnSearch.setText(R.string.confirm);
+                    binding.btnSearch.setOnClickListener(v -> {
+                        getNavController().popBackStack();
+                    });
+                    break;
             }
         }
+    }
+
+    private void initProfilePreset() {
+        //TODO
+        adapter.setCategorySizes(new HashMap<>());
+        adapter.setSelectedCategories(new ArrayList<>());
     }
 
     private void initInitiativePreset() {

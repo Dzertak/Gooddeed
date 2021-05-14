@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,16 +31,13 @@ import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
 public class EditProfileFragment extends BaseFragment {
-
+    public static final String EDIT_PROFILE_KEY = "EDIT_PROFILE_KEY";
     private static final String IMAGE_CACHE_DIRECTORY = "images";
     private FragmentProfileEditBinding binding;
     private ProfileViewModel mViewModel;
@@ -75,12 +71,13 @@ public class EditProfileFragment extends BaseFragment {
 
         //for test
         List<String> subscriptions = new ArrayList<>();
-        subscriptions.add("Уборка територий");
-        subscriptions.add("Массаж");
-        subscriptions.add("Ремонт техники");
-        subscriptions.add("Иностранные языки");
-        subscriptions.add("Услуги психолога или психотерапевта");
-        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), subscriptions, true);
+//        subscriptions.add("Уборка територий");
+//        subscriptions.add("Массаж");
+//        subscriptions.add("Ремонт техники");
+//        subscriptions.add("Иностранные языки");
+//        subscriptions.add("Услуги психолога или психотерапевта");
+        SubscriptionAdapter subscriptionAdapter
+                = new SubscriptionAdapter(requireContext(), subscriptions, true, getNavController());
         //
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
