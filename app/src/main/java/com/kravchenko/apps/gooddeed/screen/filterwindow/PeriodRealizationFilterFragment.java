@@ -35,4 +35,9 @@ public class PeriodRealizationFilterFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

@@ -99,4 +99,9 @@ public class ConfirmAuthorizationFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

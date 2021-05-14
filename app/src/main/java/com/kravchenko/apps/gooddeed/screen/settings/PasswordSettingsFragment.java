@@ -94,4 +94,9 @@ public class PasswordSettingsFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

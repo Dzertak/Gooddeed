@@ -45,6 +45,11 @@ public class CurrentChatFragment extends BaseFragment {
     }
 
     @Override
+    public void clear() {
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         currentChatBinding = FragmentChatCurrentBinding.inflate(inflater, container, false);

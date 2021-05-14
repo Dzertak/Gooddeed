@@ -54,6 +54,11 @@ public class EditProfileFragment extends BaseFragment {
     }
 
     @Override
+    public void clear() {
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileEditBinding.inflate(inflater, container, false);

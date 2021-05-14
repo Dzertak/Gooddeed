@@ -92,4 +92,8 @@ public class FilterFragmentMain extends BaseFragment {
         binding = null;
     }
 
+    @Override
+    public void clear() {
+
+    }
 }

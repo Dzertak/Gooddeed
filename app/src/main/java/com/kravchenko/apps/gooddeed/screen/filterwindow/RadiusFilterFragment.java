@@ -32,4 +32,9 @@ public class RadiusFilterFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

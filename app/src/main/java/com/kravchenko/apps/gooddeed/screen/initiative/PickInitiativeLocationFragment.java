@@ -249,4 +249,9 @@ public class PickInitiativeLocationFragment extends BaseFragment implements OnMa
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

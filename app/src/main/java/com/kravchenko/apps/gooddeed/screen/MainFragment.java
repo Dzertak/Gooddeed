@@ -69,6 +69,11 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void clear() {
+
+    }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

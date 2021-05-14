@@ -149,4 +149,9 @@ public class LoginFragment extends BaseFragment {
             getNavController().navigate(R.id.action_loginFragment_to_mainFragment, null, navOptions);
         }
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

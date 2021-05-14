@@ -34,4 +34,6 @@ public abstract class BaseFragment extends Fragment {
             progressDialog.dismiss();
         }
     }
+
+    public abstract void clear();
 }
