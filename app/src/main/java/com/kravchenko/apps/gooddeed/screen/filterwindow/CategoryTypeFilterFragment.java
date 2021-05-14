@@ -46,6 +46,10 @@ public class CategoryTypeFilterFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
+        binding.toolbar.setNavigationOnClickListener(t -> {
+            clear();
+            getNavController().navigateUp();
+        });
         initRecyclerView();
 
         if (getArguments() != null) {
@@ -142,5 +146,10 @@ public class CategoryTypeFilterFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void clear() {
+        requireActivity().getViewModelStore().clear();
     }
 }

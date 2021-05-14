@@ -67,11 +67,21 @@ public class EditInitiativeFragment extends BaseFragment {
     }
 
     @Override
+    public void clear() {
+        //clear viewmodel
+        requireActivity().getViewModelStore().clear();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
+        binding.toolbar.setNavigationOnClickListener(t -> {
+            clear();
+            getNavController().navigateUp();
+        });
 
         calendar = Calendar.getInstance();
         binding.cvCategoryChoice.setOnClickListener(v -> {

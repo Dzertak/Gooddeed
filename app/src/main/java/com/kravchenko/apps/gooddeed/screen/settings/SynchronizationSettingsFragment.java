@@ -35,4 +35,9 @@ public class SynchronizationSettingsFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

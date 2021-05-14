@@ -50,6 +50,11 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @Override
+    public void clear() {
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);

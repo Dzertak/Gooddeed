@@ -165,4 +165,9 @@ public class CategoryFilterFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void clear() {
+
+    }
 }
