@@ -31,12 +31,6 @@ public abstract class CategoryDao {
             category.setCategoryOwnerId(categoryTypeId);
             insertCategory(category);
         }
-
-
-//        categories.forEach(category -> {
-//            category.setCategoryOwnerId(categoryTypeId);
-//            insertCategory(category);
-//        });
     }
 
     @Query("SELECT * FROM category")

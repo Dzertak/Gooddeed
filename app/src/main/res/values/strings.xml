@@ -239,6 +239,6 @@
     <string name="error_invalid_initiative_title">Specify the title of your initiative</string>
     <string name="error_invalid_initiative_description">Add a description for your initiative</string>
     <string name="no_internet_access">No internet access</string>
-    <string name="disconnect_explanation">Check the connection and then refresh the page.</string>
+    <string name="disconnect_explanation">You need to enable internet access for the application to work correctly.</string>
     <string name="refresh">refresh</string>
 </resources>

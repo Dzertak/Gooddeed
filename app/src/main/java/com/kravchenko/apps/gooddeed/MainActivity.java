@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.kravchenko.apps.gooddeed.screen.DisconnectWarningFragment;
+import com.kravchenko.apps.gooddeed.util.ConnectionLiveData;
+
+import static com.kravchenko.apps.gooddeed.screen.DisconnectWarningFragment.FRAGMENT_TEG;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -13,7 +16,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DialogFragment dialogFragment = new DisconnectWarningFragment();
-
+        ConnectionLiveData connectionLiveData = new ConnectionLiveData(this);
+        connectionLiveData.observe(this, isNetAvailable -> {
+            if (!isNetAvailable) {
+                dialogFragment.show(getSupportFragmentManager(), FRAGMENT_TEG);
+            } else {
+                if (dialogFragment.isAdded()) {
+                    dialogFragment.dismiss();
+                }
+            }
+        });
     }
 
     @Override

@@ -115,7 +115,5 @@ public class CategoryRepository {
     public LiveData<Category> getCategoryById(long id) {
         return categoryDao.getCategoryById(id);
     }
-
-    ;
 }
 
