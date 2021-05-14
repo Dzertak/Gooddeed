@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -54,10 +53,12 @@ import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.FilterDrawerListener;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
 import com.kravchenko.apps.gooddeed.util.Resource;
+import com.kravchenko.apps.gooddeed.util.Utils;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private static final String TAG = "MainFragment";
@@ -73,12 +74,14 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private MapViewModel mapViewModel;
     private GoogleMap mMap;
     private List<Initiative> mSavedInitiatives;
+    private InitiativeMapAdapter mMapAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideKeyboard();
         setHasOptionsMenu(true);
+        mMapAdapter = new InitiativeMapAdapter();
     }
 
     @Override
@@ -103,6 +106,8 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         mapViewModel.getAllInitiatives().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource.status.equals(Resource.Status.SUCCESS)) {
                 mSavedInitiatives = listResource.data != null ? listResource.data : new ArrayList<>();
+                mMapAdapter.setItems(mSavedInitiatives);
+                mMapAdapter.notifyDataSetChanged();
                 for (Initiative initiative : mSavedInitiatives) {
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(Double.parseDouble(initiative.getLat()), Double.parseDouble(initiative.getLng())))
@@ -117,7 +122,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.rvInitiatives);
-        binding.rvInitiatives.setAdapter(new InitiativeMapAdapter(requireContext(), new ArrayList<>()));
+        binding.rvInitiatives.setAdapter(mMapAdapter);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -369,32 +374,14 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         }
     }
 
-    private BitmapDescriptor getIconByCategoryId(long id) {
-        if (id > 0 && id < 5)
-                return bitmapDescriptorFromVector(R.drawable.ic_category_beauty_and_health);
-        if (id > 4 && id < 11)
-            return bitmapDescriptorFromVector(R.drawable.ic_category_repair_and_construction);
-        if (id == 11 || id == 13)
-                return bitmapDescriptorFromVector(R.drawable.ic_category_cleaning);
-        if (id > 12 && id < 18)
-                return bitmapDescriptorFromVector(R.drawable.ic_category_tutoring_and_training);
-        if (id > 17 && id < 20)
-                return bitmapDescriptorFromVector(R.drawable.ic_category_charity);
-        if (id > 19 && id < 23)
-                return bitmapDescriptorFromVector(R.drawable.ic_category_delivery_and_transportation);
-        if (id > 22 && id < 25)
-                return bitmapDescriptorFromVector(R.drawable.ic_category_photo_and_video);
-        // default icon
-        return bitmapDescriptorFromVector(R.drawable.ic_check_black);
-    }
-
     // For converting vector to bitmap for map marker icon
+    // Creates map marker from icon and map marker background
     // NOTE: Use different bounding for your vectors
     @NonNull
-    private BitmapDescriptor bitmapDescriptorFromVector(@DrawableRes int vectorDrawableResourceId) {
+    private BitmapDescriptor getIconByCategoryId(long id) {
         Drawable background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_marker);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
-        Drawable vectorDrawable = ContextCompat.getDrawable(requireContext(), vectorDrawableResourceId);
+        Drawable vectorDrawable = ContextCompat.getDrawable(requireContext(), Utils.getIconForCategory(id));
         int boundLeft = (background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth()) / 2;
         int boundTop = (background.getIntrinsicHeight() - vectorDrawable.getIntrinsicHeight()) / 3;
         vectorDrawable.setBounds(boundLeft, boundTop, boundLeft + vectorDrawable.getIntrinsicWidth(),

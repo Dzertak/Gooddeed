@@ -1,5 +1,6 @@
 package com.kravchenko.apps.gooddeed.util;
 
+import androidx.annotation.DrawableRes;
 import androidx.core.util.Pair;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -58,5 +59,25 @@ public class Utils {
         String futureMonth = months[futureCalendar.get(Calendar.MONTH)];
 
         return currentDay + " " + currentMonth + " - " + futureDay + " " + futureMonth;
+    }
+
+    @DrawableRes
+    public static int getIconForCategory(long id) {
+        if (id > 0 && id < 5)
+            return R.drawable.ic_category_beauty_and_health;
+        if (id > 4 && id < 11)
+            return R.drawable.ic_category_repair_and_construction;
+        if (id == 11 || id == 12)
+            return R.drawable.ic_category_cleaning;
+        if (id > 12 && id < 18)
+            return R.drawable.ic_category_tutoring_and_training;
+        if (id > 17 && id < 20)
+            return R.drawable.ic_category_charity;
+        if (id > 19 && id < 23)
+            return R.drawable.ic_category_delivery_and_transportation;
+        if (id > 22 && id < 25)
+            return R.drawable.ic_category_photo_and_video;
+        // default icon
+        return R.drawable.ic_check_black;
     }
 }
