@@ -49,10 +49,11 @@ public class CategoryTypeFilterFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
-        binding.toolbar.setNavigationOnClickListener(t -> {
-            clear();
-            getNavController().navigateUp();
-        });
+        //нужно подумать когда именно очищать
+//        binding.toolbar.setNavigationOnClickListener(t -> {
+//            clear();
+//            getNavController().navigateUp();
+//        });
         initRecyclerView();
 
         if (getArguments() != null) {
@@ -194,6 +195,7 @@ public class CategoryTypeFilterFragment extends BaseFragment {
 
     @Override
     public void clear() {
-        requireActivity().getViewModelStore().clear();
+        //нужно добавить проверку. В случае если мы возвращаемся на mainFragment, то смело очищать viewmodel
+        //requireActivity().getViewModelStore().clear();
     }
 }
