@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 @Entity(tableName = "initiative")
 public class Initiative {
     @PrimaryKey
@@ -20,7 +22,7 @@ public class Initiative {
     private long timestamp;
     private String type;
     private long categoryId;
-    private long executors;
+    private List<String> executors;
 
     public Initiative() {
         initiativeId = "";
@@ -53,7 +55,7 @@ public class Initiative {
     @Ignore
     public Initiative(String initiativeUserId, String title, String description, String imgUri,
                       String location, String lat, String lng, long timestamp, String type, long categoryId,
-                      long executors) {
+                      List<String> executors) {
         this.initiativeUserId = initiativeUserId;
         this.title = title;
         this.description = description;
@@ -157,11 +159,11 @@ public class Initiative {
         this.categoryId = categoryId;
     }
 
-    public long getExecutors() {
+    public List<String> getExecutors() {
         return executors;
     }
 
-    public void setExecutors(long executors) {
+    public void setExecutors(List<String> executors) {
         this.executors = executors;
     }
 
