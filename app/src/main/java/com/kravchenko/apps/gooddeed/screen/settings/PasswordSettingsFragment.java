@@ -12,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 
+import com.kravchenko.apps.gooddeed.DialogManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentPasswordSettingsBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
+import com.kravchenko.apps.gooddeed.util.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.util.InputValidator;
 import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
@@ -51,16 +53,16 @@ public class PasswordSettingsFragment extends BaseFragment {
         mAuthViewModel.getActionMarker().observe(getViewLifecycleOwner(), resource -> {
             switch (resource.status) {
                 case SUCCESS:
-                    hideProgressDialog();
+                    DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     Toast.makeText(getContext(), R.string.password_changed_successfully, Toast.LENGTH_SHORT).show();
                     getNavController().navigate(R.id.action_passwordSettingsFragment_to_settingsFragment);
                     break;
                 case ERROR:
-                    hideProgressDialog();
+                    DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     Toast.makeText(getContext(), resource.getMessage(getContext()), Toast.LENGTH_LONG).show();
                     break;
                 case LOADING:
-                    showProgressDialog();
+                    DialogManager.showDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     break;
             }
         });

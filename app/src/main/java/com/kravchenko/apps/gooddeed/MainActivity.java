@@ -1,38 +1,29 @@
 package com.kravchenko.apps.gooddeed;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+
 import androidx.fragment.app.Fragment;
 
-import com.kravchenko.apps.gooddeed.screen.dialog.DisconnectWarningFragment;
-import com.kravchenko.apps.gooddeed.screen.dialog.ProgressDialogFragment;
+import com.kravchenko.apps.gooddeed.util.dialog.DisconnectWarningFragment;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
-import com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment;
 
 import java.util.List;
 import com.kravchenko.apps.gooddeed.util.ConnectionLiveData;
 
-import static com.kravchenko.apps.gooddeed.screen.dialog.DisconnectWarningFragment.FRAGMENT_TEG;
 
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DialogFragment dialogFragment = new DisconnectWarningFragment();
-
         ConnectionLiveData connectionLiveData = new ConnectionLiveData(this);
         connectionLiveData.observe(this, isNetAvailable -> {
             if (!isNetAvailable) {
-                dialogFragment.show(getSupportFragmentManager(), FRAGMENT_TEG);
+                DialogManager.showDialog(getSupportFragmentManager(), DisconnectWarningFragment.TAG);
             } else {
-                if (dialogFragment.isAdded()) {
-                    dialogFragment.dismiss();
-                }
+                DialogManager.hideDialog(getSupportFragmentManager(), DisconnectWarningFragment.TAG);
             }
         });
     }
@@ -43,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
             if (fragment != null){
                 List<Fragment> fragments =  fragment.getChildFragmentManager().getFragments();
-                if (fragments != null && !fragments.isEmpty()){
+                if (fragments != null && !fragments.isEmpty() && fragments.get(0) instanceof  BaseFragment){
                     ((BaseFragment) fragments.get(0)).clear();
 //                    if (fragments.get(0) instanceof EditInitiativeFragment){
 //                        ((BaseFragment) fragments.get(0)).clear();

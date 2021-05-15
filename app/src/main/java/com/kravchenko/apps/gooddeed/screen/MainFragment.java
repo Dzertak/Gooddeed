@@ -44,10 +44,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.kravchenko.apps.gooddeed.DialogManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
+import com.kravchenko.apps.gooddeed.util.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.FilterDrawerListener;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
@@ -102,7 +104,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
         mapViewModel.getAllInitiatives().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource.status.equals(Resource.Status.SUCCESS)) {
-                hideProgressDialog();
+                DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                 mSavedInitiatives = listResource.data != null ? listResource.data : new ArrayList<>();
                 mMapAdapter.setItems(mSavedInitiatives);
                 mMapAdapter.notifyDataSetChanged();
@@ -113,7 +115,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                             .icon(getIconByCategoryId(initiative.getCategoryId())));
                 }
             } else if (listResource.status.equals(Resource.Status.LOADING)) {
-                showProgressDialog();
+                DialogManager.showDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
             }
         });
 

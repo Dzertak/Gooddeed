@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:background="@color/white"
     android:padding="16dp"
-    tools:context=".screen.dialog.ProgressDialogFragment">
+    tools:context=".util.dialog.ProgressDialogFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"

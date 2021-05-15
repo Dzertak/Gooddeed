@@ -12,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.NavigationUI;
 
+import com.kravchenko.apps.gooddeed.DialogManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentConfirmAuthorizationBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
+import com.kravchenko.apps.gooddeed.util.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.util.InputValidator;
 import com.kravchenko.apps.gooddeed.viewmodel.AuthViewModel;
 
@@ -59,7 +61,7 @@ public class ConfirmAuthorizationFragment extends BaseFragment {
         authViewModel.getActionMarker().observe(getViewLifecycleOwner(), resource -> {
             switch (resource.status) {
                 case SUCCESS:
-                    hideProgressDialog();
+                    DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     switch (args) {
                         case SettingsFragment.NAV_ARG_EMAIL:
                             getNavController().navigate(R.id.action_confirmAuthorizationFragment_to_emailSettingFragment);
@@ -70,11 +72,11 @@ public class ConfirmAuthorizationFragment extends BaseFragment {
                     }
                     break;
                 case ERROR:
-                    hideProgressDialog();
+                    DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     Toast.makeText(getContext(), resource.getMessage(getContext()), Toast.LENGTH_LONG).show();
                     break;
                 case LOADING:
-                    showProgressDialog();
+                    DialogManager.showDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     break;
             }
         });
