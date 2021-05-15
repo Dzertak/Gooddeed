@@ -13,12 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 public class ConnectionLiveData extends LiveData<Boolean> {
-    private final Context context;
-    private ConnectivityManager connectivityManager;
+    private final ConnectivityManager connectivityManager;
     private ConnectivityManager.NetworkCallback networkCallback;
 
     public ConnectionLiveData(Context context) {
-        this.context = context;
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         postValue(isNetworkAvailable());
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.repository.ChatRepository;
+import com.kravchenko.apps.gooddeed.util.Resource;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ChatViewModel extends ViewModel {
         chatRepository.getDataForChatRooms();
     }
 
-    public LiveData<List<ChatRoom>> getChatroomsOfCurrentUser() {
+    public LiveData<Resource<List<ChatRoom>>> getChatroomsOfCurrentUser() {
         return chatRepository.getChatRoomsOfCurrentUser();
     }
 }

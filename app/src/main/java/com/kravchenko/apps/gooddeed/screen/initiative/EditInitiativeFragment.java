@@ -24,12 +24,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.kravchenko.apps.gooddeed.DialogManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
+import com.kravchenko.apps.gooddeed.util.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.TimeUtil;
 import com.kravchenko.apps.gooddeed.util.Utils;
@@ -121,13 +123,13 @@ public class EditInitiativeFragment extends BaseFragment {
 
         initiativeViewModel.getSavingInitiative().observe(getViewLifecycleOwner(), initiativeResource -> {
             if (initiativeResource.status.equals(Resource.Status.LOADING)) {
-                showProgressDialog();
+                DialogManager.showDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
             } else if (initiativeResource.status.equals(Resource.Status.SUCCESS)) {
-                hideProgressDialog();
+                DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                 Toast.makeText(requireContext(), "Initiative saved", Toast.LENGTH_SHORT).show();
 //                getNavController().navigate(R.id.action_editInitiativeFragment_to_currentInitiativeFragment);
             } else if (initiativeResource.status.equals(Resource.Status.ERROR)) {
-                hideProgressDialog();
+                DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                 Toast.makeText(requireContext(), "Error" + initiativeResource.message, Toast.LENGTH_SHORT).show();
             }
         });

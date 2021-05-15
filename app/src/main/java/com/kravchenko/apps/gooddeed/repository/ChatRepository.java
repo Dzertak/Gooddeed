@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.database.entity.ChatRoom;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
 import com.kravchenko.apps.gooddeed.screen.adapter.message.MessageEntity;
+import com.kravchenko.apps.gooddeed.util.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class ChatRepository {
     private HashMap<String, String> avatarUrls;
     private MutableLiveData<HashMap<String, String>> fullNamesLiveData;
     private MutableLiveData<HashMap<String, String>> avatarUrlsLiveData;
-    private MutableLiveData<List<ChatRoom>> chatRoomsOfCurrentUserLiveData;
+    private MutableLiveData<Resource<List<ChatRoom>>> chatRoomsOfCurrentUserLiveData;
     private final MutableLiveData<ChatRoom> currentChatRoomLiveData;
     private List<String> listOfChatIds;
 
@@ -128,6 +129,7 @@ public class ChatRepository {
     }
 
     public void getDataForChatRooms() {
+        chatRoomsOfCurrentUserLiveData.setValue(Resource.loading(null, null));
         List<ChatRoom> chatRoomsOfCurrentUser = new ArrayList<>();
         DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(userId);
         userRef.get().addOnSuccessListener(documentSnapshot -> {
@@ -152,18 +154,19 @@ public class ChatRepository {
                                 (ArrayList<String>) snapshot.child("members").getValue(),
                                 arrayListOfMessageEntities, String.valueOf(snapshot.child("imageUrl").getValue()));
                         chatRoomsOfCurrentUser.add(chatroom);
-                        chatRoomsOfCurrentUserLiveData.setValue(chatRoomsOfCurrentUser);
+                        chatRoomsOfCurrentUserLiveData.setValue(Resource.success(chatRoomsOfCurrentUser));
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        chatRoomsOfCurrentUserLiveData.setValue(Resource.error(error.getMessage(), null));
                     }
                 });
             }
         });
     }
 
-    public LiveData<List<ChatRoom>> getChatRoomsOfCurrentUser() {
+    public LiveData<Resource<List<ChatRoom>>> getChatRoomsOfCurrentUser() {
         return chatRoomsOfCurrentUserLiveData;
     }
 

@@ -19,8 +19,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.kravchenko.apps.gooddeed.DialogManager;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentLoginBinding;
+import com.kravchenko.apps.gooddeed.util.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.util.InputValidator;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.TextErrorRemover;
@@ -59,7 +61,7 @@ public class LoginFragment extends BaseFragment {
         mAuthViewModel.getUser().observe(getViewLifecycleOwner(), firebaseUser -> {
             if (firebaseUser != null) {
                 if (firebaseUser.status.equals(Resource.Status.SUCCESS)) {
-                    hideProgressDialog();
+                    DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     if (!isSignedOut) {
                         if (firebaseUser.message != null && firebaseUser.message.equals(FLAG_NEW_LOGIN)) {
                             mAuthViewModel.getInitiativesFromFirestore().observe(getViewLifecycleOwner(), listResource -> {
@@ -74,9 +76,9 @@ public class LoginFragment extends BaseFragment {
                         }
                     }
                 } else if (firebaseUser.status.equals(Resource.Status.LOADING)) {
-                    showProgressDialog();
+                    DialogManager.showDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                 } else if (firebaseUser.status.equals(Resource.Status.ERROR)) {
-                    hideProgressDialog();
+                    DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                     Toast.makeText(getContext(), firebaseUser.message, Toast.LENGTH_SHORT).show();
                 }
             } else {
