@@ -43,7 +43,7 @@
         android:layout_marginBottom="@dimen/margin_standard"
         android:layout_marginStart="@dimen/margin_little"
         android:maxLines="4"
-        android:textSize="@dimen/textsize_little"
+        android:textSize="@dimen/text_size_little"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageview_reviewer_photo"

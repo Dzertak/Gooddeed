@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_middle"
             android:text="@string/login"
-            android:textSize="@dimen/textsize_little" />
+            android:textSize="@dimen/text_size_little" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

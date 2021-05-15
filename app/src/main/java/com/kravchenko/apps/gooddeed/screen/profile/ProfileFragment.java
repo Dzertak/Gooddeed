@@ -41,7 +41,6 @@ public class ProfileFragment extends BaseFragment {
 
     private FragmentProfileBinding binding;
     private ProfileViewModel mViewModel;
-    private static final String TAG = "gooddeed_tag";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,37 +86,37 @@ public class ProfileFragment extends BaseFragment {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         binding.recyclerViewSubscriptions.setLayoutManager(layoutManager);
 
-        mViewModel.getUser().observe(getViewLifecycleOwner(), firestoreUser -> {
-            if (firestoreUser.status.equals(Resource.Status.SUCCESS)) {
-                if (firestoreUser.data.getFirstName() != null
-                        && firestoreUser.data.getLastName() != null
-                        && !TextUtils.isEmpty(firestoreUser.data.getFirstName())
-                        && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
-                    String nameAndSurname = firestoreUser.data.getFirstName() + " " + firestoreUser.data.getLastName();
+        mViewModel.getUser().observe(getViewLifecycleOwner(), fireStoreUser -> {
+            if (fireStoreUser.status.equals(Resource.Status.SUCCESS)) {
+                if (fireStoreUser.data.getFirstName() != null
+                        && fireStoreUser.data.getLastName() != null
+                        && !TextUtils.isEmpty(fireStoreUser.data.getFirstName())
+                        && !TextUtils.isEmpty(fireStoreUser.data.getLastName())) {
+                    String nameAndSurname = fireStoreUser.data.getFirstName() + " " + fireStoreUser.data.getLastName();
                     binding.toolbar.setTitle(nameAndSurname);
 
-                } else if (firestoreUser.data.getFirstName() != null
-                        && !TextUtils.isEmpty(firestoreUser.data.getFirstName())) {
-                    binding.toolbar.setTitle(firestoreUser.data.getFirstName());
+                } else if (fireStoreUser.data.getFirstName() != null
+                        && !TextUtils.isEmpty(fireStoreUser.data.getFirstName())) {
+                    binding.toolbar.setTitle(fireStoreUser.data.getFirstName());
 
-                } else if (firestoreUser.data.getLastName() != null
-                        && !TextUtils.isEmpty(firestoreUser.data.getLastName())) {
-                    binding.toolbar.setTitle(firestoreUser.data.getLastName());
+                } else if (fireStoreUser.data.getLastName() != null
+                        && !TextUtils.isEmpty(fireStoreUser.data.getLastName())) {
+                    binding.toolbar.setTitle(fireStoreUser.data.getLastName());
                 }
-                if (firestoreUser.data.getDescription() != null) {
-                    binding.tvAbout.setText(firestoreUser.data.getDescription());
+                if (fireStoreUser.data.getDescription() != null) {
+                    binding.tvAbout.setText(fireStoreUser.data.getDescription());
                 }
 
                 Glide.with(this)
-                        .load(firestoreUser.data.getImageUrl())
+                        .load(fireStoreUser.data.getImageUrl())
                         .fallback(R.drawable.no_photo)
                         .into(binding.imageViewProfileAvatar);
-                binding.reviewRatingBar.setRating(Float.parseFloat(firestoreUser.data.getRate()));
-                binding.tvProfileRating.setText(getString(R.string.title_rating, Float.parseFloat(firestoreUser.data.getRate())));
-            } else if (firestoreUser.status.equals(Resource.Status.LOADING)) {
-                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
-            } else if (firestoreUser.status.equals(Resource.Status.ERROR)) {
-                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
+                binding.reviewRatingBar.setRating(Float.parseFloat(fireStoreUser.data.getRate()));
+                binding.tvProfileRating.setText(getString(R.string.title_rating, Float.parseFloat(fireStoreUser.data.getRate())));
+            } else if (fireStoreUser.status.equals(Resource.Status.LOADING)) {
+                Toast.makeText(requireContext(), fireStoreUser.message, Toast.LENGTH_SHORT).show();
+            } else if (fireStoreUser.status.equals(Resource.Status.ERROR)) {
+                Toast.makeText(requireContext(), fireStoreUser.message, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -125,7 +124,7 @@ public class ProfileFragment extends BaseFragment {
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             FirebaseFirestore.getInstance().collection("users").document(userId)
                     .collection("ratings").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                        ArrayList<Review> reviewArrayList = new ArrayList<Review>();
+                        ArrayList<Review> reviewArrayList = new ArrayList<>();
                         for (DocumentSnapshot reviewDoc: queryDocumentSnapshots.getDocuments()){
                             Review review = reviewDoc.toObject(Review.class);
                             reviewArrayList.add(review);

@@ -3,7 +3,7 @@
     <dimen name="margin_standard">16dp</dimen>
     <dimen name="padding_standard">16dp</dimen>
     <dimen name="margin_little">4dp</dimen>
-    <dimen name="textsize_little">14sp</dimen>
+    <dimen name="text_size_little">14sp</dimen>
     <dimen name="reviewers_avatar_size">16dp</dimen>
     <dimen name="text_size_standard">16sp</dimen>
     <dimen name="profile_avatar_size">125dp</dimen>

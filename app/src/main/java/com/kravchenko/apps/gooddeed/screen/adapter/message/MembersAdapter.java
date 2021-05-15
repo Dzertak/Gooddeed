@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.PersonWrapper;
+import com.kravchenko.apps.gooddeed.util.annotation.InitiativeType;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
     private final Context context;
     private final String currentInitiativeId;
     private final int executorsCount;
-    private String type;
+    private final String type;
 
     public MembersAdapter(ArrayList<PersonWrapper> executors, boolean isUserAnOwner, Context context,
                           String currentInitiativeId, int executorsCount, String type) {
@@ -57,18 +58,39 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
                 Glide.with(holder.itemView).load(Uri.parse(executors.get(position).getImageUrl())).into(holder.personAvatar);
             if (executors.get(position).getPersonName() != null)
                 holder.personName.setText(executors.get(position).getPersonName());
-            if (!type.equals("SINGLE") & isUserAnOwner | type.equals("SINGLE") & isUserAnOwner & executorsCount == 0) {
-                holder.itemView.setOnClickListener(v -> {
-                    PopupMenu popupMenu = new PopupMenu(context, holder.itemView);
-                    popupMenu.getMenuInflater().inflate(R.menu.members_menu, popupMenu.getMenu());
-                    popupMenu.setOnMenuItemClickListener(item -> {
-                        if (item.getItemId() == R.id.action_appoint_as_executor) {
-                            appointAsExecutor(executors.get(position).getPersonId());
+            //TODO what is the difference between GROUP and UNLIMITED
+            if (isUserAnOwner) {
+                switch (type) {
+                    case InitiativeType.SINGLE:
+                        if (executorsCount == 0) {
+                            holder.itemView.setOnClickListener(v -> {
+                                PopupMenu popupMenu = new PopupMenu(context, holder.itemView);
+                                popupMenu.getMenuInflater().inflate(R.menu.members_menu, popupMenu.getMenu());
+                                popupMenu.setOnMenuItemClickListener(item -> {
+                                    if (item.getItemId() == R.id.action_appoint_as_executor) {
+                                        appointAsExecutor(executors.get(position).getPersonId());
+                                    }
+                                    return true;
+                                });
+                                popupMenu.show();
+                            });
                         }
-                        return true;
-                    });
-                    popupMenu.show();
-                });
+                        break;
+                    case InitiativeType.GROUP:
+                    case InitiativeType.UNLIMITED:
+                        holder.itemView.setOnClickListener(v -> {
+                            PopupMenu popupMenu = new PopupMenu(context, holder.itemView);
+                            popupMenu.getMenuInflater().inflate(R.menu.members_menu, popupMenu.getMenu());
+                            popupMenu.setOnMenuItemClickListener(item -> {
+                                if (item.getItemId() == R.id.action_appoint_as_executor) {
+                                    appointAsExecutor(executors.get(position).getPersonId());
+                                }
+                                return true;
+                            });
+                            popupMenu.show();
+                        });
+                        break;
+                }
             }
         }
     }
