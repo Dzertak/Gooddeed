@@ -109,6 +109,7 @@ public class ProfileFragment extends BaseFragment {
                             .observe(getViewLifecycleOwner(),categories -> {
                                 subscriptionAdapter.setCategories(categories);
                                 mViewModel.setSelectedSubscriptionsIds(categories);
+                               // mViewModel.setSubscriptionsSelectedCategoriesLiveData(categories);
                             });
                 }
                 Glide.with(this)

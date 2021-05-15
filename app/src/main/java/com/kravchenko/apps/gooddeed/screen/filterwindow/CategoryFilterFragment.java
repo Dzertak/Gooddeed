@@ -21,6 +21,7 @@ import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.InitiativeFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.MapFilterRecyclerViewAdapter;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.SubscriptionsFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class CategoryFilterFragment extends BaseFragment {
     private MapFilterRecyclerViewAdapter mapFilterAdapter;
     private InitiativeFilterRecyclerViewAdapter initiativeFilterAdapter;
     private FilterViewModel filterViewModel;
+    private SubscriptionsFilterRecyclerViewAdapter subscriptionsFilterAdapter;
     private int categoriesSize;
     private String rootDirection;
     private OnBackPressedCallback callback;
@@ -48,7 +50,6 @@ public class CategoryFilterFragment extends BaseFragment {
         binding = FragmentCategoryFilterBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -93,8 +94,8 @@ public class CategoryFilterFragment extends BaseFragment {
 
                     break;
                 case EDIT_PROFILE_KEY:
-                    mapFilterAdapter = new MapFilterRecyclerViewAdapter(getContext(), filterViewModel);
-                    binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
+                    subscriptionsFilterAdapter = new SubscriptionsFilterRecyclerViewAdapter(getContext(), filterViewModel);
+                    binding.recyclerViewCategories.setAdapter(subscriptionsFilterAdapter);
                     Log.i("dev", "Dsfsdfsd");
                     initProfilePreset();
                     break;
@@ -103,12 +104,12 @@ public class CategoryFilterFragment extends BaseFragment {
     }
 
     private void initProfilePreset() {
-        binding.cardViewSelectAll.setOnClickListener(v -> mapFilterAdapter.selectAll());
+        binding.cardViewSelectAll.setOnClickListener(v -> subscriptionsFilterAdapter.selectAll());
 
         filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
                 .observe(getViewLifecycleOwner(), categories -> {
                     categoriesSize = categories.size();
-                    mapFilterAdapter.setCategories(categories);
+                    subscriptionsFilterAdapter.setCategories(categories);
                 });
 
         filterViewModel.getSubscriptionsSelectedCategoriesLiveData()
@@ -134,8 +135,7 @@ public class CategoryFilterFragment extends BaseFragment {
                                 .getCategoryTypeId() == categoryTypeId) {
                             categories.addAll(categoryTypeWithCategories.getCategories());
                         }
-                        mapFilterAdapter.setSelectedCategories(categories);
-                        categories.forEach(category -> Log.i("dev", "CategoryFilter " + category.getTitle()));
+                        subscriptionsFilterAdapter.setSelectedCategories(categories);
                     }
                 });
     }

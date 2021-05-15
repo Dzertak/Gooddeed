@@ -168,5 +168,9 @@ public class CategoryRepository {
     public LiveData<List<Category>> getSelectedSubscriptionsIdsLiveData() {
         return selectedSubscriptionsLiveData;
     }
+
+    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> categories) {
+
+    }
 }
 

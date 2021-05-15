@@ -57,8 +57,8 @@ public abstract class BaseCategoryRecyclerViewAdapter extends RecyclerView.Adapt
     public abstract void clickItem(ViewHolder holder);
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textViewCategoryTitle;
-        private final ImageView imageViewCheck;
+        protected final TextView textViewCategoryTitle;
+        protected final ImageView imageViewCheck;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
