@@ -175,6 +175,9 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();
 
+        mMapAdapter.setListener((initiative, position) -> {
+            getNavController().navigate(MainFragmentDirections.actionMainFragmentToCurrentInitiativeFragment(initiative.getInitiativeId()));
+        });
 
 //        mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
 //        mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());

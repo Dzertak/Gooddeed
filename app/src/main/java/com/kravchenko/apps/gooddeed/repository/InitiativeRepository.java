@@ -101,7 +101,7 @@ public class InitiativeRepository {
     private void loadInitiativesFromLocalDb() {
         savedInitiatives.setValue(Resource.loading(Utils.getString(R.string.loading), null));
         databaseWriteExecutor.execute(() ->
-                savedInitiatives.postValue(Resource.success(AppDatabase.getInstance().initiativeDao().getAllInitiatives())));;
+                savedInitiatives.postValue(Resource.success(AppDatabase.getInstance().initiativeDao().getAllInitiatives())));
     }
 
     public void clearInitiativesInDatabase() {

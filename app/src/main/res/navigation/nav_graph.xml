@@ -35,7 +35,11 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_mainFragment_to_currentInitiativeFragment"
-            app:destination="@id/currentInitiativeFragment" />
+            app:destination="@id/currentInitiativeFragment">
+            <argument
+                android:name="initiative_id"
+                app:argType="string" />
+        </action>
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -87,7 +91,7 @@
         android:id="@+id/currentChatFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.chat.CurrentChatFragment"
         android:label="@string/current_chat"
-        tools:layout="@layout/fragment_chat_current" >
+        tools:layout="@layout/fragment_chat_current">
         <action
             android:id="@+id/action_currentChatFragment_to_chatInfoFragment"
             app:destination="@id/chatInfoFragment" />
@@ -120,6 +124,9 @@
             android:id="@+id/action_currentInitiativeFragment_to_currentChatFragment"
             app:destination="@id/currentChatFragment"
             app:launchSingleTop="true" />
+        <argument
+            android:name="initiative_id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editInitiativeFragment"
@@ -240,7 +247,7 @@
         android:id="@+id/chatInfoFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.chat.ChatInfoFragment"
         android:label="fragment_chat_info"
-        tools:layout="@layout/fragment_chat_info" >
+        tools:layout="@layout/fragment_chat_info">
         <action
             android:id="@+id/action_chatInfoFragment_to_ratingFragment"
             app:destination="@id/ratingFragment" />

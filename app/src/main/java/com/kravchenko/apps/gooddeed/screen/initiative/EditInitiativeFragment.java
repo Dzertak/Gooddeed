@@ -13,13 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -30,7 +27,6 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
-import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
@@ -68,7 +64,7 @@ public class EditInitiativeFragment extends BaseFragment {
 
     @Override
     public void clear() {
-        //clear viewmodel
+        //clear viewModel
         requireActivity().getViewModelStore().clear();
     }
 
@@ -153,28 +149,20 @@ public class EditInitiativeFragment extends BaseFragment {
             }
         });
 
-        TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-                if (initiativeCur == null) initiativeCur = new Initiative();
-                initiativeCur.setTimestamp(calendar.getTimeInMillis());
-                initiativeViewModel.updateInitiative(initiativeCur);
-            }
+        TimePickerDialog.OnTimeSetListener timeListener = (view1, hourOfDay, minute) -> {
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+            if (initiativeCur == null) initiativeCur = new Initiative();
+            initiativeCur.setTimestamp(calendar.getTimeInMillis());
+            initiativeViewModel.updateInitiative(initiativeCur);
         };
-        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                //+5 for making initiative only in future
-                new TimePickerDialog(view.getContext(), timeListener,
-                        calendar.get(Calendar.HOUR_OF_DAY), Calendar.MINUTE + 5, true).show();
-            }
+        DatePickerDialog.OnDateSetListener date = (view12, year, monthOfYear, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            //+5 for making initiative only in future
+            new TimePickerDialog(view12.getContext(), timeListener,
+                    calendar.get(Calendar.HOUR_OF_DAY), Calendar.MINUTE + 5, true).show();
         };
 
         binding.cvLocationChoice.setOnClickListener(v -> getNavController().navigate(R.id.action_editInitiativeFragment_to_pickInitiativeLocationFragment));
@@ -274,6 +262,7 @@ public class EditInitiativeFragment extends BaseFragment {
     private void pickImage() {
         ImagePicker.Companion.with(this)
                 .galleryMimeTypes(new String[]{"image/png", "image/jpg", "image/jpeg"})
+                .crop()
                 .compress(2024)
                 .start();
     }

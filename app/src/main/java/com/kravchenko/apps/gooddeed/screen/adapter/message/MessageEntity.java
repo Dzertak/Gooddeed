@@ -30,6 +30,4 @@ public class MessageEntity {
     public void setSender(String sender) {
         this.sender = sender;
     }
-
-    //TODO File
 }
