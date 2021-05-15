@@ -67,7 +67,7 @@ public class CurrentChatFragment extends BaseFragment {
         chatViewModel.getAvatarUrls().observe(requireActivity(), avatarUrlsMap -> avatarUrls = avatarUrlsMap);
         if (getArguments() != null) {
             currentInitiativeId = getArguments().getString("initiative_id");
-            currentChatBinding.toolbarCurrentChat.setOnClickListener(v ->
+            currentChatBinding.imgChatInfo.setOnClickListener(v ->
                     Navigation.findNavController(v).navigate
                             (R.id.action_currentChatFragment_to_chatInfoFragment, getArguments()));
             currentChatBinding.linearLayoutGoToInitiative.setOnClickListener(v ->

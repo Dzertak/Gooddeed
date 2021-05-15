@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -13,6 +14,7 @@ import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.ItemInitiativeMapBinding;
 import com.kravchenko.apps.gooddeed.util.TimeUtil;
 import com.kravchenko.apps.gooddeed.util.Utils;
+import com.kravchenko.apps.gooddeed.util.annotation.InitiativeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,13 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
         holder.binding.tvInitiativeDescription.setText(initiativeItem.getDescription());
         holder.binding.tvInitiativeTime.setText(TimeUtil.convertToDisplayTime(initiativeItem.getTimestamp()));
         holder.binding.imgCategory.setImageResource(Utils.getIconForCategory(initiativeItem.getCategoryId()));
+        if (InitiativeType.SINGLE.equals(initiativeItem.getType())){
+            holder.binding.imgType.setImageResource(R.drawable.ic_executor);
+        } else if (InitiativeType.GROUP.equals(initiativeItem.getType())) {
+            holder.binding.imgType.setImageResource(R.drawable.ic_executor_group);
+        } else {
+            holder.binding.imgType.setImageResource(R.drawable.ic_executor_unlimit);
+        }
 
         if (initiativeItem.getImgUri() != null && !initiativeItem.getImgUri().isEmpty()) {
             Glide.with(holder.binding.getRoot())
