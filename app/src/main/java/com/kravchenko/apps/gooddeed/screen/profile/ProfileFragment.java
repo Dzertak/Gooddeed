@@ -3,7 +3,6 @@ package com.kravchenko.apps.gooddeed.screen.profile;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +27,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Review;
-import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.profile.ReviewAdapter;
@@ -106,10 +104,12 @@ public class ProfileFragment extends BaseFragment {
                     //TODO ADD categories
                     List<Long> categoryIds = fireStoreUser.data.getSubscriptions();
                     mViewModel.getSubscriptionsByIds(categoryIds)
-                            .observe(getViewLifecycleOwner(),categories -> {
+                            .observe(getViewLifecycleOwner(), categories -> {
                                 subscriptionAdapter.setCategories(categories);
-                                mViewModel.setSelectedSubscriptionsIds(categories);
-                               // mViewModel.setSubscriptionsSelectedCategoriesLiveData(categories);
+                                mViewModel.getCategoryTypesWithCategoriesLiveData()
+                                        .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
+                                            mViewModel.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories, categories);
+                                        });
                             });
                 }
                 Glide.with(this)
@@ -129,14 +129,14 @@ public class ProfileFragment extends BaseFragment {
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             FirebaseFirestore.getInstance().collection("users").document(userId)
                     .collection("ratings").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                        ArrayList<Review> reviewArrayList = new ArrayList<>();
-                        for (DocumentSnapshot reviewDoc: queryDocumentSnapshots.getDocuments()){
-                            Review review = reviewDoc.toObject(Review.class);
-                            reviewArrayList.add(review);
-                        }
+                ArrayList<Review> reviewArrayList = new ArrayList<>();
+                for (DocumentSnapshot reviewDoc : queryDocumentSnapshots.getDocuments()) {
+                    Review review = reviewDoc.toObject(Review.class);
+                    reviewArrayList.add(review);
+                }
                 binding.recyclerReviews.setLayoutManager(new LinearLayoutManager(getContext()));
                 binding.recyclerReviews.setAdapter(new ReviewAdapter(reviewArrayList));
-                    });
+            });
         }
     }
 

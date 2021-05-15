@@ -24,6 +24,8 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
@@ -79,6 +81,15 @@ public class EditProfileFragment extends BaseFragment {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         binding.recyclerViewSubscriptions.setLayoutManager(layoutManager);
 
+        mViewModel.getSubscriptionsSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
+                    List<Category> categories = new ArrayList<>();
+                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+                        categories.addAll(categoryTypeWithCategories.getCategories());
+                    }
+                    subscriptionAdapter.setCategories(categories);
+                });
+
         mViewModel.getUser().observe(getViewLifecycleOwner(), resource -> {
             if (resource.status.equals(Resource.Status.SUCCESS) && resource.data != null) {
                 if (resource.data.getFirstName() != null && resource.data.getLastName() != null) {
@@ -88,11 +99,7 @@ public class EditProfileFragment extends BaseFragment {
                 if (resource.data.getDescription() != null) {
                     binding.etDescription.setText(resource.data.getDescription());
                 }
-                if (resource.data.getSubscriptions() != null) {
-                    List<Long> categoryIds = resource.data.getSubscriptions();
-                    mViewModel.getSubscriptionsByIds(categoryIds)
-                            .observe(getViewLifecycleOwner(), subscriptionAdapter::setCategories);
-                }
+
                 if (resource.data.getImageUrl() != null) {
                     imageUri = Uri.parse(resource.data.getImageUrl());
                     Glide.with(this)

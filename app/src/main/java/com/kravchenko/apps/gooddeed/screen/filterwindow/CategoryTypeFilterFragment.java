@@ -98,17 +98,7 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                 });
         filterViewModel.getSubscriptionsSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
-                    if (categoryTypesWithCategories == null) {
-                        filterViewModel.getSelectedSubscriptionsIdsLiveData()
-                                .observe(getViewLifecycleOwner(), selectedCategories -> {
-                                    filterViewModel.getCategoryTypesWithCategoriesLiveData()
-                                            .observe(getViewLifecycleOwner(), categoryTypesWithCategories1 -> {
-                                                filterViewModel.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories1, selectedCategories);
-                                            });
-                                });
-                    } else {
-                        adapter.setSelectedCategories(categoryTypesWithCategories);
-                    }
+                    adapter.setSelectedCategories(categoryTypesWithCategories);
                 });
     }
 

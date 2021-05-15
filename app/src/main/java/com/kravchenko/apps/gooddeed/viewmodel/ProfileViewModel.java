@@ -28,6 +28,10 @@ public class ProfileViewModel extends ViewModel {
         return mRepository.getUser();
     }
 
+    public LiveData<List<CategoryTypeWithCategories>> getSubscriptionsSelectedCategoriesLiveData() {
+        return categoryRepository.getSubscriptionsSelectedCategoriesLiveData();
+    }
+
     public void updateUser(String firstName,
                            String lastName,
                            Uri imageUri,
@@ -47,5 +51,13 @@ public class ProfileViewModel extends ViewModel {
 
     public void setSubscriptionsSelectedCategoriesLiveData(List<Category> categories) {
         categoryRepository.setSubscriptionsSelectedCategoriesLiveData(categories);
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {
+        return categoryRepository.getCategoryTypesWithCategoriesLiveData();
+    }
+
+    public void initProfileSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories, List<Category> categories) {
+        categoryRepository.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories, categories);
     }
 }
