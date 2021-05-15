@@ -153,27 +153,36 @@ public class EditProfileFragment extends BaseFragment {
         if (item.getItemId() == R.id.save) {
             if (binding.etProfileFirstName.getText() != null && binding.etProfileLastName.getText() != null
                     && binding.etDescription.getText() != null) {
-//                List<Category> categories = new ArrayList<>();
-//                categories.add(new Category("photoshoot_title", "art_desc"));
-//                categories.add(new Category("building_title", "art_desc"));
-//                categories.add(new Category("vehicle_repair_title", "art_desc"));
-//                categories.add(new Category("sport_title", "art_desc"));
-//                categories.add(new Category("art_title", "art_desc"));
 
-                List<Long> categories = new ArrayList<>();
-
+                List<CategoryTypeWithCategories> categoryTypesWithCategories =
+                        mViewModel.getSubscriptionsSelectedCategoriesLiveData().getValue();
+                List<Long> categoriesIds = new ArrayList<>();
+                if (categoryTypesWithCategories != null) {
+                    categoriesIds = getCategories(categoryTypesWithCategories);
+                }
                 mViewModel.updateUser(
                         binding.etProfileFirstName.getText().toString().trim(),
                         binding.etProfileLastName.getText().toString().trim(),
                         imageUri,
                         binding.etDescription.getText().toString().trim(),
-                        categories);
+                        categoriesIds);
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private List<Long> getCategories(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
+        List<Long> categories = new ArrayList<>();
+        for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+            for (Category category : categoryTypeWithCategories.getCategories()) {
+                categories.add(category.getCategoryId());
+            }
+        }
+        return categories;
+    }
+
     @Override
+
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
