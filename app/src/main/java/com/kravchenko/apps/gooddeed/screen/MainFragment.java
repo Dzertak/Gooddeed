@@ -58,7 +58,6 @@ import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private static final String TAG = "MainFragment";
@@ -178,6 +177,9 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();
 
+        mMapAdapter.setListener((initiative, position) -> {
+            getNavController().navigate(MainFragmentDirections.actionMainFragmentToCurrentInitiativeFragment(initiative.getInitiativeId()));
+        });
 
 //        mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
 //        mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());

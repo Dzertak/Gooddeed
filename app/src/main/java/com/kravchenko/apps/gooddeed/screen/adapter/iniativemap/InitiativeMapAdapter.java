@@ -21,6 +21,7 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
 
     private Context context;
     private List<Initiative> initiatives;
+    private OnInitiativeClickListener listener;
 
 
     public InitiativeMapAdapter(Context context, List<Initiative> initiatives) {
@@ -36,7 +37,14 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemInitiativeMapBinding binding = ItemInitiativeMapBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding);
+        ViewHolder viewHolder = new ViewHolder(binding);
+        binding.getRoot().setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onInitiativeClick(initiatives.get(viewHolder.getAdapterPosition()), viewHolder.getAdapterPosition());
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override
@@ -62,6 +70,28 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
         return initiatives.size();
     }
 
+    public List<Initiative> getItems() {
+        return initiatives;
+    }
+
+    public void setItems(List<Initiative> initiatives) {
+        this.initiatives = initiatives;
+    }
+
+    public void setListener(OnInitiativeClickListener listener) {
+        this.listener = listener;
+    }
+
+    public OnInitiativeClickListener getListener() {
+        return this.listener;
+    }
+
+    public interface OnInitiativeClickListener {
+
+        void onInitiativeClick(Initiative initiative, int position);
+
+    }
+
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
         ItemInitiativeMapBinding binding;
@@ -70,13 +100,5 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
             super(itemBinding.getRoot());
             binding = itemBinding;
         }
-    }
-
-    public void setItems(List<Initiative> initiatives) {
-        this.initiatives = initiatives;
-    }
-
-    public List<Initiative> getItems() {
-        return initiatives;
     }
 }

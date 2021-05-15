@@ -31,6 +31,7 @@ import java.util.Date;
 
 public class CurrentInitiativeFragment extends BaseFragment {
 
+    public static final String ARG_INITIATIVE_ID = "initiative_id";
     private FragmentInitiativeCurrentBinding binding;
     private InitiativeViewModel initiativeViewModel;
     private String initiativeId;
@@ -59,7 +60,7 @@ public class CurrentInitiativeFragment extends BaseFragment {
         //binding.cvLocationChoice.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_currentInitiativeFragment_to_mainFragment));
 
         if (getArguments() != null) {
-            initiativeId = getArguments().getString("initiative_id");
+            initiativeId = CurrentInitiativeFragmentArgs.fromBundle(getArguments()).getInitiativeId();
         }
         Bundle bundle = new Bundle();
         bundle.putString("initiative_id", initiativeId);
