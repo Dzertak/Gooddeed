@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.screen.adapter.filter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,6 @@ public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<Catego
             }
         }
     }
-
 
     public void setSelectedCategories(List<CategoryTypeWithCategories> selectedCategories) {
         this.selectedCategories = selectedCategories;

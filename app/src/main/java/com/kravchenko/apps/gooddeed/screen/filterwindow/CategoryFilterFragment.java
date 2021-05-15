@@ -28,6 +28,7 @@ import java.util.List;
 
 import static com.kravchenko.apps.gooddeed.screen.filterwindow.FilterFragmentMain.FILTER_FRAGMENT_MAIN_KEY;
 import static com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment.EDIT_INITIATIVE_FRAGMENT_TAG;
+import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.EDIT_PROFILE_KEY;
 import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG;
 
 
@@ -89,6 +90,9 @@ public class CategoryFilterFragment extends BaseFragment {
                     initInitiativePreset();
                     break;
                 case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
+
+                    break;
+                case EDIT_PROFILE_KEY:
                     mapFilterAdapter = new MapFilterRecyclerViewAdapter(getContext(), filterViewModel);
                     binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
                     Log.i("dev", "Dsfsdfsd");

@@ -41,7 +41,7 @@ public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilter
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //TODO take out in base adapter
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_category, parent, false);
         return new MapFilterRecyclerViewAdapter.ViewHolder(view);

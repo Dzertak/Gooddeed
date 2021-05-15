@@ -79,4 +79,8 @@ public class FilterViewModel extends ViewModel {
     public LiveData<List<CategoryTypeWithCategories>> getSubscriptionsSelectedCategoriesLiveData() {
         return categoryRepository.getSubscriptionsSelectedCategoriesLiveData();
     }
+
+    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
+        categoryRepository.setSubscriptionsSelectedCategoriesLiveData(selectedCategories,categoryOwnerId);
+    }
 }

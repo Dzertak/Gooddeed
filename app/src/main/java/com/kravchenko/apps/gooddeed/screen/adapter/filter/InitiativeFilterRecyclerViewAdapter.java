@@ -23,7 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class InitiativeFilterRecyclerViewAdapter extends RecyclerView.Adapter<InitiativeFilterRecyclerViewAdapter.ViewHolder> {
+public class InitiativeFilterRecyclerViewAdapter
+        extends RecyclerView.Adapter<InitiativeFilterRecyclerViewAdapter.ViewHolder> {
     private final Context context;
     private FilterViewModel filterViewModel;
     private List<Category> categories;

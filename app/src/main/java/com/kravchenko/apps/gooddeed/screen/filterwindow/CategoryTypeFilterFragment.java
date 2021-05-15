@@ -82,11 +82,11 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                 case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
                     break;
                 case EDIT_PROFILE_KEY:
-                    initProfilePreset();
                     binding.btnSearch.setText(R.string.confirm);
                     binding.btnSearch.setOnClickListener(v -> {
                         getNavController().popBackStack();
                     });
+                    initProfilePreset();
                     break;
             }
         }
@@ -99,19 +99,16 @@ public class CategoryTypeFilterFragment extends BaseFragment {
                     filterViewModel.getCategoryTypesWithCategoriesLiveData()
                             .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
                                 filterViewModel.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories, selectedCategories);
-
-                                Map<Long, Integer> categorySizes = buildCategorySizesMap(categoryTypesWithCategories);
-                                adapter.setCategorySizes(categorySizes);
                             });
+                });
+        filterViewModel.getCategoryTypesWithCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), categoryTypeWithCategories -> {
+                    Map<Long, Integer> categorySizes = buildCategorySizesMap(categoryTypeWithCategories);
+                    adapter.setCategorySizes(categorySizes);
                 });
         filterViewModel.getSubscriptionsSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
                     if (categoryTypesWithCategories != null) {
-                        for (CategoryTypeWithCategories categoryTypesWithCategories1 : categoryTypesWithCategories) {
-                            categoryTypesWithCategories1.getCategories().forEach(category -> {
-                                Log.i("dev", "categoy: " + categoryTypesWithCategories1.getCategoryType().getCategoryTypeId() + " " + category.getTitle());
-                            });
-                        }
                         adapter.setSelectedCategories(categoryTypesWithCategories);
                     }
                 });
