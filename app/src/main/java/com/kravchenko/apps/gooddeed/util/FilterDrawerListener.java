@@ -21,7 +21,6 @@ public class FilterDrawerListener extends DrawerLayout.SimpleDrawerListener {
     @SuppressLint("ResourceType")
     @Override
     public void onDrawerOpened(@NonNull View drawerView) {
-        Log.i("dev", drawerView.getId() + "drawerView");
         if (R.id.filter_nav_host == drawerView.getId()) {
             mapViewModel.setIsNavDrawerOpen(true);
         }

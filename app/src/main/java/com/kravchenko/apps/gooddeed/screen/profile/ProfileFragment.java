@@ -3,6 +3,7 @@ package com.kravchenko.apps.gooddeed.screen.profile;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -73,21 +74,14 @@ public class ProfileFragment extends BaseFragment {
             getNavController().navigateUp();
         });
 
-        //for test
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category("photoshoot_title", "art_desc"));
-        categories.add(new Category("building_title", "art_desc"));
-        categories.add(new Category("vehicle_repair_title", "art_desc"));
-        categories.add(new Category("sport_title", "art_desc"));
-        categories.add(new Category("art_title", "art_desc"));
-        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), categories, false);
-        //
+
+        SubscriptionAdapter subscriptionAdapter = new SubscriptionAdapter(requireContext(), false);
+
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         binding.recyclerViewSubscriptions.setLayoutManager(layoutManager);
-
         mViewModel.getUser().observe(getViewLifecycleOwner(), resource -> {
             if (resource.status.equals(Resource.Status.SUCCESS)) {
                 hideProgressDialog();
@@ -110,7 +104,13 @@ public class ProfileFragment extends BaseFragment {
                     binding.tvAbout.setText(resource.data.getDescription());
                 }
                 if (resource.data.getSubscriptions() != null) {
-                //TODO ADD categories
+                    //TODO ADD categories
+                    List<Long> categoryIds = resource.data.getSubscriptions();
+                    mViewModel.getSubscriptionsByIds(categoryIds)
+                            .observe(getViewLifecycleOwner(),categories -> {
+                                subscriptionAdapter.setCategories(categories);
+                                mViewModel.setSelectedSubscriptionsIds(categories);
+                            });
                 }
                 Glide.with(this)
                         .load(resource.data.getImageUrl())
@@ -119,7 +119,6 @@ public class ProfileFragment extends BaseFragment {
                 binding.reviewRatingBar.setRating(Float.parseFloat(resource.data.getRate()));
                 binding.tvProfileRating.setText(getString(R.string.title_rating, Float.parseFloat(resource.data.getRate())));
             } else if (resource.status.equals(Resource.Status.LOADING)) {
-
                 showProgressDialog();
             } else if (resource.status.equals(Resource.Status.ERROR)) {
                 hideProgressDialog();

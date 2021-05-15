@@ -37,20 +37,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment) != null){
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
-            if (fragment != null){
-                List<Fragment> fragments =  fragment.getChildFragmentManager().getFragments();
-                if (fragments != null && !fragments.isEmpty()){
-                    ((BaseFragment) fragments.get(0)).clear();
-//                    if (fragments.get(0) instanceof EditInitiativeFragment){
-//                        ((BaseFragment) fragments.get(0)).clear();
-//                    }
-                }
-            }
-        }
-        super.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (getSupportFragmentManager().findFragmentById(R.id.fragment) != null){
+//            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+//            if (fragment != null){
+//                List<Fragment> fragments =  fragment.getChildFragmentManager().getFragments();
+//                if (fragments != null && !fragments.isEmpty()){
+//                    ((BaseFragment) fragments.get(0)).clear();
+////                    if (fragments.get(0) instanceof EditInitiativeFragment){
+////                        ((BaseFragment) fragments.get(0)).clear();
+////                    }
+//                }
+//            }
+//        }
+//        super.onBackPressed();
+//    }
 }

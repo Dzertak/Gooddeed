@@ -22,7 +22,7 @@ public class Settings {
         private String lastName;
         private String rate;
         private String description;
-        private List<Category> subscriptions;
+        private List<Long> subscriptions;
         private List<String> chats;
 
         public CurrentUser(String currentUser){
@@ -97,11 +97,11 @@ public class Settings {
             this.description = description;
         }
 
-        public List<Category> getSubscriptions() {
+        public List<Long> getSubscriptions() {
             return subscriptions;
         }
 
-        public void setSubscriptions(List<Category> subscriptions) {
+        public void setSubscriptions(List<Long> subscriptions) {
             this.subscriptions = subscriptions;
         }
 

@@ -65,4 +65,18 @@ public class FilterViewModel extends ViewModel {
     public void initInitiativesSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
         categoryRepository.initInitiativesSelectedCategoriesLiveData(categoryTypesWithCategories);
     }
+
+    public LiveData<List<Category>> getSelectedSubscriptionsIdsLiveData() {
+        return categoryRepository.getSelectedSubscriptionsIdsLiveData();
+    }
+
+    public void initProfileSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories,
+                                                      List<Category> selectedCategories) {
+        categoryRepository.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories, selectedCategories);
+
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getSubscriptionsSelectedCategoriesLiveData() {
+        return categoryRepository.getSubscriptionsSelectedCategoriesLiveData();
+    }
 }

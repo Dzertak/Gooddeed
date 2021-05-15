@@ -17,13 +17,13 @@ public class FirestoreUser {
     private String description;
     private String imageUrl;
     private List<String> chats;
-    private List<Category> subscriptions;
+    private List<Long> subscriptions;
 
     public FirestoreUser() {
     }
 
     public FirestoreUser(String userId, String firstName, String lastName, String email, String rate,
-                         String description, String imageUrl, List<String> chats, List<Category> subscriptions) {
+                         String description, String imageUrl, List<String> chats, List<Long> subscriptions) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -99,11 +99,11 @@ public class FirestoreUser {
         this.chats = chats;
     }
 
-    public List<Category> getSubscriptions() {
+    public List<Long> getSubscriptions() {
         return subscriptions;
     }
 
-    public void setSubscriptions(List<Category> subscriptions) {
+    public void setSubscriptions(List<Long> subscriptions) {
         this.subscriptions = subscriptions;
     }
 

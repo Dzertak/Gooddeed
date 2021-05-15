@@ -33,6 +33,9 @@ public abstract class CategoryDao {
         }
     }
 
+    @Query("SELECT * FROM category WHERE categoryId IN (:categoryIds)")
+    public abstract LiveData<List<Category>> getCategoriesByIds(List<Long> categoryIds);
+
     @Query("SELECT * FROM category")
     public abstract LiveData<List<Category>> findCategories();
 

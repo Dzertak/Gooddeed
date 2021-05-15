@@ -24,7 +24,6 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.kravchenko.apps.gooddeed.R;
-import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.databinding.FragmentProfileEditBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.subscription.SubscriptionAdapter;
@@ -71,14 +70,8 @@ public class EditProfileFragment extends BaseFragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
         //for test
-        List<Category> subscriptions = new ArrayList<>();
-//        subscriptions.add("Уборка територий");
-//        subscriptions.add("Массаж");
-//        subscriptions.add("Ремонт техники");
-//        subscriptions.add("Иностранные языки");
-//        subscriptions.add("Услуги психолога или психотерапевта");
         SubscriptionAdapter subscriptionAdapter
-                = new SubscriptionAdapter(requireContext(), subscriptions, true, getNavController());
+                = new SubscriptionAdapter(requireContext(), true, getNavController());
         //
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
@@ -86,26 +79,31 @@ public class EditProfileFragment extends BaseFragment {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         binding.recyclerViewSubscriptions.setLayoutManager(layoutManager);
 
-        mViewModel.getUser().observe(getViewLifecycleOwner(), firestoreUser -> {
-            if (firestoreUser.status.equals(Resource.Status.SUCCESS) && firestoreUser.data != null) {
-                if (firestoreUser.data.getFirstName() != null && firestoreUser.data.getLastName() != null) {
-                    binding.etProfileFirstName.setText(firestoreUser.data.getFirstName());
-                    binding.etProfileLastName.setText(firestoreUser.data.getLastName());
+        mViewModel.getUser().observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status.equals(Resource.Status.SUCCESS) && resource.data != null) {
+                if (resource.data.getFirstName() != null && resource.data.getLastName() != null) {
+                    binding.etProfileFirstName.setText(resource.data.getFirstName());
+                    binding.etProfileLastName.setText(resource.data.getLastName());
                 }
-                if (firestoreUser.data.getDescription() != null) {
-                    binding.etDescription.setText(firestoreUser.data.getDescription());
+                if (resource.data.getDescription() != null) {
+                    binding.etDescription.setText(resource.data.getDescription());
                 }
-                if (firestoreUser.data.getImageUrl() != null) {
-                    imageUri = Uri.parse(firestoreUser.data.getImageUrl());
+                if (resource.data.getSubscriptions() != null) {
+                    List<Long> categoryIds = resource.data.getSubscriptions();
+                    mViewModel.getSubscriptionsByIds(categoryIds)
+                            .observe(getViewLifecycleOwner(), subscriptionAdapter::setCategories);
+                }
+                if (resource.data.getImageUrl() != null) {
+                    imageUri = Uri.parse(resource.data.getImageUrl());
                     Glide.with(this)
-                            .load(firestoreUser.data.getImageUrl())
+                            .load(resource.data.getImageUrl())
                             .fallback(R.drawable.no_photo)
                             .into(binding.ivProfileAvatar);
                 }
-            } else if (firestoreUser.status.equals(Resource.Status.LOADING)) {
-                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
-            } else if (firestoreUser.status.equals(Resource.Status.ERROR)) {
-                Toast.makeText(requireContext(), firestoreUser.message, Toast.LENGTH_SHORT).show();
+            } else if (resource.status.equals(Resource.Status.LOADING)) {
+                Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
+            } else if (resource.status.equals(Resource.Status.ERROR)) {
+                Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -148,11 +146,21 @@ public class EditProfileFragment extends BaseFragment {
         if (item.getItemId() == R.id.save) {
             if (binding.etProfileFirstName.getText() != null && binding.etProfileLastName.getText() != null
                     && binding.etDescription.getText() != null) {
+//                List<Category> categories = new ArrayList<>();
+//                categories.add(new Category("photoshoot_title", "art_desc"));
+//                categories.add(new Category("building_title", "art_desc"));
+//                categories.add(new Category("vehicle_repair_title", "art_desc"));
+//                categories.add(new Category("sport_title", "art_desc"));
+//                categories.add(new Category("art_title", "art_desc"));
+
+                List<Long> categories = new ArrayList<>();
+
                 mViewModel.updateUser(
                         binding.etProfileFirstName.getText().toString().trim(),
                         binding.etProfileLastName.getText().toString().trim(),
                         imageUri,
-                        binding.etDescription.getText().toString().trim());
+                        binding.etDescription.getText().toString().trim(),
+                        categories);
             }
         }
         return super.onOptionsItemSelected(item);

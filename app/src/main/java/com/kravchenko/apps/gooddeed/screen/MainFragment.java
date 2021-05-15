@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +57,6 @@ import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private static final String TAG = "MainFragment";
@@ -89,7 +87,6 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,6 +102,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
         mapViewModel.getAllInitiatives().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource.status.equals(Resource.Status.SUCCESS)) {
+                hideProgressDialog();
                 mSavedInitiatives = listResource.data != null ? listResource.data : new ArrayList<>();
                 mMapAdapter.setItems(mSavedInitiatives);
                 mMapAdapter.notifyDataSetChanged();
@@ -115,8 +113,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
                             .icon(getIconByCategoryId(initiative.getCategoryId())));
                 }
             } else if (listResource.status.equals(Resource.Status.LOADING)) {
-                // Loading initiatives from database
-                Toast.makeText(requireContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                showProgressDialog();
             }
         });
 

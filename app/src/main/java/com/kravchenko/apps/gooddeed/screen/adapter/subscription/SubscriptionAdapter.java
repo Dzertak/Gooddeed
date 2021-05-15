@@ -26,20 +26,19 @@ import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.ED
 public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> categories;
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
-    private boolean isEditable = false;
+    private boolean isEditable;
     private NavController navController;
 
 
     public SubscriptionAdapter(Context context,
-                               List<Category> categories,
                                boolean isEditable,
                                NavController navController) {
         this.context = context;
         this.navController = navController;
-        this.categories = categories;
+        this.categories = new ArrayList<>();
         this.isEditable = isEditable;
         if (isEditable) {
             //it's for make last item for adding new category
@@ -47,9 +46,9 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public SubscriptionAdapter(Context context, List<Category> categories, boolean isEditable) {
+    public SubscriptionAdapter(Context context,  boolean isEditable) {
         this.context = context;
-        this.categories = categories;
+        this.categories = new ArrayList<>();
         this.isEditable = isEditable;
         if (isEditable) {
             //it's for make last item for adding new category

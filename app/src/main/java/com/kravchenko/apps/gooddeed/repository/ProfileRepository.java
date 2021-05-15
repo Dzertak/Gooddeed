@@ -13,10 +13,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.FirestoreUser;
+import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.kravchenko.apps.gooddeed.repository.AuthRepository.COLLECTION_USERS;
@@ -60,12 +62,17 @@ public class ProfileRepository {
         }
     }
 
-    public void updateUser(String firstName, String lastName, Uri imageUri, String description) {
+    public void updateUser(String firstName,
+                           String lastName,
+                           Uri imageUri,
+                           String description,
+                           List<Long> categories) {
         if (mUser.getValue() != null && mUser.getValue().data != null) {
             FirestoreUser user = mUser.getValue().data;
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setDescription(description);
+            user.setSubscriptions(categories);
 
             StorageReference profilePicRef = mStorage.getReference()
                     .child(USER_PATH)
@@ -95,13 +102,14 @@ public class ProfileRepository {
         String FIELD_LASTNAME = "lastName";
         String FIELD_IMAGEURL = "imageUrl";
         String FIELD_DESCRIPTION = "description";
-
+        String FIELD_SUBSCRIPTIONS ="subscriptions";
         // Updating only some fields
         Map<String, Object> userMap = new HashMap<>();
         userMap.put(FIELD_FIRSTNAME, user.getFirstName());
         userMap.put(FIELD_LASTNAME, user.getLastName());
         userMap.put(FIELD_IMAGEURL, user.getImageUrl());
         userMap.put(FIELD_DESCRIPTION, user.getDescription());
+        userMap.put(FIELD_SUBSCRIPTIONS,user.getSubscriptions());
         mUser.setValue(Resource.loading(Utils.getString(R.string.loading), null));
         mUserDocRef.update(userMap).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

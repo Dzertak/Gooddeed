@@ -1,5 +1,7 @@
 package com.kravchenko.apps.gooddeed.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -7,6 +9,7 @@ import com.kravchenko.apps.gooddeed.database.AppDatabase;
 import com.kravchenko.apps.gooddeed.database.dao.CategoryDao;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
+import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,8 @@ public class CategoryRepository {
 
     private final MutableLiveData<List<CategoryTypeWithCategories>> mapSelectedCategoriesLiveData;
     private final MutableLiveData<List<CategoryTypeWithCategories>> initiativesSelectedCategoriesLiveData;
+    private final MutableLiveData<List<CategoryTypeWithCategories>> subscriptionsSelectedCategoriesLiveData;
+    private final MutableLiveData<List<Category>> selectedSubscriptionsLiveData;
     private final LiveData<List<CategoryTypeWithCategories>> categoryTypesWithCategories;
     private final MutableLiveData<Boolean> isBackPressed;
     private final MutableLiveData<Boolean> isNavDrawerOpen;
@@ -35,6 +40,10 @@ public class CategoryRepository {
         return instance;
     }
 
+    public LiveData<List<Category>> getCategoriesByIds(List<Long> categoryIds) {
+        return categoryDao.getCategoriesByIds(categoryIds);
+    }
+
     private CategoryRepository() {
         this.categoryDao = AppDatabase.getInstance().categoryDao();
         this.isBackPressed = new MutableLiveData<>(false);
@@ -42,6 +51,8 @@ public class CategoryRepository {
         this.categoryTypesWithCategories = categoryDao.getCategoryTypesWithCategory();
         this.mapSelectedCategoriesLiveData = new MutableLiveData<>(null);
         this.initiativesSelectedCategoriesLiveData = new MutableLiveData<>(null);
+        this.subscriptionsSelectedCategoriesLiveData = new MutableLiveData<>(null);
+        this.selectedSubscriptionsLiveData = new MutableLiveData<>(null);
     }
 
     public LiveData<Boolean> getIsBackPressed() {
@@ -112,8 +123,50 @@ public class CategoryRepository {
         this.initiativesSelectedCategoriesLiveData.setValue(categoryTypesWithCategories);
     }
 
+    public void initProfileSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories,
+                                                      List<Category> selectedCategories) {
+
+        for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+            categoryTypeWithCategories.setCategories(new ArrayList<>());
+            List<Category> categories = new ArrayList<>();
+            long categoryTypeId = categoryTypeWithCategories.getCategoryType().getCategoryTypeId();
+            for (Category selectedCategory : selectedCategories) {
+                if (categoryTypeId == selectedCategory.getCategoryOwnerId()) {
+                    categories.add(selectedCategory);
+                }
+            }
+            categoryTypeWithCategories.setCategories(categories);
+        }
+
+        subscriptionsSelectedCategoriesLiveData.setValue(categoryTypesWithCategories);
+
+    }
+
+    public LiveData<List<CategoryTypeWithCategories>> getSubscriptionsSelectedCategoriesLiveData() {
+        return subscriptionsSelectedCategoriesLiveData;
+    }
+
+    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
+        for (CategoryTypeWithCategories categoryTypeWithCategories
+                : subscriptionsSelectedCategoriesLiveData.getValue()) {
+            if (categoryOwnerId
+                    == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
+                categoryTypeWithCategories.setCategories(selectedCategories);
+            }
+        }
+        subscriptionsSelectedCategoriesLiveData.setValue(subscriptionsSelectedCategoriesLiveData.getValue());
+    }
+
     public LiveData<Category> getCategoryById(long id) {
         return categoryDao.getCategoryById(id);
+    }
+
+    public void setSelectedSubscriptionsIds(List<Category> categoryIds) {
+        selectedSubscriptionsLiveData.setValue(categoryIds);
+    }
+
+    public LiveData<List<Category>> getSelectedSubscriptionsIdsLiveData() {
+        return selectedSubscriptionsLiveData;
     }
 }
 

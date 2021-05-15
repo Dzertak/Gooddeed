@@ -2,6 +2,7 @@ package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class CategoryFilterFragment extends BaseFragment {
                     initFilterPreset();
                     break;
                 case EDIT_INITIATIVE_FRAGMENT_TAG:
-                     callback = new OnBackPressedCallback(true) {
+                    callback = new OnBackPressedCallback(true) {
                         @Override
                         public void handleOnBackPressed() {
                             getNavController().popBackStack();
@@ -88,9 +89,51 @@ public class CategoryFilterFragment extends BaseFragment {
                     initInitiativePreset();
                     break;
                 case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
+                    mapFilterAdapter = new MapFilterRecyclerViewAdapter(getContext(), filterViewModel);
+                    binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
+                    Log.i("dev", "Dsfsdfsd");
+                    initProfilePreset();
                     break;
             }
         }
+    }
+
+    private void initProfilePreset() {
+        binding.cardViewSelectAll.setOnClickListener(v -> mapFilterAdapter.selectAll());
+
+        filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
+                .observe(getViewLifecycleOwner(), categories -> {
+                    categoriesSize = categories.size();
+                    mapFilterAdapter.setCategories(categories);
+                });
+
+        filterViewModel.getSubscriptionsSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), selectedCategories -> {
+                    List<Category> categories
+                            = getCategoriesFromCategoryTypesWithCategories(selectedCategories);
+                    if (categories.isEmpty() || categories.size() < categoriesSize) {
+                        binding.cardViewSelectAll.setCardBackgroundColor(Color.WHITE);
+                        binding.textViewSelectAllTitle.setText(R.string.select_all);
+                        binding.imageViewCheckBox.setVisibility(View.GONE);
+                    } else {
+                        binding.cardViewSelectAll.setCardBackgroundColor(Color.LTGRAY);
+                        binding.textViewSelectAllTitle.setText(R.string.clear);
+                        binding.imageViewCheckBox.setVisibility(View.VISIBLE);
+                    }
+                });
+
+        filterViewModel.getSubscriptionsSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
+                    List<Category> categories = new ArrayList<>();
+                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+                        if (categoryTypeWithCategories.getCategoryType()
+                                .getCategoryTypeId() == categoryTypeId) {
+                            categories.addAll(categoryTypeWithCategories.getCategories());
+                        }
+                        mapFilterAdapter.setSelectedCategories(categories);
+                        categories.forEach(category -> Log.i("dev", "CategoryFilter " + category.getTitle()));
+                    }
+                });
     }
 
     private void initInitiativePreset() {
