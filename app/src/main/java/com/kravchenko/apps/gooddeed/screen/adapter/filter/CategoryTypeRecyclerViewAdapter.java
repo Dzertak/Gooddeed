@@ -64,8 +64,10 @@ public class CategoryTypeRecyclerViewAdapter extends RecyclerView.Adapter<Catego
     }
 
     public void setSelectedCategories(List<CategoryTypeWithCategories> selectedCategories) {
-        this.selectedCategories = selectedCategories;
-        notifyDataSetChanged();
+        if (selectedCategories != null){
+            this.selectedCategories = selectedCategories;
+            notifyDataSetChanged();
+        }
     }
 
     public void setCategorySizes(Map<Long, Integer> categorySizes) {

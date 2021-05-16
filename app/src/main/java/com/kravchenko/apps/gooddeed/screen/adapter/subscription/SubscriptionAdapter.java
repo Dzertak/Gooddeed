@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment;
 import com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragmentDirections;
+import com.kravchenko.apps.gooddeed.screen.profile.SubscriptionsCallback;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.ArrayList;
@@ -30,14 +32,14 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
     private boolean isEditable;
-    private NavController navController;
+    private SubscriptionsCallback subscriptionCallback;
 
 
     public SubscriptionAdapter(Context context,
                                boolean isEditable,
-                               NavController navController) {
+                               SubscriptionsCallback subscriptionCallback) {
         this.context = context;
-        this.navController = navController;
+        this.subscriptionCallback = subscriptionCallback;
         this.categories = new ArrayList<>();
         this.isEditable = isEditable;
         if (isEditable) {
@@ -90,15 +92,13 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolderSub.imageViewRemove.setVisibility(View.GONE);
             } else {
                 viewHolderSub.imageViewRemove.setOnClickListener(t -> {
-                    Toast.makeText(context, "Remove Subscription", Toast.LENGTH_SHORT).show();
+                    subscriptionCallback.removeSubscription(position);
                 });
             }
         } else {
             SubAddViewHolder viewHolderSub = (SubAddViewHolder) holder;
             viewHolderSub.textViewAdd.setOnClickListener(t -> {
-                        NavDirections action
-                                = EditProfileFragmentDirections.actionEditAccountFragmentToCategoryNavGraph(EDIT_PROFILE_KEY);
-                        navController.navigate(action);
+                        subscriptionCallback.addSubscription();
                     }
 
             );

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
@@ -38,7 +39,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class EditProfileFragment extends BaseFragment {
+public class EditProfileFragment extends BaseFragment implements SubscriptionsCallback {
     public static final String EDIT_PROFILE_KEY = "EDIT_PROFILE_KEY";
     private static final String IMAGE_CACHE_DIRECTORY = "images";
     private FragmentProfileEditBinding binding;
@@ -57,6 +58,17 @@ public class EditProfileFragment extends BaseFragment {
     }
 
     @Override
+    public void addSubscription() {
+        NavDirections action = EditProfileFragmentDirections.actionEditAccountFragmentToCategoryNavGraph(EDIT_PROFILE_KEY);
+        getNavController().navigate(action);
+    }
+
+    @Override
+    public void removeSubscription(int position) {
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileEditBinding.inflate(inflater, container, false);
@@ -67,13 +79,13 @@ public class EditProfileFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
         //for test
         SubscriptionAdapter subscriptionAdapter
-                = new SubscriptionAdapter(requireContext(), true, getNavController());
+                = new SubscriptionAdapter(requireContext(), true, this);
         //
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
@@ -83,11 +95,13 @@ public class EditProfileFragment extends BaseFragment {
 
         mViewModel.getSubscriptionsSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
-                    List<Category> categories = new ArrayList<>();
-                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
-                        categories.addAll(categoryTypeWithCategories.getCategories());
+                    if (categoryTypesWithCategories != null){
+                        List<Category> categories = new ArrayList<>();
+                        for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
+                            categories.addAll(categoryTypeWithCategories.getCategories());
+                        }
+                        subscriptionAdapter.setCategories(categories);
                     }
-                    subscriptionAdapter.setCategories(categories);
                 });
 
         mViewModel.getUser().observe(getViewLifecycleOwner(), resource -> {
