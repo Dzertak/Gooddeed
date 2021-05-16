@@ -21,12 +21,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.databinding.FragmentInitiativeCurrentBinding;
+import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.util.annotation.InitiativeType;
 import com.kravchenko.apps.gooddeed.viewmodel.InitiativeViewModel;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class CurrentInitiativeFragment extends BaseFragment {
@@ -72,9 +74,13 @@ public class CurrentInitiativeFragment extends BaseFragment {
                 if (initiativeSnapshot.get("initiativeUserId") == FirebaseAuth.getInstance().getCurrentUser().getUid())
                     binding.btnSendProposeHelp.setVisibility(View.GONE);
                 else item.setVisible(false);
-                if (initiativeSnapshot.getLong("categoryId") != null)
+                if (initiativeSnapshot.getLong("categoryId") != null) {
+//                    String title = CategoryRepository.getInstance()
+//                            .getCategoryById(initiativeSnapshot.getLong("categoryId"))
+//                            .getValue().getTitle();
+                    //TODO get title of category
                     binding.tvCategory.setText(String.valueOf(initiativeSnapshot.getLong("categoryId")));
-                //TODO how can I get category by ID?
+                }
                 if (initiativeSnapshot.get("description") != null)
                     binding.etDescription.setText(String.valueOf(initiativeSnapshot.get("description")));
                 if (initiativeSnapshot.get("imgUri") != null)

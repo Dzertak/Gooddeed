@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -17,7 +18,9 @@ import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.kravchenko.apps.gooddeed.repository.CategoryRepository.databaseWriteExecutor;
 
@@ -45,7 +48,6 @@ public class InitiativeRepository {
     }
 
     public void saveInitiative(Initiative initiative) {
-        initiativeSave.setValue(Resource.loading(R.string.loading, null));
         //save initiative
         StorageReference initiativesFolderRef = mStorage.getReference()
                 .child(COLLECTION_INITIATIVES);
@@ -54,6 +56,21 @@ public class InitiativeRepository {
                 .add(initiative)
                 .addOnSuccessListener(reference -> reference.update(FIELD_INITIATIVE_ID, reference.getId())
                         .addOnSuccessListener(unused -> {
+                            DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(
+                                    FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            userRef.get().addOnSuccessListener(userSnapshot -> {
+                                long initiativesCreated = 0;
+                                Map<String, Object> data = new HashMap<>();
+                                if (userSnapshot.get("initiativesCreated") != null) {
+                                    initiativesCreated = (long) userSnapshot.get("initiativesCreated");
+                                    initiativesCreated++;
+                                    data.put("initiativesCreated", initiativesCreated);
+                                } else {
+                                    data.put("initiativesCreated", 1);
+                                }
+                                userRef.update(data);
+                            });
+
                             // uploading picture to firebase storage
                             if (initiative.getImgUri() != null) {
                                 StorageReference initiativePicRef = initiativesFolderRef.child(reference.getId())
