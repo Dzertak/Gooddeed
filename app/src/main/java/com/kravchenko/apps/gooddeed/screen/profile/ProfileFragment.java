@@ -111,6 +111,11 @@ public class ProfileFragment extends BaseFragment {
                                             mViewModel.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories, categories);
                                         });
                             });
+                } else {
+                    mViewModel.getCategoryTypesWithCategoriesLiveData()
+                            .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
+                                mViewModel.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories, new ArrayList<>());
+                            });
                 }
                 Glide.with(this)
                         .load(fireStoreUser.data.getImageUrl())
