@@ -71,10 +71,9 @@ public class EditProfileFragment extends BaseFragment {
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
-        //for test
+
         SubscriptionAdapter subscriptionAdapter
-                = new SubscriptionAdapter(requireContext(), true, getNavController());
-        //
+                = new SubscriptionAdapter(requireContext(), true, getNavController(), mViewModel);
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);

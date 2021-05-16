@@ -49,8 +49,8 @@ public class ProfileViewModel extends ViewModel {
     }
 
 
-    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> categories) {
-        categoryRepository.setSubscriptionsSelectedCategoriesLiveData(categories);
+    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> categories, long categoryOwnerId) {
+        categoryRepository.setSubscriptionsSelectedCategoriesLiveData(categories, categoryOwnerId);
     }
 
     public LiveData<List<CategoryTypeWithCategories>> getCategoryTypesWithCategoriesLiveData() {

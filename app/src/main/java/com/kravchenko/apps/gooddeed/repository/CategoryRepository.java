@@ -169,8 +169,6 @@ public class CategoryRepository {
         return selectedSubscriptionsLiveData;
     }
 
-    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> categories) {
 
-    }
 }
 

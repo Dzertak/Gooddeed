@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -17,6 +16,7 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragmentDirections;
 import com.kravchenko.apps.gooddeed.util.Utils;
+import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,23 +30,26 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
     private boolean isEditable;
+    private ProfileViewModel profileViewModel;
     private NavController navController;
 
 
     public SubscriptionAdapter(Context context,
                                boolean isEditable,
-                               NavController navController) {
+                               NavController navController,
+                               ProfileViewModel profileViewModel) {
         this.context = context;
         this.navController = navController;
         this.categories = new ArrayList<>();
         this.isEditable = isEditable;
+        this.profileViewModel = profileViewModel;
         if (isEditable) {
             //it's for make last item for adding new category
             categories.add(new Category());
         }
     }
 
-    public SubscriptionAdapter(Context context,  boolean isEditable) {
+    public SubscriptionAdapter(Context context, boolean isEditable) {
         this.context = context;
         this.categories = new ArrayList<>();
         this.isEditable = isEditable;
@@ -90,7 +93,8 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolderSub.imageViewRemove.setVisibility(View.GONE);
             } else {
                 viewHolderSub.imageViewRemove.setOnClickListener(t -> {
-                    Toast.makeText(context, "Remove Subscription", Toast.LENGTH_SHORT).show();
+                  //  removeAt(position);
+                    //TODO
                 });
             }
         } else {
@@ -119,6 +123,14 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             textViewTitle = itemView.findViewById(R.id.text_view_subscription_title);
             imageViewRemove = itemView.findViewById(R.id.image_view_subscription_remove);
         }
+    }
+
+    public void removeAt(int position) {
+        long categoryId = categories.get(position).getCategoryOwnerId();
+        categories.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, categories.size());
+        profileViewModel.setSubscriptionsSelectedCategoriesLiveData(categories, categoryId);
     }
 
     private static class SubAddViewHolder extends RecyclerView.ViewHolder {
