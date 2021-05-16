@@ -32,7 +32,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<Category> categories;
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
-    private boolean isEditable;
+    private final boolean isEditable;
     private ProfileViewModel profileViewModel;
     private SubscriptionsCallback subscriptionCallback;
 
