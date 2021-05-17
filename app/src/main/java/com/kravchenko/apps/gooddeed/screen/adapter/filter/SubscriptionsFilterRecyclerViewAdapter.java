@@ -17,7 +17,8 @@ public class SubscriptionsFilterRecyclerViewAdapter extends BaseCategoryRecycler
     private List<Category> selectedCategories;
     private boolean isSelectAll;
 
-    public SubscriptionsFilterRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
+    public SubscriptionsFilterRecyclerViewAdapter(Context context,
+                                                  FilterViewModel filterViewModel) {
         super(context, filterViewModel);
         selectedCategories = new ArrayList<>();
     }

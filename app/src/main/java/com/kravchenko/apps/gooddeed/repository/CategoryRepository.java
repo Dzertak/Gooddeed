@@ -1,15 +1,13 @@
 package com.kravchenko.apps.gooddeed.repository;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.kravchenko.apps.gooddeed.database.AppDatabase;
 import com.kravchenko.apps.gooddeed.database.dao.CategoryDao;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
-import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +96,18 @@ public class CategoryRepository {
         mapSelectedCategoriesLiveData.setValue(mapSelectedCategoriesLiveData.getValue());
     }
 
+    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
+        for (CategoryTypeWithCategories categoryTypeWithCategories
+                : subscriptionsSelectedCategoriesLiveData.getValue()) {
+            if (categoryOwnerId
+                    == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
+                categoryTypeWithCategories.setCategories(selectedCategories);
+            }
+        }
+
+        subscriptionsSelectedCategoriesLiveData.setValue(subscriptionsSelectedCategoriesLiveData.getValue());
+    }
+
     public void setInitiativesSelectedCategory(List<Category> selectedCategories, long categoryOwnerId) {
         for (CategoryTypeWithCategories categoryTypeWithCategories
                 : initiativesSelectedCategoriesLiveData.getValue()) {
@@ -146,16 +156,6 @@ public class CategoryRepository {
         return subscriptionsSelectedCategoriesLiveData;
     }
 
-    public void setSubscriptionsSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
-        for (CategoryTypeWithCategories categoryTypeWithCategories
-                : subscriptionsSelectedCategoriesLiveData.getValue()) {
-            if (categoryOwnerId
-                    == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
-                categoryTypeWithCategories.setCategories(selectedCategories);
-            }
-        }
-        subscriptionsSelectedCategoriesLiveData.setValue(subscriptionsSelectedCategoriesLiveData.getValue());
-    }
 
     public LiveData<Category> getCategoryById(long id) {
         return categoryDao.getCategoryById(id);
@@ -170,5 +170,18 @@ public class CategoryRepository {
     }
 
 
+    public void removeCategory(Category category) {
+        for (CategoryTypeWithCategories categoryTypeWithCategories
+                : subscriptionsSelectedCategoriesLiveData.getValue()) {
+
+            if (category.getCategoryOwnerId()
+                    == (categoryTypeWithCategories.getCategoryType().getCategoryTypeId())) {
+                List<Category> categories = categoryTypeWithCategories.getCategories();
+                categories.remove(category);
+                categoryTypeWithCategories.setCategories(categories);
+            }
+        }
+        subscriptionsSelectedCategoriesLiveData.setValue(subscriptionsSelectedCategoriesLiveData.getValue());
+    }
 }
 

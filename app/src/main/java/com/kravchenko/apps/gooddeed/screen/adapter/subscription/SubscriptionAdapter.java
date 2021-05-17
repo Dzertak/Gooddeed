@@ -6,25 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
-import com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment;
-import com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragmentDirections;
 import com.kravchenko.apps.gooddeed.screen.profile.SubscriptionsCallback;
 import com.kravchenko.apps.gooddeed.util.Utils;
 import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.EDIT_PROFILE_KEY;
 
 public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -33,6 +26,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int SUBSCRIPTION_TYPE = 0;
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
     private final boolean isEditable;
+    private final Category mackCategory = new Category();
     private ProfileViewModel profileViewModel;
     private SubscriptionsCallback subscriptionCallback;
 
@@ -48,7 +42,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.profileViewModel = profileViewModel;
         if (isEditable) {
             //it's for make last item for adding new category
-            categories.add(new Category());
+            categories.add(mackCategory);
         }
     }
 
@@ -66,7 +60,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.categories = categories;
         if (isEditable) {
             //it's for make last item for adding new category
-            categories.add(new Category());
+            categories.add(mackCategory);
         }
         notifyDataSetChanged();
     }
@@ -91,14 +85,15 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int viewType = getItemViewType(position);
         if (viewType == SUBSCRIPTION_TYPE) {
             SubViewHolder viewHolderSub = (SubViewHolder) holder;
-            viewHolderSub.textViewTitle.setText(Utils.getString(categories.get(position).getTitle()));
+            if (categories.get(position).getTitle() != null) {
+                viewHolderSub.textViewTitle.setText(Utils.getString(categories.get(position).getTitle()));
+            }
             if (!isEditable) {
                 viewHolderSub.imageViewRemove.setVisibility(View.GONE);
             } else {
                 viewHolderSub.imageViewRemove.setOnClickListener(t -> {
-                    subscriptionCallback.removeSubscription(position);
-                  //  removeAt(position);
-                    //TODO
+                    subscriptionCallback.removeSubscription(categories.get(position));
+                    notifyDataSetChanged();
                 });
             }
         } else {
@@ -106,7 +101,6 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewHolderSub.textViewAdd.setOnClickListener(t -> {
                         subscriptionCallback.addSubscription();
                     }
-
             );
         }
     }
@@ -125,14 +119,6 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             textViewTitle = itemView.findViewById(R.id.text_view_subscription_title);
             imageViewRemove = itemView.findViewById(R.id.image_view_subscription_remove);
         }
-    }
-
-    public void removeAt(int position) {
-        long categoryId = categories.get(position).getCategoryOwnerId();
-        categories.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, categories.size());
-        profileViewModel.setSubscriptionsSelectedCategoriesLiveData(categories, categoryId);
     }
 
     private static class SubAddViewHolder extends RecyclerView.ViewHolder {
