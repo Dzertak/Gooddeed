@@ -14,7 +14,6 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.screen.profile.SubscriptionsCallback;
 import com.kravchenko.apps.gooddeed.util.Utils;
-import com.kravchenko.apps.gooddeed.viewmodel.ProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +26,15 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int SUBSCRIPTION_ADD_TYPE = 1;
     private final boolean isEditable;
     private final Category mackCategory = new Category();
-    private ProfileViewModel profileViewModel;
     private SubscriptionsCallback subscriptionCallback;
-
 
     public SubscriptionAdapter(Context context,
                                boolean isEditable,
-                               SubscriptionsCallback subscriptionCallback,
-                               ProfileViewModel profileViewModel) {
+                               SubscriptionsCallback subscriptionCallback) {
         this.context = context;
         this.subscriptionCallback = subscriptionCallback;
         this.categories = new ArrayList<>();
         this.isEditable = isEditable;
-        this.profileViewModel = profileViewModel;
         if (isEditable) {
             //it's for make last item for adding new category
             categories.add(mackCategory);

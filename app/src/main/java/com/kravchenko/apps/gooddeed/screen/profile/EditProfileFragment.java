@@ -85,7 +85,7 @@ public class EditProfileFragment extends BaseFragment implements SubscriptionsCa
         mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
         SubscriptionAdapter subscriptionAdapter
-                = new SubscriptionAdapter(requireContext(), true, this, mViewModel);
+                = new SubscriptionAdapter(requireContext(), true, this);
 
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
