@@ -94,9 +94,9 @@ public class CategoryFilterFragment extends BaseFragment {
 
                     break;
                 case EDIT_PROFILE_KEY:
+                    binding.btnSearch.setVisibility(View.GONE);
                     subscriptionsFilterAdapter = new SubscriptionsFilterRecyclerViewAdapter(getContext(), filterViewModel);
                     binding.recyclerViewCategories.setAdapter(subscriptionsFilterAdapter);
-                    Log.i("dev", "Dsfsdfsd");
                     initProfilePreset();
                     break;
             }

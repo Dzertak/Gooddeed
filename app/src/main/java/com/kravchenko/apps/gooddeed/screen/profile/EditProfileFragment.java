@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,8 +65,8 @@ public class EditProfileFragment extends BaseFragment implements SubscriptionsCa
     }
 
     @Override
-    public void removeSubscription(int position) {
-
+    public void removeSubscription(Category category) {
+        mViewModel.removeSubscription(category);
     }
 
     @Override
@@ -83,10 +84,9 @@ public class EditProfileFragment extends BaseFragment implements SubscriptionsCa
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
         mViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
 
-
         SubscriptionAdapter subscriptionAdapter
-                = new SubscriptionAdapter(requireContext(), true, this, mViewModel);
-        //
+                = new SubscriptionAdapter(requireContext(), true, this);
+
         binding.recyclerViewSubscriptions.setAdapter(subscriptionAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(requireContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -120,6 +120,7 @@ public class EditProfileFragment extends BaseFragment implements SubscriptionsCa
                             .into(binding.ivProfileAvatar);
                 }
             } else if (resource.status.equals(Resource.Status.LOADING)) {
+
                 Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
             } else if (resource.status.equals(Resource.Status.ERROR)) {
                 Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();

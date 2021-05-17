@@ -60,4 +60,8 @@ public class ProfileViewModel extends ViewModel {
     public void initProfileSelectedCategoriesLiveData(List<CategoryTypeWithCategories> categoryTypesWithCategories, List<Category> categories) {
         categoryRepository.initProfileSelectedCategoriesLiveData(categoryTypesWithCategories, categories);
     }
+
+    public void removeSubscription(Category category) {
+        categoryRepository.removeCategory(category);
+    }
 }
