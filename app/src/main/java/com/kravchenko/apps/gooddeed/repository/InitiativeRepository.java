@@ -5,6 +5,7 @@ import android.net.Uri;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -18,6 +19,7 @@ import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.util.Resource;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,48 +56,49 @@ public class InitiativeRepository {
 
         mFirestore.collection(COLLECTION_INITIATIVES)
                 .add(initiative)
-                .addOnSuccessListener(reference -> reference.update(FIELD_INITIATIVE_ID, reference.getId())
-                        .addOnSuccessListener(unused -> {
-                            DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(
-                                    FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            userRef.get().addOnSuccessListener(userSnapshot -> {
-                                long initiativesCreated = 0;
-                                Map<String, Object> data = new HashMap<>();
-                                if (userSnapshot.get("initiativesCreated") != null) {
-                                    initiativesCreated = (long) userSnapshot.get("initiativesCreated");
-                                    initiativesCreated++;
+                .addOnSuccessListener(reference -> {
+                    String newInitiativeId = reference.getId();
+                    reference.update(FIELD_INITIATIVE_ID, newInitiativeId)
+                            .addOnSuccessListener(unused -> {
+                                DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(
+                                        FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                userRef.get().addOnSuccessListener(userSnapshot -> {
+                                    ArrayList<String> initiativesCreated = new ArrayList<>();
+                                    Map<String, Object> data = new HashMap<>();
+                                    if (userSnapshot.get("initiativesCreated") != null) {
+                                        initiativesCreated = (ArrayList<String>) userSnapshot.get("initiativesCreated");
+                                    }
+                                    initiativesCreated.add(newInitiativeId);
                                     data.put("initiativesCreated", initiativesCreated);
-                                } else {
-                                    data.put("initiativesCreated", 1);
-                                }
-                                userRef.update(data);
-                            });
-
-                            // uploading picture to firebase storage
-                            if (initiative.getImgUri() != null) {
-                                StorageReference initiativePicRef = initiativesFolderRef.child(reference.getId())
-                                        .child(Uri.parse(initiative.getImgUri()).getLastPathSegment());
-                                UploadTask uploadTask = initiativePicRef.putFile(Uri.parse(initiative.getImgUri()));
-                                uploadTask.continueWithTask(task -> {
-                                    if (!task.isSuccessful() && task.getException() != null) {
-                                        throw task.getException();
-                                    }
-                                    return initiativePicRef.getDownloadUrl();
-                                }).addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        String imageUri = task.getResult().toString();
-                                        initiative.setImgUri(imageUri);
-                                        // update image uri in Firestore
-                                        reference.update(FIELD_IMAGE_URI, imageUri)
-                                                .addOnSuccessListener(unused1 -> initiativeSave.setValue(Resource.success(null)))
-                                                .addOnFailureListener(e -> initiativeSave.setValue(Resource.error(e.getMessage(), null)));
-                                    }
+                                    userRef.update(data);
                                 });
-                            } else {
-                                initiativeSave.setValue(Resource.success(null));
-                            }
-                        })
-                        .addOnFailureListener(e -> initiativeSave.setValue(Resource.error(e.getMessage(), null))))
+
+                                // uploading picture to firebase storage
+                                if (initiative.getImgUri() != null) {
+                                    StorageReference initiativePicRef = initiativesFolderRef.child(reference.getId())
+                                            .child(Uri.parse(initiative.getImgUri()).getLastPathSegment());
+                                    UploadTask uploadTask = initiativePicRef.putFile(Uri.parse(initiative.getImgUri()));
+                                    uploadTask.continueWithTask(task -> {
+                                        if (!task.isSuccessful() && task.getException() != null) {
+                                            throw task.getException();
+                                        }
+                                        return initiativePicRef.getDownloadUrl();
+                                    }).addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            String imageUri = task.getResult().toString();
+                                            initiative.setImgUri(imageUri);
+                                            // update image uri in Firestore
+                                            reference.update(FIELD_IMAGE_URI, imageUri)
+                                                    .addOnSuccessListener(unused1 -> initiativeSave.setValue(Resource.success(null)))
+                                                    .addOnFailureListener(e -> initiativeSave.setValue(Resource.error(e.getMessage(), null)));
+                                        }
+                                    });
+                                } else {
+                                    initiativeSave.setValue(Resource.success(null));
+                                }
+                            })
+                            .addOnFailureListener(e -> initiativeSave.setValue(Resource.error(e.getMessage(), null)));
+                })
                 .addOnFailureListener(e -> initiativeSave.setValue(Resource.error(e.getMessage(), null)));
     }
 

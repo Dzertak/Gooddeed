@@ -8,12 +8,13 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:srcCompat="@drawable/ic_no_image"/>
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_no_image" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_title"
@@ -24,7 +25,7 @@
         android:textSize="@dimen/text_size_standard"
         app:layout_constraintBottom_toTopOf="@id/tv_description"
         app:layout_constraintStart_toEndOf="@id/iv_image"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_image"
         tools:text="Initiative title" />
 
     <androidx.appcompat.widget.AppCompatTextView

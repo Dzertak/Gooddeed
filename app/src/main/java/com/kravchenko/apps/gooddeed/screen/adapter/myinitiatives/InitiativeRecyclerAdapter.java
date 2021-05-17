@@ -1,17 +1,23 @@
 package com.kravchenko.apps.gooddeed.screen.adapter.myinitiatives;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.ItemRvInitiativeBinding;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class InitiativeRecyclerAdapter extends RecyclerView.Adapter<InitiativeRecyclerAdapter.ViewHolder> {
@@ -43,14 +49,25 @@ public class InitiativeRecyclerAdapter extends RecyclerView.Adapter<InitiativeRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Initiative item = initiativeList.get(position);
+        holder.binding.getRoot().setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("initiative_id", item.getInitiativeId());
+            Navigation.findNavController(v).navigate(R.id.action_myInitiativesFragment_to_currentInitiativeFragment, args);
+        });
         holder.binding.tvTitle.setText(item.getTitle());
         holder.binding.tvDescription.setText(item.getDescription());
-        // TODO: Replace with initiative date
-        holder.binding.dateAndTime.setText("24 aug 12:00");
-
+        if (item.getTimestamp() != 0) {
+            Date date = new Date(item.getTimestamp());
+            String dateTimeText = DateFormat.getDateInstance().format(date) + " " + DateFormat.getTimeInstance().format(date);
+            holder.binding.dateAndTime.setText(dateTimeText);
+        }
         if (item.getImgUri() != null && !item.getImgUri().isEmpty()) {
             Glide.with(context)
-                    .load(item.getImgUri())
+                    .load(item.getImgUri()).circleCrop()
+                    .into(holder.binding.ivImage);
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.gooddeed_logo).circleCrop()
                     .into(holder.binding.ivImage);
         }
     }
