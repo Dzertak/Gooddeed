@@ -12,22 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
-import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseCategoryRecyclerViewAdapter extends RecyclerView.Adapter<BaseCategoryRecyclerViewAdapter.ViewHolder> {
     protected final Context context;
-    protected final FilterViewModel filterViewModel;
+    protected final FilterCallBack filterCallBack;
     protected List<Category> categories;
     protected final int check;
     protected Category category;
 
-    public BaseCategoryRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
+    public BaseCategoryRecyclerViewAdapter(Context context, FilterCallBack filterCallBack) {
         this.context = context;
         this.categories = new ArrayList<>();
-        this.filterViewModel = filterViewModel;
+        this.filterCallBack = filterCallBack;
         this.check = -1;
     }
 
@@ -50,6 +49,9 @@ public abstract class BaseCategoryRecyclerViewAdapter extends RecyclerView.Adapt
     public void setCategories(List<Category> categories) {
         this.categories = categories;
         notifyDataSetChanged();
+    }
+
+    public void selectAll() {
     }
 
     public abstract void setSelectedCategories(List<Category> selectedCategories);

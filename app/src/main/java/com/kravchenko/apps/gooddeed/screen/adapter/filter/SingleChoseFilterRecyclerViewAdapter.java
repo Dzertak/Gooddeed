@@ -8,19 +8,16 @@ import androidx.annotation.NonNull;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.util.Utils;
-import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class SubscriptionsFilterRecyclerViewAdapter extends BaseCategoryRecyclerViewAdapter {
-    private List<Category> selectedCategories;
-    private boolean isSelectAll;
+public class SingleChoseFilterRecyclerViewAdapter extends BaseCategoryRecyclerViewAdapter {
+    private final Category[] selectedCategories;
 
-    public SubscriptionsFilterRecyclerViewAdapter(Context context,
-                                                  FilterViewModel filterViewModel) {
-        super(context, filterViewModel);
-        selectedCategories = new ArrayList<>();
+    public SingleChoseFilterRecyclerViewAdapter(Context context, FilterCallBack filterCallBack) {
+        super(context, filterCallBack);
+        this.selectedCategories = new Category[1];
     }
 
     @Override
@@ -29,7 +26,8 @@ public class SubscriptionsFilterRecyclerViewAdapter extends BaseCategoryRecycler
         holder.textViewCategoryTitle.setText(Utils.getString(category.getTitle()));
         if (holder.getAdapterPosition() != check) {
             holder.itemView.setOnClickListener(v -> clickItem(holder));
-            if (isSelectAll || selectedCategories.contains(category)) {
+
+            if (selectedCategories[0] != null && selectedCategories[0].equals(category)) {
                 holder.imageViewCheck.setVisibility(View.VISIBLE);
                 holder.itemView.setBackgroundColor(Color.LTGRAY);
             } else {
@@ -41,21 +39,10 @@ public class SubscriptionsFilterRecyclerViewAdapter extends BaseCategoryRecycler
 
     @Override
     public void setSelectedCategories(List<Category> selectedCategories) {
-        this.selectedCategories = selectedCategories;
-        notifyDataSetChanged();
-    }
-
-    public void selectAll() {
-        if (categories.size() == selectedCategories.size()) {
-            isSelectAll = false;
-            selectedCategories.clear();
-
-        } else {
-            isSelectAll = true;
-            selectedCategories.clear();
-            selectedCategories.addAll(categories);
+        if (selectedCategories != null && !selectedCategories.isEmpty()
+                && selectedCategories.get(0) != null) {
+            this.selectedCategories[0] = selectedCategories.get(0);
         }
-        filterViewModel.setSubscriptionsSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
         notifyDataSetChanged();
     }
 
@@ -65,14 +52,12 @@ public class SubscriptionsFilterRecyclerViewAdapter extends BaseCategoryRecycler
         if (holder.imageViewCheck.getVisibility() == View.GONE) {
             holder.imageViewCheck.setVisibility(View.VISIBLE);
             holder.itemView.setBackgroundColor(Color.LTGRAY);
-            selectedCategories.add(category);
+            selectedCategories[0] = category;
         } else {
             holder.imageViewCheck.setVisibility(View.GONE);
             holder.itemView.setBackgroundColor(Color.WHITE);
-            selectedCategories.remove(category);
+            selectedCategories[0] = null;
         }
-        filterViewModel.setSubscriptionsSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
+        filterCallBack.setSelectedCategories(Arrays.asList(selectedCategories.clone()),category.getCategoryOwnerId());
     }
-
-
 }

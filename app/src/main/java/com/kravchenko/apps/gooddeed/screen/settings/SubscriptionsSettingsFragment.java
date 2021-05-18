@@ -19,7 +19,7 @@ public class SubscriptionsSettingsFragment extends PreferenceFragmentCompat {
     private static final String PREFERENCE_RADIUS_KEY = "radius_pref";
     private static final String PREFERENCE_CATEGORY_KEY = "category_pref";
     private NavController navController;
-    public final static String SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG = "SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG";
+    public final static String SETTINGS_FRAGMENT_TAG = "SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class SubscriptionsSettingsFragment extends PreferenceFragmentCompat {
         findPreference(PREFERENCE_CATEGORY_KEY).setOnPreferenceClickListener(preference -> {
 
             NavDirections action
-                    = SubscriptionsSettingsFragmentDirections.actionSubscriptionsSettingsFragmentToCategoryNavGraph(SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG);
+                    = SubscriptionsSettingsFragmentDirections.actionSubscriptionsSettingsFragmentToCategoryNavGraph(SETTINGS_FRAGMENT_TAG);
             navController.navigate(action);
             return true;
         });

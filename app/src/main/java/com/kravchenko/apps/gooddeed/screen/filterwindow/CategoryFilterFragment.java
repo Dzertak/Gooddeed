@@ -2,7 +2,6 @@ package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,11 @@ import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
-import com.kravchenko.apps.gooddeed.screen.adapter.filter.InitiativeFilterRecyclerViewAdapter;
-import com.kravchenko.apps.gooddeed.screen.adapter.filter.MapFilterRecyclerViewAdapter;
-import com.kravchenko.apps.gooddeed.screen.adapter.filter.SubscriptionsFilterRecyclerViewAdapter;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.BaseCategoryRecyclerViewAdapter;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.FilterCallBack;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.MultiChoiceFilterRecyclerViewAdapter;
+import com.kravchenko.apps.gooddeed.screen.adapter.filter.SingleChoseFilterRecyclerViewAdapter;
+import com.kravchenko.apps.gooddeed.util.Utils;
 import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
 import java.util.ArrayList;
@@ -30,23 +31,27 @@ import java.util.List;
 import static com.kravchenko.apps.gooddeed.screen.filterwindow.FilterFragmentMain.FILTER_FRAGMENT_MAIN_KEY;
 import static com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment.EDIT_INITIATIVE_FRAGMENT_TAG;
 import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.EDIT_PROFILE_KEY;
-import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG;
+import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SETTINGS_FRAGMENT_TAG;
 
 
-public class CategoryFilterFragment extends BaseFragment {
+public class CategoryFilterFragment extends BaseFragment implements FilterCallBack {
     private FragmentCategoryFilterBinding binding;
     private long categoryTypeId;
-    private MapFilterRecyclerViewAdapter mapFilterAdapter;
-    private InitiativeFilterRecyclerViewAdapter initiativeFilterAdapter;
     private FilterViewModel filterViewModel;
-    private SubscriptionsFilterRecyclerViewAdapter subscriptionsFilterAdapter;
+    private BaseCategoryRecyclerViewAdapter adapter;
     private int categoriesSize;
     private String rootDirection;
     private OnBackPressedCallback callback;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                getNavController().popBackStack();
+            }
+        };
         binding = FragmentCategoryFilterBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -55,156 +60,103 @@ public class CategoryFilterFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
-
         NavigationUI.setupWithNavController(binding.toolbar, getNavController());
-
         binding.recyclerViewCategories.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (getArguments() != null) {
-            categoryTypeId = CategoryFilterFragmentArgs.fromBundle(getArguments()).getCategoryTypeId();
-            rootDirection = CategoryFilterFragmentArgs.fromBundle(getArguments()).getRootDirection();
-            switch (rootDirection) {
-                case FILTER_FRAGMENT_MAIN_KEY:
-                    mapFilterAdapter = new MapFilterRecyclerViewAdapter(getContext(), filterViewModel);
-                    binding.recyclerViewCategories.setAdapter(mapFilterAdapter);
-                    binding.btnSearch.setOnClickListener(v -> {
-                        getNavController().popBackStack(R.id.categoryTypeFilterFragment2, true);
-                        filterViewModel.setIsBackPressed(true);
-                    });
-                    initFilterPreset();
-                    break;
-                case EDIT_INITIATIVE_FRAGMENT_TAG:
-                    callback = new OnBackPressedCallback(true) {
-                        @Override
-                        public void handleOnBackPressed() {
-                            getNavController().popBackStack();
-                        }
-                    };
-                    requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
-                    binding.cardViewSelectAll.setVisibility(View.GONE);
-                    initiativeFilterAdapter = new InitiativeFilterRecyclerViewAdapter(getContext(), filterViewModel);
-                    binding.recyclerViewCategories.setAdapter(initiativeFilterAdapter);
-                    binding.btnSearch.setText(R.string.confirm);
-                    binding.btnSearch.setOnClickListener(v -> {
-                        getNavController().popBackStack(R.id.categoryTypeFilterFragment2, true);
-                    });
-                    initInitiativePreset();
-                    break;
-                case SUBSCRIPTIONS_SETTINGS_FRAGMENT_TAG:
+        categoryTypeId = CategoryFilterFragmentArgs.fromBundle(getArguments()).getCategoryTypeId();
+        rootDirection = CategoryFilterFragmentArgs.fromBundle(getArguments()).getRootDirection();
 
-                    break;
-                case EDIT_PROFILE_KEY:
-                    binding.btnSearch.setVisibility(View.GONE);
-                    subscriptionsFilterAdapter = new SubscriptionsFilterRecyclerViewAdapter(getContext(), filterViewModel);
-                    binding.recyclerViewCategories.setAdapter(subscriptionsFilterAdapter);
-                    initProfilePreset();
-                    break;
-            }
+        switch (rootDirection) {
+            case FILTER_FRAGMENT_MAIN_KEY:
+                initFilterPreset();
+                break;
+            case EDIT_INITIATIVE_FRAGMENT_TAG:
+                initInitiativePreset();
+                break;
+            case SETTINGS_FRAGMENT_TAG:
+                //TODO
+                break;
+            case EDIT_PROFILE_KEY:
+                initProfilePreset();
+                break;
         }
+
+        binding.recyclerViewCategories.setAdapter(adapter);
+
+        filterViewModel.findCategoryTypeById(categoryTypeId)
+                .observe(getViewLifecycleOwner(), categoryType ->
+                        binding.toolbar.setTitle(Utils.getString(categoryType.getTitle())));
+
+        filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
+                .observe(getViewLifecycleOwner(), categories -> {
+                    categoriesSize = categories.size();
+                    adapter.setCategories(categories);
+                });
     }
 
     private void initProfilePreset() {
-        binding.cardViewSelectAll.setOnClickListener(v -> subscriptionsFilterAdapter.selectAll());
-
-        filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
-                .observe(getViewLifecycleOwner(), categories -> {
-                    categoriesSize = categories.size();
-                    subscriptionsFilterAdapter.setCategories(categories);
-                });
-
-        filterViewModel.getSubscriptionsSelectedCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), selectedCategories -> {
-                    List<Category> categories
-                            = getCategoriesFromCategoryTypesWithCategories(selectedCategories);
-                    if (categories.isEmpty() || categories.size() < categoriesSize) {
-                        binding.cardViewSelectAll.setCardBackgroundColor(Color.WHITE);
-                        binding.textViewSelectAllTitle.setText(R.string.select_all);
-                        binding.imageViewCheckBox.setVisibility(View.GONE);
-                    } else {
-                        binding.cardViewSelectAll.setCardBackgroundColor(Color.LTGRAY);
-                        binding.textViewSelectAllTitle.setText(R.string.clear);
-                        binding.imageViewCheckBox.setVisibility(View.VISIBLE);
-                    }
-                });
+        binding.btnSearch.setVisibility(View.GONE);
+        adapter = new MultiChoiceFilterRecyclerViewAdapter(getContext(), this);
+        binding.cardViewSelectAll.setOnClickListener(v -> adapter.selectAll());
 
         filterViewModel.getSubscriptionsSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
-                    List<Category> categories = new ArrayList<>();
-                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
-                        if (categoryTypeWithCategories.getCategoryType()
-                                .getCategoryTypeId() == categoryTypeId) {
-                            categories.addAll(categoryTypeWithCategories.getCategories());
-                        }
-                        subscriptionsFilterAdapter.setSelectedCategories(categories);
-                    }
-                });
-    }
-
-    private void initInitiativePreset() {
-        filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
-                .observe(getViewLifecycleOwner(), categories -> {
-                    categoriesSize = categories.size();
-                    initiativeFilterAdapter.setCategories(categories);
-                });
-        filterViewModel.getInitiativesSelectedCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
-                    List<Category> categories = new ArrayList<>();
-                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
-                        if (categoryTypeWithCategories.getCategoryType()
-                                .getCategoryTypeId() == categoryTypeId) {
-                            categories.addAll(categoryTypeWithCategories.getCategories());
-                        }
-                        initiativeFilterAdapter.setSelectedCategories(categories);
-                    }
+                    manageSelectAll(getSelectedCategories(categoryTypesWithCategories));
+                    adapter.setSelectedCategories(getSelectedCategories(categoryTypesWithCategories));
                 });
     }
 
     private void initFilterPreset() {
-        binding.cardViewSelectAll.setOnClickListener(v -> mapFilterAdapter.selectAll());
-
-        filterViewModel.findCategoryTypesByCategoryOwnerId(categoryTypeId)
-                .observe(getViewLifecycleOwner(), categories -> {
-                    categoriesSize = categories.size();
-                    mapFilterAdapter.setCategories(categories);
-                });
-
-        filterViewModel.getMapSelectedCategoriesLiveData()
-                .observe(getViewLifecycleOwner(), selectedCategories -> {
-                    List<Category> categories
-                            = getCategoriesFromCategoryTypesWithCategories(selectedCategories);
-                    if (categories.isEmpty() || categories.size() < categoriesSize) {
-                        binding.cardViewSelectAll.setCardBackgroundColor(Color.WHITE);
-                        binding.textViewSelectAllTitle.setText(R.string.select_all);
-                        binding.imageViewCheckBox.setVisibility(View.GONE);
-                    } else {
-                        binding.cardViewSelectAll.setCardBackgroundColor(Color.LTGRAY);
-                        binding.textViewSelectAllTitle.setText(R.string.clear);
-                        binding.imageViewCheckBox.setVisibility(View.VISIBLE);
-                    }
-                });
+        adapter = new MultiChoiceFilterRecyclerViewAdapter(getContext(), this);
+        binding.btnSearch.setOnClickListener(v -> {
+            getNavController().popBackStack(R.id.categoryTypeFilterFragment, true);
+            filterViewModel.setIsBackPressed(true);
+        });
+        binding.cardViewSelectAll.setOnClickListener(v -> adapter.selectAll());
 
         filterViewModel.getMapSelectedCategoriesLiveData()
                 .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
-                    List<Category> categories = new ArrayList<>();
-                    for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
-                        if (categoryTypeWithCategories.getCategoryType()
-                                .getCategoryTypeId() == categoryTypeId) {
-                            categories.addAll(categoryTypeWithCategories.getCategories());
-                        }
-                        mapFilterAdapter.setSelectedCategories(categories);
-                    }
+                    adapter.setSelectedCategories(getSelectedCategories(categoryTypesWithCategories));
+                    manageSelectAll(getSelectedCategories(categoryTypesWithCategories));
                 });
     }
 
-    private List<Category> getCategoriesFromCategoryTypesWithCategories(List<CategoryTypeWithCategories> selectedCategories) {
+    private void initInitiativePreset() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+        binding.cardViewSelectAll.setVisibility(View.GONE);
+        adapter = new SingleChoseFilterRecyclerViewAdapter(getContext(), this);
+        binding.btnSearch.setText(R.string.confirm);
+        binding.btnSearch.setOnClickListener(v -> {
+            getNavController().popBackStack(R.id.categoryTypeFilterFragment, true);
+        });
+
+        filterViewModel.getInitiativesSelectedCategoriesLiveData()
+                .observe(getViewLifecycleOwner(), categoryTypesWithCategories -> {
+                    adapter.setSelectedCategories(getSelectedCategories(categoryTypesWithCategories));
+                });
+    }
+
+    private List<Category> getSelectedCategories(List<CategoryTypeWithCategories> categoryTypesWithCategories) {
         List<Category> categories = new ArrayList<>();
-        for (CategoryTypeWithCategories categoryTypeWithCategories : selectedCategories) {
+        for (CategoryTypeWithCategories categoryTypeWithCategories : categoryTypesWithCategories) {
             if (categoryTypeWithCategories.getCategoryType()
                     .getCategoryTypeId() == categoryTypeId) {
                 categories.addAll(categoryTypeWithCategories.getCategories());
             }
         }
         return categories;
+    }
+
+    private void manageSelectAll(List<Category> categories) {
+        if (categories.isEmpty() || categories.size() < categoriesSize) {
+            binding.cardViewSelectAll.setCardBackgroundColor(Color.WHITE);
+            binding.textViewSelectAllTitle.setText(R.string.select_all);
+            binding.imageViewCheckBox.setVisibility(View.GONE);
+        } else {
+            binding.cardViewSelectAll.setCardBackgroundColor(Color.LTGRAY);
+            binding.textViewSelectAllTitle.setText(R.string.clear);
+            binding.imageViewCheckBox.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -215,6 +167,24 @@ public class CategoryFilterFragment extends BaseFragment {
 
     @Override
     public void clear() {
+        //TODO
+    }
 
+    @Override
+    public void setSelectedCategories(List<Category> categories, long categoryOwnerId) {
+        switch (rootDirection) {
+            case FILTER_FRAGMENT_MAIN_KEY:
+                filterViewModel.setMapSelectedCategoriesLiveData(categories, categoryOwnerId);
+                break;
+            case EDIT_INITIATIVE_FRAGMENT_TAG:
+                filterViewModel.setInitiativesSelectedCategory(categories, categoryOwnerId);
+                break;
+            case SETTINGS_FRAGMENT_TAG:
+
+                break;
+            case EDIT_PROFILE_KEY:
+                filterViewModel.setSubscriptionsSelectedCategoriesLiveData(categories, categoryOwnerId);
+                break;
+        }
     }
 }

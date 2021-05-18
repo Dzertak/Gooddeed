@@ -2,49 +2,24 @@ package com.kravchenko.apps.gooddeed.screen.adapter.filter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 import com.kravchenko.apps.gooddeed.util.Utils;
-import com.kravchenko.apps.gooddeed.viewmodel.FilterViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilterRecyclerViewAdapter.ViewHolder> {
-    private final Context context;
-    private final FilterViewModel filterViewModel;
-    private List<Category> categories;
+public class MultiChoiceFilterRecyclerViewAdapter extends BaseCategoryRecyclerViewAdapter {
     private List<Category> selectedCategories;
-    private Category category;
     private boolean isSelectAll;
-    private final int check;
 
-    public MapFilterRecyclerViewAdapter(Context context, FilterViewModel filterViewModel) {
-        this.context = context;
-        this.categories = new ArrayList<>();
-        this.selectedCategories = new ArrayList<>();
-        this.filterViewModel = filterViewModel;
-        check = -1;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //TODO take out in base adapter
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_category, parent, false);
-        return new MapFilterRecyclerViewAdapter.ViewHolder(view);
+    public MultiChoiceFilterRecyclerViewAdapter(Context context,
+                                                FilterCallBack filterCallBack) {
+        super(context, filterCallBack);
+        selectedCategories = new ArrayList<>();
     }
 
     @Override
@@ -64,20 +39,12 @@ public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilter
     }
 
     @Override
-    public int getItemCount() {
-        return categories.size();
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-        notifyDataSetChanged();
-    }
-
     public void setSelectedCategories(List<Category> selectedCategories) {
         this.selectedCategories = selectedCategories;
         notifyDataSetChanged();
     }
 
+    @Override
     public void selectAll() {
         if (categories.size() == selectedCategories.size()) {
             isSelectAll = false;
@@ -88,11 +55,12 @@ public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilter
             selectedCategories.clear();
             selectedCategories.addAll(categories);
         }
-        filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
+        filterCallBack.setSelectedCategories(selectedCategories, category.getCategoryOwnerId());
         notifyDataSetChanged();
     }
 
-    private void clickItem(ViewHolder holder) {
+    @Override
+    public void clickItem(ViewHolder holder) {
         Category category = categories.get(holder.getAdapterPosition());
         if (holder.imageViewCheck.getVisibility() == View.GONE) {
             holder.imageViewCheck.setVisibility(View.VISIBLE);
@@ -103,17 +71,8 @@ public class MapFilterRecyclerViewAdapter extends RecyclerView.Adapter<MapFilter
             holder.itemView.setBackgroundColor(Color.WHITE);
             selectedCategories.remove(category);
         }
-        filterViewModel.setMapSelectedCategoriesLiveData(selectedCategories, category.getCategoryOwnerId());
+        filterCallBack.setSelectedCategories(selectedCategories, category.getCategoryOwnerId());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textViewCategoryTitle;
-        private final ImageView imageViewCheck;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textViewCategoryTitle = itemView.findViewById(R.id.textViewCategoryTitle);
-            imageViewCheck = itemView.findViewById(R.id.imageViewCheckBox);
-        }
-    }
 }

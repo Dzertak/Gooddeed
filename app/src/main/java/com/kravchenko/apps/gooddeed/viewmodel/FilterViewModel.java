@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.database.entity.category.CategoryType;
 import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCategories;
 import com.kravchenko.apps.gooddeed.repository.CategoryRepository;
 
@@ -82,5 +83,9 @@ public class FilterViewModel extends ViewModel {
 
     public void setSubscriptionsSelectedCategoriesLiveData(List<Category> selectedCategories, long categoryOwnerId) {
         categoryRepository.setSubscriptionsSelectedCategoriesLiveData(selectedCategories,categoryOwnerId);
+    }
+
+    public LiveData<CategoryType> findCategoryTypeById(long categoryTypeId) {
+        return categoryRepository.getCategoryTypeById(categoryTypeId);
     }
 }

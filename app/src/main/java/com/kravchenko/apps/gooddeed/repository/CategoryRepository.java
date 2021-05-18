@@ -156,7 +156,6 @@ public class CategoryRepository {
         return subscriptionsSelectedCategoriesLiveData;
     }
 
-
     public LiveData<Category> getCategoryById(long id) {
         return categoryDao.getCategoryById(id);
     }
@@ -182,6 +181,10 @@ public class CategoryRepository {
             }
         }
         subscriptionsSelectedCategoriesLiveData.setValue(subscriptionsSelectedCategoriesLiveData.getValue());
+    }
+
+    public LiveData<CategoryType> getCategoryTypeById(long categoryTypeId){
+        return categoryDao.findCategoryTypeById(categoryTypeId);
     }
 }
 

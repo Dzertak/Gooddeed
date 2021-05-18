@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/category_nav_graph"
-    app:startDestination="@id/categoryTypeFilterFragment2">
+    app:startDestination="@id/categoryTypeFilterFragment">
 
     <fragment
-        android:id="@+id/categoryTypeFilterFragment2"
+        android:id="@+id/categoryTypeFilterFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.filterwindow.CategoryTypeFilterFragment"
         android:label="@string/type_category_filter"
         tools:layout="@layout/fragment_category_type_filter" >
