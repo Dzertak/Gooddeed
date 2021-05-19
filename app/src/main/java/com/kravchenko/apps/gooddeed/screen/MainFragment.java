@@ -42,6 +42,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.kravchenko.apps.gooddeed.DialogManager;
@@ -49,22 +50,23 @@ import com.kravchenko.apps.gooddeed.R;
 import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.databinding.FragmentMainBinding;
 import com.kravchenko.apps.gooddeed.screen.adapter.iniativemap.InitiativeMapAdapter;
-import com.kravchenko.apps.gooddeed.util.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.util.AppConstants;
 import com.kravchenko.apps.gooddeed.util.FilterDrawerListener;
 import com.kravchenko.apps.gooddeed.util.LocationUtil;
 import com.kravchenko.apps.gooddeed.util.Resource;
+import com.kravchenko.apps.gooddeed.util.SnapOnScrollListener;
 import com.kravchenko.apps.gooddeed.util.Utils;
+import com.kravchenko.apps.gooddeed.util.dialog.ProgressDialogFragment;
 import com.kravchenko.apps.gooddeed.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private static final String TAG = "MainFragment";
     private static final int REQUEST_SWITCH_ON_GPS = 3331;
     private final static int REQUEST_CODE = 101;
-    private final static String titleName = "MARKER";
     private DrawerLayout drawerLayout;
     private FragmentMainBinding binding;
     private SupportMapFragment supportMapFragment;
@@ -74,14 +76,14 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
     private MapViewModel mapViewModel;
     private GoogleMap mMap;
     private List<Initiative> mSavedInitiatives;
-    private InitiativeMapAdapter mMapAdapter;
+    private List<Marker> mMarkersOnMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideKeyboard();
         setHasOptionsMenu(true);
-        mMapAdapter = new InitiativeMapAdapter();
+        mMarkersOnMap = new ArrayList<>();
     }
 
     @Override
@@ -98,6 +100,7 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        InitiativeMapAdapter mapAdapter = new InitiativeMapAdapter();
         mMap = googleMap;
         LatLng latLngOdessa = AppConstants.ODESSA_COORDINATES;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOdessa, 11));
@@ -106,22 +109,50 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
             if (listResource.status.equals(Resource.Status.SUCCESS)) {
                 DialogManager.hideDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
                 mSavedInitiatives = listResource.data != null ? listResource.data : new ArrayList<>();
-                mMapAdapter.setItems(mSavedInitiatives);
-                mMapAdapter.notifyDataSetChanged();
+                mapAdapter.setItems(mSavedInitiatives);
+                mapAdapter.notifyDataSetChanged();
                 for (Initiative initiative : mSavedInitiatives) {
-                    mMap.addMarker(new MarkerOptions()
+                    Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(Double.parseDouble(initiative.getLat()), Double.parseDouble(initiative.getLng())))
                             .title(initiative.getTitle())
-                            .icon(getIconByCategoryId(initiative.getCategoryId())));
+                            .icon(getIconByCategoryId(initiative.getCategoryId(), false)));
+                    if (marker != null) {
+                        marker.setTag(initiative);
+                        mMarkersOnMap.add(marker);
+                    }
                 }
             } else if (listResource.status.equals(Resource.Status.LOADING)) {
                 DialogManager.showDialog(getChildFragmentManager(), ProgressDialogFragment.TAG);
             }
         });
 
+        mMap.setOnMarkerClickListener(marker -> {
+            if (marker.getTag() != null)
+                binding.rvInitiatives.smoothScrollToPosition(mapAdapter.getPositionByInitiativeId(((Initiative) marker.getTag()).getInitiativeId()));
+            return true;
+        });
+
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.rvInitiatives);
-        binding.rvInitiatives.setAdapter(mMapAdapter);
+        binding.rvInitiatives.setAdapter(mapAdapter);
+        AtomicReference<Marker> previousMarker = new AtomicReference<>();
+        SnapOnScrollListener scrollListener = new SnapOnScrollListener(snapHelper, position -> {
+            if (previousMarker.get() != null && previousMarker.get().getTag() != null) {
+                previousMarker.get().setIcon(getIconByCategoryId(((Initiative) previousMarker.get().getTag()).getCategoryId(), false));
+                previousMarker.get().setZIndex(0);
+            }
+            String initiativeId = mapAdapter.getInitiativeIdByPosition(position);
+            for (Marker marker : mMarkersOnMap) {
+                if (marker.getTag() != null && initiativeId.equals(((Initiative) marker.getTag()).getInitiativeId())) {
+                    previousMarker.set(marker);
+                    Initiative currentInitiative = (Initiative) marker.getTag();
+                    marker.setIcon(getIconByCategoryId(currentInitiative.getCategoryId(), true));
+                    marker.setZIndex(1);
+                }
+            }
+        });
+        mapAdapter.setListener((initiative, position) -> getNavController().navigate(MainFragmentDirections.actionMainFragmentToCurrentInitiativeFragment(initiative.getInitiativeId())));
+        binding.rvInitiatives.addOnScrollListener(scrollListener);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -177,9 +208,8 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();
 
-        mMapAdapter.setListener((initiative, position) -> {
-            getNavController().navigate(MainFragmentDirections.actionMainFragmentToCurrentInitiativeFragment(initiative.getInitiativeId()));
-        });
+//        mMapAdapter.setListener((initiative, position) -> getNavController()
+//        .navigate(MainFragmentDirections.actionMainFragmentToCurrentInitiativeFragment(initiative.getInitiativeId())));
 
 //        mapViewModel.getLatLng().observe(getViewLifecycleOwner(), latLngs -> initMapWithInitiatives());
 //        mapViewModel.getTitle().observe(getViewLifecycleOwner(), strings -> initMapWithInitiatives());
@@ -376,12 +406,16 @@ public class MainFragment extends BaseFragment implements OnMapReadyCallback {
         }
     }
 
-    // For converting vector to bitmap for map marker icon
     // Creates map marker from icon and map marker background
     // NOTE: Use different bounding for your vectors
     @NonNull
-    private BitmapDescriptor getIconByCategoryId(long id) {
-        Drawable background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_marker);
+    private BitmapDescriptor getIconByCategoryId(long id, boolean highlightMarker) {
+        Drawable background;
+        if (highlightMarker) {
+            background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_marker_highlighted);
+        } else {
+            background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_marker);
+        }
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         Drawable vectorDrawable = ContextCompat.getDrawable(requireContext(), Utils.getIconForCategory(id));
         int boundLeft = (background.getIntrinsicWidth() - vectorDrawable.getIntrinsicWidth()) / 2;
