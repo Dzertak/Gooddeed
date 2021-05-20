@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -56,7 +55,7 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
         holder.binding.tvInitiativeDescription.setText(initiativeItem.getDescription());
         holder.binding.tvInitiativeTime.setText(TimeUtil.convertToDisplayTime(initiativeItem.getTimestamp()));
         holder.binding.imgCategory.setImageResource(Utils.getIconForCategory(initiativeItem.getCategoryId()));
-        if (InitiativeType.SINGLE.equals(initiativeItem.getType())){
+        if (InitiativeType.SINGLE.equals(initiativeItem.getType())) {
             holder.binding.imgType.setImageResource(R.drawable.ic_executor);
         } else if (InitiativeType.GROUP.equals(initiativeItem.getType())) {
             holder.binding.imgType.setImageResource(R.drawable.ic_executor_group);
@@ -70,7 +69,7 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
                     .fallback(R.drawable.ic_gooddeed_logo)
                     .into(holder.binding.imgInitiative);
         } else {
-            holder.binding.imgInitiative.setImageResource(R.drawable.gooddeed_logo);
+            holder.binding.imgInitiative.setImageResource(R.drawable.ic_gooddeed_logo);
         }
     }
 
@@ -87,12 +86,24 @@ public class InitiativeMapAdapter extends RecyclerView.Adapter<InitiativeMapAdap
         this.initiatives = initiatives;
     }
 
+    public OnInitiativeClickListener getListener() {
+        return this.listener;
+    }
+
     public void setListener(OnInitiativeClickListener listener) {
         this.listener = listener;
     }
 
-    public OnInitiativeClickListener getListener() {
-        return this.listener;
+    public int getPositionByInitiativeId(String initiativeId) {
+        for (Initiative initiative : initiatives) {
+            if (initiativeId.equals(initiative.getInitiativeId()))
+                return initiatives.indexOf(initiative);
+        }
+        return 0;
+    }
+
+    public String getInitiativeIdByPosition(int position) {
+        return initiatives.get(position).getInitiativeId();
     }
 
     public interface OnInitiativeClickListener {

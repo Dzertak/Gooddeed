@@ -209,6 +209,7 @@ public class EditInitiativeFragment extends BaseFragment {
                 if (!initiativeViewModel.getAuthUserId().isEmpty())
                     initiativeCur.setInitiativeUserId(initiativeViewModel.getAuthUserId());
                 initiativeViewModel.saveInitiative(initiativeCur);
+                //TODO navigate from creating initiative
                 initiativeViewModel.updateInitiative(initiativeCur);
             }
         }
