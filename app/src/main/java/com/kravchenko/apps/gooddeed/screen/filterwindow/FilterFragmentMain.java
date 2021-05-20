@@ -58,13 +58,13 @@ public class FilterFragmentMain extends BaseFragment {
                     callback.setEnabled(isDrawerOpen);
                 });
 
-        MaterialDatePicker<Pair<Long, Long>> materialDatePicker = Utils.createMaterialDatePicker();
+        MaterialDatePicker<Pair<Long, Long>> datePicker = Utils.createMaterialDatePicker();
         binding.textViewDataRange.setText(Utils.getDateRange());
         binding.cardViewDataPicker.setOnClickListener(v -> {
-            materialDatePicker.show(requireActivity().getSupportFragmentManager(), DATA_PICKER_TAG);
+            datePicker.show(requireActivity().getSupportFragmentManager(), DATA_PICKER_TAG);
         });
-        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
-            binding.textViewDataRange.setText(materialDatePicker.getHeaderText());
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            binding.textViewDataRange.setText(datePicker.getHeaderText());
             //TODO
             // Handle DataPicker result
         });

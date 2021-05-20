@@ -1,8 +1,12 @@
 package com.kravchenko.apps.gooddeed.util;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.DrawableRes;
 import androidx.core.util.Pair;
 
+import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.kravchenko.apps.gooddeed.AppInstance;
 import com.kravchenko.apps.gooddeed.R;
@@ -13,6 +17,7 @@ import java.util.Map;
 
 public class Utils {
     public final static long SEVEN_DAYS_IN_MILLISECONDS = 604_800_000L;
+    public final static long MONTH_IN_MILLISECONDS = 2592000000L;
 
     public static String getString(String code) {
         String result = "";
@@ -38,6 +43,7 @@ public class Utils {
         long today = MaterialDatePicker.todayInUtcMilliseconds();
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText(R.string.data_picker_title);
+        builder.setCalendarConstraints(limitRange().build());
         builder.setSelection(new Pair<>(today, today + SEVEN_DAYS_IN_MILLISECONDS));
         return builder.build();
     }
@@ -79,5 +85,83 @@ public class Utils {
             return R.drawable.ic_category_photo_and_video;
         // default icon
         return R.drawable.ic_check_black;
+    }
+
+    private static CalendarConstraints.Builder limitRange() {
+
+        CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
+
+        long currentDateTime = System.currentTimeMillis();
+
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTimeInMillis(currentDateTime);
+
+        Calendar calendarStart = Calendar.getInstance();
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTimeInMillis(currentDateTime + (MONTH_IN_MILLISECONDS * 6));
+
+
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int startMonth = Calendar.getInstance().get(Calendar.MONTH);
+        int startDate = Calendar.getInstance().get(Calendar.DATE);
+
+        calendarStart.set(year, startMonth, startDate - 1);
+
+
+        long minDate = calendarStart.getTimeInMillis();
+        long maxDate = calendarEnd.getTimeInMillis();
+
+
+        constraintsBuilderRange.setStart(minDate);
+        constraintsBuilderRange.setEnd(maxDate);
+        constraintsBuilderRange.setValidator(new RangeValidator(minDate, maxDate));
+
+        return constraintsBuilderRange;
+    }
+
+    static class RangeValidator implements CalendarConstraints.DateValidator {
+
+        long minDate, maxDate;
+
+        RangeValidator(long minDate, long maxDate) {
+            this.minDate = minDate;
+            this.maxDate = maxDate;
+        }
+
+        RangeValidator(Parcel parcel) {
+            minDate = parcel.readLong();
+            maxDate = parcel.readLong();
+        }
+
+        @Override
+        public boolean isValid(long date) {
+            return !(minDate > date || maxDate < date);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeLong(minDate);
+            dest.writeLong(maxDate);
+        }
+
+        public static final Parcelable.Creator<RangeValidator> CREATOR = new Parcelable.Creator<RangeValidator>() {
+
+            @Override
+            public RangeValidator createFromParcel(Parcel parcel) {
+                return new RangeValidator(parcel);
+            }
+
+            @Override
+            public RangeValidator[] newArray(int size) {
+                return new RangeValidator[size];
+            }
+        };
+
+
     }
 }
