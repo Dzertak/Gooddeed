@@ -145,17 +145,6 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
-    private void adjustBackStack() {
-        NavGraph navGraph = getNavController().getGraph();
-        navGraph.setStartDestination(R.id.mainFragment);
-        NavOptions navOptions = new NavOptions.Builder()
-                .setPopUpTo(R.id.loginFragment, true)
-                .build();
-        if (!(getNavController().getCurrentDestination().getId() == R.id.mainFragment)) {
-            getNavController().navigate(R.id.action_loginFragment_to_mainFragment, null, navOptions);
-        }
-    }
-
     @Override
     public void clear() {
 

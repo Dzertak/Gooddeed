@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
+import com.kravchenko.apps.gooddeed.screen.filterwindow.FilterCallBack;
 import com.kravchenko.apps.gooddeed.util.Utils;
 
 import java.util.Arrays;

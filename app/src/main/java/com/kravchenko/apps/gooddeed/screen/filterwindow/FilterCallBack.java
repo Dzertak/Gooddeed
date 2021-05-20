@@ -1,4 +1,4 @@
-package com.kravchenko.apps.gooddeed.screen.adapter.filter;
+package com.kravchenko.apps.gooddeed.screen.filterwindow;
 
 import com.kravchenko.apps.gooddeed.database.entity.category.Category;
 

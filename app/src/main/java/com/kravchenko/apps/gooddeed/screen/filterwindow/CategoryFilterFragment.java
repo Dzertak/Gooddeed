@@ -19,7 +19,6 @@ import com.kravchenko.apps.gooddeed.database.entity.category.CategoryTypeWithCat
 import com.kravchenko.apps.gooddeed.databinding.FragmentCategoryFilterBinding;
 import com.kravchenko.apps.gooddeed.screen.BaseFragment;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.BaseCategoryRecyclerViewAdapter;
-import com.kravchenko.apps.gooddeed.screen.adapter.filter.FilterCallBack;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.MultiChoiceFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.screen.adapter.filter.SingleChoseFilterRecyclerViewAdapter;
 import com.kravchenko.apps.gooddeed.util.Utils;
@@ -32,7 +31,6 @@ import static com.kravchenko.apps.gooddeed.screen.filterwindow.FilterFragmentMai
 import static com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment.EDIT_INITIATIVE_FRAGMENT_TAG;
 import static com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment.EDIT_PROFILE_KEY;
 import static com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment.SETTINGS_FRAGMENT_TAG;
-
 
 public class CategoryFilterFragment extends BaseFragment implements FilterCallBack {
     private FragmentCategoryFilterBinding binding;
