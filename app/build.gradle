@@ -57,6 +57,7 @@ dependencies {
     def nav_version = "2.3.5"
     def room_version = "2.3.0"
     def lifecycle_version = "2.3.1"
+    def work_version = "2.5.0"
 
     //preference
     implementation "androidx.preference:preference:1.1.1"
@@ -79,7 +80,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-storage'
 
-
+    // WorkManager
+    implementation "androidx.work:work-runtime:$work_version"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'

@@ -98,18 +98,18 @@ public class ProfileRepository {
     }
 
     private void updateUserInFirestore(FirestoreUser user) {
-        String FIELD_FIRSTNAME = "firstName";
-        String FIELD_LASTNAME = "lastName";
-        String FIELD_IMAGEURL = "imageUrl";
-        String FIELD_DESCRIPTION = "description";
-        String FIELD_SUBSCRIPTIONS ="subscriptions";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String imageUrl = "imageUrl";
+        String description = "description";
+        String subscriptions ="subscriptions";
         // Updating only some fields
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put(FIELD_FIRSTNAME, user.getFirstName());
-        userMap.put(FIELD_LASTNAME, user.getLastName());
-        userMap.put(FIELD_IMAGEURL, user.getImageUrl());
-        userMap.put(FIELD_DESCRIPTION, user.getDescription());
-        userMap.put(FIELD_SUBSCRIPTIONS,user.getSubscriptions());
+        userMap.put(firstName, user.getFirstName());
+        userMap.put(lastName, user.getLastName());
+        userMap.put(imageUrl, user.getImageUrl());
+        userMap.put(description, user.getDescription());
+        userMap.put(subscriptions,user.getSubscriptions());
         mUser.setValue(Resource.loading(Utils.getString(R.string.loading), null));
         mUserDocRef.update(userMap).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
