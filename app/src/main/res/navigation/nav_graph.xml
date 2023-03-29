@@ -9,19 +9,18 @@
         android:id="@+id/loginFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@+id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.kravchenko.apps.gooddeed.screen.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
@@ -36,13 +35,29 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_mainFragment_to_currentInitiativeFragment"
-            app:destination="@id/currentInitiativeFragment" />
+            app:destination="@id/currentInitiativeFragment">
+            <argument
+                android:name="initiative_id"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mainFragment_to_editInitiativeFragment"
+            app:destination="@id/editInitiativeFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_mainFragment_to_filter_nav_graph"
+            app:destination="@id/filter_nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.AccountFragment"
-        android:label="fragment_account"
-        tools:layout="@layout/fragment_account" >
+        android:name="com.kravchenko.apps.gooddeed.screen.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_accountFragment_to_editAccountFragment"
             app:destination="@id/editAccountFragment" />
@@ -52,49 +67,201 @@
     </fragment>
     <fragment
         android:id="@+id/editAccountFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.EditAccountFragment"
-        android:label="fragment_edit_account"
-        tools:layout="@layout/fragment_edit_account" />
+        android:name="com.kravchenko.apps.gooddeed.screen.profile.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_profile_edit" >
+        <action
+            android:id="@+id/action_editAccountFragment_to_category_nav_graph"
+            app:destination="@id/category_nav_graph" >
+            <argument
+                android:name="root_direction"
+                app:argType="string" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.ChatsFragment"
-        android:label="fragment_chats"
-        tools:layout="@layout/fragment_chats" >
+        android:name="com.kravchenko.apps.gooddeed.screen.chat.ChatsFragment"
+        android:label="@string/chats"
+        tools:layout="@layout/fragment_chats">
         <action
             android:id="@+id/action_chatsFragment_to_currentChatFragment"
             app:destination="@id/currentChatFragment" />
     </fragment>
     <fragment
         android:id="@+id/currentChatFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.CurrentChatFragment"
-        android:label="fragment_current_chat"
-        tools:layout="@layout/fragment_current_chat" />
+        android:name="com.kravchenko.apps.gooddeed.screen.chat.CurrentChatFragment"
+        android:label="@string/current_chat"
+        tools:layout="@layout/fragment_chat_current">
+        <action
+            android:id="@+id/action_currentChatFragment_to_chatInfoFragment"
+            app:destination="@id/chatInfoFragment" />
+        <action
+            android:id="@+id/action_currentChatFragment_to_currentInitiativeFragment"
+            app:destination="@id/currentInitiativeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myInitiativesFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.MyInitiativesFragment"
-        android:label="fragment_my_initiatives"
-        tools:layout="@layout/fragment_my_initiatives" >
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.MyInitiativesFragment"
+        android:label="@string/my_initiatives"
+        tools:layout="@layout/fragment_my_initiatives">
         <action
             android:id="@+id/action_myInitiativesFragment_to_currentInitiativeFragment"
             app:destination="@id/currentInitiativeFragment" />
     </fragment>
     <fragment
         android:id="@+id/currentInitiativeFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.CurrentInitiativeFragment"
-        android:label="fragment_current_initiative"
-        tools:layout="@layout/fragment_current_initiative" >
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.CurrentInitiativeFragment"
+        android:label="@string/current_initiative"
+        tools:layout="@layout/fragment_initiative_current">
         <action
             android:id="@+id/action_currentInitiativeFragment_to_editInitiativeFragment"
             app:destination="@id/editInitiativeFragment" />
+        <action
+            android:id="@+id/action_currentInitiativeFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_currentInitiativeFragment_to_currentChatFragment"
+            app:destination="@id/currentChatFragment"
+            app:launchSingleTop="true" />
+        <argument
+            android:name="initiative_id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editInitiativeFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.EditInitiativeFragment"
-        android:label="fragment_edit_initiative"
-        tools:layout="@layout/fragment_edit_initiative" />
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.EditInitiativeFragment"
+        android:label="@string/edit_initiative"
+        tools:layout="@layout/fragment_initiative_edit">
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_currentInitiativeFragment"
+            app:destination="@id/currentInitiativeFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_pickInitiativeLocationFragment"
+            app:destination="@id/pickInitiativeLocationFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_initiativeTypeFragment"
+            app:destination="@id/initiativeTypeFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_editInitiativeFragment_to_category_nav_graph"
+            app:destination="@id/category_nav_graph">
+            <argument
+                android:name="root_direction"
+                app:argType="string" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.kravchenko.apps.gooddeed.screen.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:name="com.kravchenko.apps.gooddeed.screen.settings.SettingsFragment"
+        android:label="@string/settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_synchronizationSettingsFragment"
+            app:destination="@id/synchronizationSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_subscriptionsSettingsFragment"
+            app:destination="@id/subscriptionsSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_confirmAuthorizationFragment"
+            app:destination="@id/confirmAuthorizationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/synchronizationSettingsFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.settings.SynchronizationSettingsFragment"
+        android:label="@string/change_synchronization"
+        tools:layout="@layout/fragment_synchronization_settings" />
+    <fragment
+        android:id="@+id/subscriptionsSettingsFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.settings.SubscriptionsSettingsFragment"
+        android:label="@string/change_subscriptions">
+        <action
+            android:id="@+id/action_subscriptionsSettingsFragment_to_category_nav_graph"
+            app:destination="@id/category_nav_graph">
+            <argument
+                android:name="root_direction"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <argument
+        android:name="choose_destinations"
+        app:argType="string" />
+
+    <fragment
+        android:id="@+id/pickInitiativeLocationFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.PickInitiativeLocationFragment"
+        android:label="fragment_pick_initiative_location"
+        tools:layout="@layout/fragment_pick_initiative_location">
+        <action
+            android:id="@+id/action_pickInitiativeLocationFragment_to_editInitiativeFragment"
+            app:destination="@id/editInitiativeFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordSettingsFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.settings.PasswordSettingsFragment"
+        android:label="fragment_password_settings"
+        tools:layout="@layout/fragment_password_settings">
+        <action
+            android:id="@+id/action_passwordSettingsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmAuthorizationFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.settings.ConfirmAuthorizationFragment"
+        android:label="fragment_confirm_authorization"
+        tools:layout="@layout/fragment_confirm_authorization">
+        <action
+            android:id="@+id/action_confirmAuthorizationFragment_to_passwordSettingsFragment"
+            app:destination="@id/passwordSettingsFragment"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_confirmAuthorizationFragment_to_emailSettingFragment"
+            app:destination="@id/emailSettingFragment"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="choose_destinations"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailSettingFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.settings.EmailSettingFragment"
+        android:label="fragment_email_setting"
+        tools:layout="@layout/fragment_email_setting">
+        <action
+            android:id="@+id/action_emailSettingFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/initiativeTypeFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.initiative.InitiativeTypeFragment"
+        android:label="@string/title_initiative_type" />
+    <fragment
+        android:id="@+id/chatInfoFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.chat.ChatInfoFragment"
+        android:label="fragment_chat_info"
+        tools:layout="@layout/fragment_chat_info">
+        <action
+            android:id="@+id/action_chatInfoFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment" />
+        <action
+            android:id="@+id/action_chatInfoFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="com.kravchenko.apps.gooddeed.screen.chat.RatingFragment"
+        android:label="fragment_rating"
+        tools:layout="@layout/fragment_rating" />
+    <include app:graph="@navigation/category_nav_graph" />
+    <include app:graph="@navigation/filter_nav_graph" />
 </navigation>

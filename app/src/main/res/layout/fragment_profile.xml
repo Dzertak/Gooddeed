@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".screen.profile.ProfileFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/green"
+            app:menu="@menu/profile_menu"
+            app:title="@string/title_profile"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_tasks_created_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/image_view_profile_avatar"
+                app:layout_constraintBottom_toTopOf="@+id/tv_tasks_created_text"/>
+            <TextView
+                android:id="@+id/tv_tasks_created_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tasks_created"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/image_view_profile_avatar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_profile_locale"
+                />
+
+            <TextView
+                android:id="@+id/tv_tasks_completed_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/image_view_profile_avatar"
+                app:layout_constraintBottom_toTopOf="@+id/tv_tasks_completed_text"/>
+
+            <TextView
+                android:id="@+id/tv_tasks_completed_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/tasks_completed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/image_view_profile_avatar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_profile_locale"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_view_profile_avatar"
+                android:layout_width="@dimen/profile_avatar_size"
+                android:layout_height="@dimen/profile_avatar_size"
+                android:layout_marginTop="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/no_photo" />
+
+            <TextView
+                android:id="@+id/tv_profile_locale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginTop="@dimen/margin_middle"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_little"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_view_profile_avatar"
+                tools:text="Город, Страна" />
+
+            <LinearLayout
+                android:id="@+id/linearlayout_profile_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginTop="@dimen/margin_middle"
+                android:layout_marginEnd="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_profile_locale">
+
+                <RatingBar
+                    android:id="@+id/review_rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/tv_profile_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_rating"
+                    android:layout_marginStart="@dimen/margin_middle"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_standard"
+                    tools:text="Rating: 4,3" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_categories_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginTop="@dimen/margin_standard"
+                android:layout_marginBottom="16dp"
+                android:text="@string/subscriptions"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearlayout_profile_rating" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_subscriptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_categories_title"
+                tools:listitem="@layout/item_subscription"
+                />
+
+<!--            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_categories"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingStart="@dimen/padding_standard"-->
+<!--                android:paddingEnd="@dimen/padding_standard"-->
+<!--                android:textSize="@dimen/text_size_little"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_categories_title"-->
+<!--                tools:text="Мобильная разработка, волонтер, учитель..." />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linear_layout_statistics"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="@dimen/margin_standard"-->
+<!--                android:layout_marginStart="@dimen/margin_standard"-->
+<!--                android:layout_marginEnd="@dimen/margin_standard"-->
+<!--                android:background="@color/green"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="@dimen/padding_standard"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tv_categories">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_profile_statistics_by_initiatives"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="@dimen/margin_middle"-->
+<!--                    android:text="@string/statistics_by_initiatives"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/text_size_standard"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_profile_statistics_created"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@color/green"-->
+<!--                    android:text="@string/created"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/text_size_standard" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_profile_statistics_active"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/active"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/text_size_standard" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_profile_statistics_completed"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/complete"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/text_size_standard" />-->
+<!--            </LinearLayout>-->
+
+            <TextView
+                android:id="@+id/tv_about_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginTop="@dimen/margin_standard"
+                android:text="@string/about"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_subscriptions" />
+
+            <TextView
+                android:id="@+id/tv_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="15"
+                android:paddingStart="@dimen/padding_standard"
+                android:paddingEnd="@dimen/padding_standard"
+                android:textSize="@dimen/text_size_little"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_about_title"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TextView
+                android:id="@+id/tv_reviews_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginTop="@dimen/margin_standard"
+                android:text="@string/reviews"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_standard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_about" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/recycler_reviews_height"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_marginEnd="@dimen/margin_standard"
+                app:layout_constraintTop_toBottomOf="@id/tv_reviews_title"
+                tools:listitem="@layout/item_review" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

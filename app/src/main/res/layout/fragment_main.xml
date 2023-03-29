@@ -1,14 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="com.kravchenko.apps.gooddeed.viewmodel.MapViewModel" />
+    </data>
+
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screen.MainFragment">
 
-    <fragment
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout_mainFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:titleTextColor="@color/white" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <fragment
+            android:id="@+id/google_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment" />
+
+
+<!--        <SearchView-->
+<!--            android:id="@+id/input_search"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:layout_margin="@dimen/margin_standard"-->
+<!--            android:background="@drawable/search_view"-->
+<!--            android:hint="@string/your_search_request_here"-->
+<!--            android:iconifiedByDefault="false"-->
+<!--            android:theme="@style/SearchViewStyle"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/appBarLayout_mainFragment">-->
+
+<!--        </SearchView>-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ic_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            app:tint="@android:color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/margin_standard"
+            app:srcCompat="@drawable/ic_gps"
+            app:layout_constraintEnd_toEndOf="@+id/add_initiative_floatingButton"
+            app:layout_constraintStart_toStartOf="@+id/add_initiative_floatingButton"
+            app:layout_constraintBottom_toTopOf="@+id/add_initiative_floatingButton"
+            android:contentDescription="@string/your_location" />
+
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/place_info"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:fabSize="mini"-->
+<!--            app:tint="@android:color/white"-->
+<!--            app:srcCompat="@drawable/ic_info"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/ic_gps"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/ic_gps"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/ic_gps"-->
+<!--            android:contentDescription="@string/show_more_info" />-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_initiative_floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_standard"
+            app:tint="@android:color/white"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_plus"
+            app:layout_constraintBottom_toTopOf="@+id/rv_initiatives"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true"
+            android:contentDescription="@string/new_initiative" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_initiatives"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/margin_standard"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_initiative_map"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/google_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment">
-    </fragment>
-</RelativeLayout>
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/user_menu" />
+
+    <fragment
+        android:id="@+id/filter_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/filter_nav_graph" />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
+</layout>

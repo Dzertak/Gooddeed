@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    <item-->
+<!--        android:id="@+id/search_menu"-->
+<!--        android:icon="@drawable/icon_search"-->
+<!--        android:title="@string/search"-->
+<!--        app:actionViewClass="android.widget.SearchView"-->
+<!--        app:showAsAction="ifRoom|collapseActionView"/>-->
+
+    <item
+        android:id="@+id/filter_button"
+        android:menuCategory="system"
+        android:icon="@drawable/ic_tune"
+        android:title="@string/filter_button"
+        app:showAsAction="ifRoom" />
+
+</menu>

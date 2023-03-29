@@ -1,25 +1,27 @@
 package com.kravchenko.apps.gooddeed.viewmodel;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseUser;
+import com.kravchenko.apps.gooddeed.database.entity.Initiative;
 import com.kravchenko.apps.gooddeed.repository.AuthRepository;
+import com.kravchenko.apps.gooddeed.repository.InitiativeRepository;
 import com.kravchenko.apps.gooddeed.util.Resource;
 
-public class AuthViewModel extends AndroidViewModel {
+
+import java.util.List;
+
+public class AuthViewModel extends ViewModel {
 
     private final AuthRepository mAuthRepository;
+    private final InitiativeRepository mInitiativeRepository;
 
-
-    public AuthViewModel(@NonNull Application application) {
-        super(application);
-        mAuthRepository = new AuthRepository(application);
+    public AuthViewModel() {
+        super();
+        mAuthRepository = new AuthRepository();
+        mInitiativeRepository = new InitiativeRepository();
     }
 
     public void loginWithEmailAndPassword(String email, String password) {
@@ -31,7 +33,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public void loginWithFacebook() {
-
+        //TODO
     }
 
     public void setIdToken(String tokenId) {
@@ -42,7 +44,23 @@ public class AuthViewModel extends AndroidViewModel {
         return mAuthRepository.getUser();
     }
 
-    public void signOutUser() {
-        mAuthRepository.signOutUser();
+    public void changeEmail(String newEmail) {
+        mAuthRepository.changeEmail(newEmail);
+    }
+
+    public void changePassword(String newPassword) {
+        mAuthRepository.changePassword(newPassword);
+    }
+
+    public LiveData<Resource<Object>> getActionMarker() {
+        return mAuthRepository.getActionMarker();
+    }
+
+    public void loginWithPassword(String password) {
+        mAuthRepository.loginWithPassword(password);
+    }
+
+    public LiveData<Resource<List<Initiative>>> getInitiativesFromFirestore() {
+        return mInitiativeRepository.getInitiativesFromFirestoreLiveData();
     }
 }

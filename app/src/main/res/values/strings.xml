@@ -1,9 +1,22 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation" >
-    <string name="app_name">Gooddeed</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name" translatable="false">Gooddeed</string>
+    <string name="share">Share</string>
+    <string name="suggest_initiative">Suggest initiative</string>
+    <string name="title_profile">Profile</string>
+    <string name="statistics_by_initiatives">Initiatives statistics:</string>
+    <string name="created">Created:</string>
+    <string name="active">Active:</string>
+    <string name="complete">Completed:</string>
+    <string name="categories">Categories:</string>
+    <string name="about">About me:</string>
+    <string name="reviews">Reviews:</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="city">City</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="country">Country</string>
+    <string name="login">Login</string>
+    <string name="phone_number">Phone number</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="log_in">Sign In</string>
@@ -12,4 +25,220 @@
     <string name="log_in_with_google">Sign In with Google</string>
     <string name="log_in_with_facebook">Sign In with Facebook</string>
     <string name="default_error_msg">Somethings went wrong :(</string>
+    <string name="your_search_request_here">Needed location</string>
+    <string name="my_subscriptions">My subscriptions:</string>
+    <string name="change_my_subscriptions">Change my subscriptions</string>
+    <string name="delete_this_account">Delete this account</string>
+    <string name="save_settings">Save settings</string>
+    <string name="avatar">avatar</string>
+    <string name="filter_button">Filter</string>
+    <string name="search">Search</string>
+    <string name="filter_fragment_label">Filter</string>
+    <string name="category">Category</string>
+    <string name="radius">Set Radius</string>
+    <string name="period_realization">Period Realization</string>
+    <string name="performer_initiative">Performer/Initiative</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="check_mark_symbol" translatable="false">✓</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="initiative">Initiatives</string>
+    <string name="logout">Log out</string>
+    <string name="enter">Enter</string>
+
+    <!--Validation-->
+    <string name="password_mismatch">Password mismatch </string>
+    <string name="empty_field_explanation">Field can\'t be empty</string>
+    <string name="invalid_email_explanation">Please enter a valid e-mail address</string>
+    <string name="weak_password_explanation">Mast be at least one digit, one lover case and upper case letter and no spaces</string>
+    <string name="or">OR</string>
+    <string name="current_initiative">Current initiative</string>
+    <string name="edit_initiative">Edit initiative</string>
+    <string name="my_initiatives">My initiatives</string>
+    <string name="current_chat">Current chat</string>
+    <string name="chats">Chats</string>
+    <string name="change_radius_filter">Change radius</string>
+    <string name="edit_current_initiative">Edit current Initiative</string>
+    <string name="status">Status</string>
+    <string name="description">Description</string>
+    <string name="photo_for_the_initiative">Photo for the initiative</string>
+    <string name="open_chat_to_discuss">Open chat to discuss</string>
+    <string name="open_on_map">Open on Map</string>
+    <string name="choose_category">Choose category</string>
+    <string name="choose_status">Choose status</string>
+    <string name="enter_the_description_of_initiative_here">Enter the description of Initiative here</string>
+    <string name="choose_place_on_map">Choose place on Map</string>
+    <string name="confirm_and_proceed">Confirm and proceed</string>
+    <string name="type_to_search">Type here to search</string>
+    <string name="your_location">Your location</string>
+    <string name="show_more_info">Show more info</string>
+    <string name="new_initiative">New Initiative</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="new_password">New password</string>
+    <string name="apply_changes">apply changes</string>
+    <string name="change_password">"Change Password "</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_email">New e-mail</string>
+    <string name="change_email">Change e-mail</string>
+    <string name="change_your_email">Change your Email</string>
+    <string name="change_your_password">Change your Password</string>
+    <string name="account">Account</string>
+    <string name="update">Notifications</string>
+    <string name="subscriptions">Subscriptions</string>
+    <string name="change_your_subscriptions">Change your subscriptions</string>
+    <string name="synchronization">Synchronization</string>
+    <string name="set_app_update_rate">Set app update rate</string>
+    <string name="app_slogan">It all starts with initiative</string>
+    <string name="radius_setting_explanation">Set the radius within which you want to view notifications </string>
+    <string name="do_not_disturb">Do not disturb</string>
+    <string name="mute_notifications">Mute Notifications</string>
+    <string name="change_subscriptions">Change subscriptions</string>
+    <string name="change_synchronization">Change synchronization</string>
+    <string name="category_explanation">Set the categories for which you would like to receive notifications.</string>
+    <string name="password_changed_successfully">The password changed successfully!</string>
+    <string name="updating_data">The data is updating…</string>
+    <string name="email_changed_successfully">E-mail changes successfully</string>
+    <string name="tasks_created">Tasks\ncreated</string>
+    <string name="tasks_completed">Tasks\ncompleted</string>
+    <string name="zero">0</string>
+    <string name="confirm">confirm</string>
+    <string name="change_password_explanation">To change the password, you need to enter your acting password.</string>
+    <string name="change_email_explanation">To change the e-mail, you need to enter your acting password.</string>
+    <string name="type_a_message">Type a message…</string>
+    <string name="people_in_chat">People in chat:</string>
+    <string name="add_category">Add category</string>
+    <string name="title_rating">Rating: %.1f</string>
+    <string name="choose_date_and_time">Choose date and time</string>
+    <string name="choose_location">Choose Location</string>
+    <string name="loading">Loading…</string>
+    <string name="hint_about_me">About me</string>
+
+    <string name="title">Title</string>
+    <string name="change">Change</string>
+    <string name="add_image">Add Image</string>
+    <string name="save">Save</string>
+    <string name="additional_information">Additional Information</string>
+    <string name="choose_type_initiative">Choose type initiative</string>
+    <string name="no_name">No name</string>
+    <string name="initiative_title">Initiative title</string>
+    <string name="im_creator">I\'m creator</string>
+    <string name="im_doer">I\'m doer</string>
+
+    <!--Categories-->
+    <string name="charity_title">Charity</string>
+    <string name="charity_desc">TODO</string>
+    <string name="cleaning_title">Cleaning</string>
+    <string name="cleaning_desc">TODO</string>
+    <string name="tutoring_and_training_title">Tutoring and training</string>
+    <string name="tutoring_and_training_desc">TODO</string>
+    <string name="beauty_and_health_title">Beauty and health</string>
+    <string name="beauty_and_health_desc">TODO</string>
+    <string name="photo_and_video_title">Photo and video</string>
+    <string name="photo_and_video_desc">TODO</string>
+    <string name="delivery_and_transportation_title">Delivery and transportation</string>
+    <string name="delivery_and_transportation_desc">TODO</string>
+    <string name="repair_and_construction_title">Repair and construction</string>
+    <string name="repair_and_construction_desc">TODO</string>
+
+    <!--Charity category-->
+    <string name="donations_title">Donations</string>
+    <string name="donations_desc">TODO</string>
+    <string name="help_those_in_need_title">Help those in need</string>
+    <string name="help_those_in_need_desc">TODO</string>
+
+    <!--Cleaning category-->
+    <string name="house_cleaning_title">House cleaning</string>
+    <string name="house_cleaning_desc">TODO</string>
+    <string name="yard_cleaning_title">Yard cleaning</string>
+    <string name="yard_cleaning_desc">TODO</string>
+
+    <!--Delivery and transportation category-->
+    <string name="cargo_transportation_title">Cargo transportation</string>
+    <string name="cargo_transportation_desc">TODO</string>
+    <string name="courier_title">Courier</string>
+    <string name="courier_desc">TODO</string>
+    <string name="taxi_title">Taxi</string>
+    <string name="taxi_desc">TODO</string>
+
+    <!--Tutoring and training category-->
+    <string name="art_title">Art</string>
+    <string name="art_desc">TODO</string>
+    <string name="foreign_languages_title">Foreign languages</string>
+    <string name="foreign_languages_desc">TODO</string>
+    <string name="programming_title">Programming</string>
+    <string name="programming_desc">TODO</string>
+    <string name="science_title">Science</string>
+    <string name="science_desc">TODO</string>
+    <string name="sport_title">Sport</string>
+    <string name="sport_desc">TODO</string>
+
+    <!--Beauty and health-->
+    <string name="massage_title">Massage</string>
+    <string name="massage_desc">TODO</string>
+    <string name="cosmetologist_services_title">Cosmetologist Services</string>
+    <string name="cosmetologist_services_desc">TODO</string>
+    <string name="hairdressing_title">Hairdressing</string>
+    <string name="hairdressing_desc">TODO</string>
+    <string name="psychologists_title">Psychologists</string>
+    <string name="psychologists_desc">TODO</string>
+
+    <!--Photo and video-->
+    <string name="filming_title">Filming</string>
+    <string name="filming_desc">TODO</string>
+    <string name="photoshoot_title">Photoshoot</string>
+    <string name="photoshoot_desc">TODO</string>
+
+    <!--Repair and construction-->
+    <string name="electrical_title">Electrical</string>
+    <string name="electrical_desc">TODO</string>
+    <string name="building_title">Building</string>
+    <string name="building_desc">TODO</string>
+    <string name="handyman_for_hour_title">Handyman for hour</string>
+    <string name="handyman_for_hour_desc">TODO</string>
+    <string name="plumbing_title">Plumbing</string>
+    <string name="plumbing_desc">TODO</string>
+    <string name="repair_of_electrical_equipment_title">Repair of electrical equipment</string>
+    <string name="repair_of_electrical_equipment_desc">TODO</string>
+    <string name="vehicle_repair_title">Vehicle repair</string>
+    <string name="vehicle_repair_desc">TODO</string>
+
+    <string name="timeline">Timeline</string>
+    <string name="data_picker_title">Select a date range</string>
+    <string name="arrow_symbol" translatable="false">⟩</string>
+    <string name="filter_category_type">Filter category type</string>
+    <string name="filter_category">Filter category</string>
+    <string name="select_all">Select all</string>
+    <string name="type_category_filter">Type category filter</string>
+    <string name="category_filter">Category filter</string>
+    <string name="clear">Clear</string>
+
+    <string name="msg_dialog_enable_gps">"Your GPS seems to be disabled, do you want to enable it?"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="msg_hint_input_city_name">Enter the name of the settlement, if there is no exact address for your initiative</string>
+    <string name="msg_hint_initiative_types">Choose how many executors are needed for your initiative. Only "One", Maybe "Group" or "Unlimited"</string>
+
+    <string name="single">Single person</string>
+    <string name="group">Group people</string>
+    <string name="unlimited">Unlimited people</string>
+    <string name="title_initiative_type">Initiative Type</string>
+    <string name="chat_info">Chat info</string>
+    <string name="chat_title">Chat title</string>
+    <string name="executors">Executors:</string>
+    <string name="chat_members">Chat members:</string>
+    <string name="name">Name</string>
+    <string name="leave_chat">Leave chat</string>
+    <string name="go_to_initiative">Go to initiative:</string>
+    <string name="all">All</string>
+    <string name="absent">absent</string>
+    <string name="rate">Rate</string>
+    <string name="appoint_as_executor">Appoint as executor</string>
+    <string name="write_a_comment">Write a comment…</string>
+    <string name="remove_executor">Remove executor</string>
+    <string name="error_invalid_initiative_title">Specify the title of your initiative</string>
+    <string name="error_invalid_initiative_description">Add a description for your initiative</string>
+    <string name="no_internet_access">No internet access</string>
+    <string name="disconnect_explanation">You need to enable internet access for the application to work correctly.</string>
+    <string name="refresh">refresh</string>
 </resources>
